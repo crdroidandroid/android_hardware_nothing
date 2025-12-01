@@ -163,7 +163,6 @@ public class GlyphAnimationPreference extends Preference {
                         ResourceUtils.getAnimation(animationName)))) {
                     String line;
                     while ((line = reader.readLine()) != null) {
-                        long start = System.currentTimeMillis();
                         line = line.replace(" ", "");
                         line = line.endsWith(",") ? line.substring(0, line.length() - 1) : line;
                         String[] split = line.split(",");
@@ -205,8 +204,7 @@ public class GlyphAnimationPreference extends Preference {
                             if (DEBUG) Log.d(TAG, "Animation line length mismatch | name: " + animationName + " | line: " + line);
                             updateAnimation(false);
                         }
-                        long delay = 16666L - (System.currentTimeMillis() - start);
-                        Thread.sleep(delay/1000);
+                        Thread.sleep(16, 666000);
                     }
                     Thread.sleep(animationTimeBetween);
                 } catch (Exception e) {

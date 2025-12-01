@@ -21,8 +21,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.FileObserver;
 import android.os.IBinder;
-import android.os.PowerManager;
-import android.os.PowerManager.WakeLock;
 import android.util.Log;
 
 import co.aospa.glyph.Constants.Constants;
@@ -39,15 +37,13 @@ public class PowershareService extends Service {
     private static final String POWERSHARE_ENABLED = ResourceUtils.getString("glyph_settings_paths_powershare_enabled_absolute");
 
     private PowershareActiveObserver mPowershareActiveObserver;
-    private PowerManager mPowerManager;
-    private WakeLock mWakeLock;
+    private Context mContext;
 
     @Override
     public void onCreate() {
         if (DEBUG) Log.d(TAG, "Creating service");
         mPowershareActiveObserver = new PowershareActiveObserver();
-        mPowerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        mWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
+        mContext = this;
     }
 
     @Override
@@ -145,8 +141,7 @@ public class PowershareService extends Service {
             if (FileUtils.readLineInt(POWERSHARE_ACTIVE) == 1) {
                 if (lastState) return;
                 lastState = true;
-                mWakeLock.acquire(2500);
-                AnimationManager.playCsv("powershare", true);
+                AnimationManager.playCsv(mContext, "powershare", true);
             } else {
                 lastState = false;
             }
@@ -161,13 +156,13 @@ public class PowershareService extends Service {
                         try {
                             if (DEBUG) Log.d(TAG, "mPowershareActiveObserverLock.wait()");
                             mPowershareActiveObserverLock.wait();
-                        } catch (InterruptedException e) { }
+                        } catch (InterruptedException e) {}
                     }
                 }
                 updatePowershareState();
                 try {
                     Thread.sleep(500);
-                } catch (InterruptedException e) { }
+                } catch (InterruptedException e) {}
             }
         }
     }

@@ -26,6 +26,7 @@ public final class Constants {
     private static final boolean DEBUG = true;
 
     public static Context CONTEXT;
+    public static final int MAX_PATTERN_BRIGHTNESS = 4095;
 
     private static String device = null;
 
@@ -53,6 +54,14 @@ public final class Constants {
     public static final String GLYPH_NOTIFS_SUB_CATEGORY = "glyph_settings_notifs_sub";
     public static final String GLYPH_NOTIFS_SUB_ENABLE = "glyph_settings_notifs_sub_toggle";
     public static final String GLYPH_VOLUME_LEVEL_ENABLE = "glyph_settings_volume_level_toggle";
+    public static final String GLYPH_AUTO_BRIGHTNESS_ENABLE = "glyph_settings_auto_brightness_toggle";
+    public static final String GLYPH_SHAKE_TORCH_ENABLE = "glyph_settings_shake_torch_toggle";
+    public static final String GLYPH_SHAKE_SENSITIVITY = "glyph_settings_shake_sensitivity";
+    public static final String GLYPH_FLIP_RINGER_MODE = "glyph_settings_flip_ringer_mode";
+    public static final String GLYPH_COMPOSER_ENABLE = "glyph_settings_composer_enable";
+    public static final String GLYPH_COMPOSER_FALLBACK = "glyph_settings_composer_fallback";
+    public static final String GLYPH_COMPOSER_PREVIEW = "glyph_settings_composer_preview";
+    public static final String GLYPH_SCHEDULE = "glyph_settings_schedule";
 
     public static final String[] APPS_TO_IGNORE = {
         "android",

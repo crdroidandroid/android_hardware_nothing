@@ -21,6 +21,7 @@
 
     <!-- Brighntess -->
     <integer name="glyph_settings_brightness_max" translatable="false">4095</integer>
+    <!-- Should be the same length as glyph_auto_brightness_levels array -->
     <integer-array name="glyph_settings_brightness_levels" translatable="false">
         <item>102</item>
         <item>682</item>

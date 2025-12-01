@@ -16,21 +16,14 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <!-- Device -->
-    <string name="glyph_settings_device" translatable="false"></string>
-
-    <!-- Auto brightness -->
-    <string name="glyph_light_sensor" translatable="false"></string>
-    <integer-array name="glyph_auto_brightness_levels" translatable="false">
-    </integer-array>
-
-    <!-- Brighntess -->
-    <integer name="glyph_settings_brightness_max" translatable="false"></integer>
-    <!-- Should be the same length as glyph_auto_brightness_levels array -->
-    <integer-array name="glyph_settings_brightness_levels" translatable="false">
-    </integer-array>
-
-    <!-- Nothing Phone (1) has 5 zones -->
-    <!-- Nothing Phone (2) has 33 zones -->
-    <integer name="glyph_settings_led_count">33</integer>
+    <string-array name="day_of_week_names">
+        <item>Воскресенье</item>
+        <item>Понедельник</item>
+        <item>Вторник</item>
+        <item>Среда</item>
+        <item>Четверг</item>
+        <item>Пятница</item>
+        <item>Суббота</item>
+    </string-array>
+    
 </resources>

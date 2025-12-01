@@ -34,42 +34,65 @@ public final class ResourceUtils {
     private static final String TAG = "GlyphResourceUtils";
     private static final boolean DEBUG = true;
 
-    private static Context context = Constants.CONTEXT;
-
-    private static final AssetManager assetManager = context.getAssets();
-    private static final Resources resources = context.getResources();
+    private static Context context;
+    private static AssetManager assetManager;
+    private static Resources resources;
 
     private static String[] callAnimations = null;
     private static String[] notificationAnimations = null;
 
+    private static Context getContext() {
+        if (context == null) {
+            context = Constants.CONTEXT;
+            if (context == null) {
+                throw new IllegalStateException("Constants.CONTEXT is not initialized");
+            }
+        }
+        return context;
+    }
+
+    private static AssetManager getAssetManager() {
+        if (assetManager == null) {
+            assetManager = getContext().getAssets();
+        }
+        return assetManager;
+    }
+
+    private static Resources getResources() {
+        if (resources == null) {
+            resources = getContext().getResources();
+        }
+        return resources;
+    }
+
     public static int getIdentifier(String id, String type) {
-        return context.getResources().getIdentifier(id, type, context.getPackageName());
+        return getResources().getIdentifier(id, type, getContext().getPackageName());
     }
 
     public static Boolean getBoolean(String id) {
-        return context.getResources().getBoolean(getIdentifier(id, "bool"));
+        return getResources().getBoolean(getIdentifier(id, "bool"));
     }
 
     public static String getString(String id) {
-        return context.getResources().getString(getIdentifier(id, "string"));
+        return getResources().getString(getIdentifier(id, "string"));
     }
 
     public static int getInteger(String id) {
-        return context.getResources().getInteger(getIdentifier(id, "integer"));
+        return getResources().getInteger(getIdentifier(id, "integer"));
     }
 
     public static String[] getStringArray(String id) {
-        return context.getResources().getStringArray(getIdentifier(id, "array"));
+        return getResources().getStringArray(getIdentifier(id, "array"));
     }
 
     public static int[] getIntArray(String id) {
-        return context.getResources().getIntArray(getIdentifier(id, "array"));
+        return getResources().getIntArray(getIdentifier(id, "array"));
     }
 
     public static String[] getCallAnimations() {
         if (callAnimations == null) {
             try {
-                String[] assets = assetManager.list("call");
+                String[] assets = getAssetManager().list("call");
                 for (int i=0; i < assets.length; i++) {
                     assets[i] = assets[i].replaceAll(".csv", "");
                 }
@@ -82,7 +105,7 @@ public final class ResourceUtils {
     public static String[] getNotificationAnimations() {
         if (notificationAnimations == null) {
             try {
-                String[] assets = assetManager.list("notification");
+                String[] assets = getAssetManager().list("notification");
                 for (int i=0; i < assets.length; i++) {
                     assets[i] = assets[i].replaceAll(".csv", "");
                 }
@@ -96,18 +119,18 @@ public final class ResourceUtils {
         if (callAnimations == null) getCallAnimations();
 
         if (ArrayUtils.contains(callAnimations, name))
-            return assetManager.open("call/" + name + ".csv");
+            return getAssetManager().open("call/" + name + ".csv");
 
-        return assetManager.open("call/" + ResourceUtils.getString("glyph_settings_call_animations_default") + ".csv");
+        return getAssetManager().open("call/" + ResourceUtils.getString("glyph_settings_call_animations_default") + ".csv");
     }
 
     public static InputStream getNotificationAnimation(String name) throws IOException {
         if (notificationAnimations == null) getNotificationAnimations();
 
         if (ArrayUtils.contains(notificationAnimations, name))
-            return assetManager.open("notification/" + name + ".csv");
+            return getAssetManager().open("notification/" + name + ".csv");
 
-        return assetManager.open("call/" + ResourceUtils.getString("glyph_settings_notifs_animations_default") + ".csv");
+        return getAssetManager().open("call/" + ResourceUtils.getString("glyph_settings_notifs_animations_default") + ".csv");
     }
 
     public static InputStream getAnimation(String name) throws IOException {
@@ -122,7 +145,6 @@ public final class ResourceUtils {
             return getNotificationAnimation(name);
         }
 
-        return assetManager.open(name + ".csv");
+        return getAssetManager().open(name + ".csv");
     }
-
 }

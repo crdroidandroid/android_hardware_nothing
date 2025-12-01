@@ -17,39 +17,114 @@
      limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- DO NOT TRANSLATE Empty summary for dynamic preferences -->
+    <string name="summary_empty" translatable="false"></string>
+
+    <!-- App Name -->
     <string name="glyph_settings_app_name">Интерфейс Glyph</string>
+
+    <!-- Glyph Settings -->
     <string name="glyph_settings_enable">Подсветка Glyph</string>
     <string name="glyph_settings_title">Интерфейс Glyph</string>
     <string name="glyph_settings_summary">Настройки подсветки Glyph</string>
+
     <string name="glyph_settings_flip_toggle_title">Перевернуть для Glyph</string>
-    <string name="glyph_settings_flip_toggle_summary">Отключить звук и показать Glyph, если телефон лежит экраном вниз</string>
+    <string name="glyph_settings_flip_toggle_summary">Показывать подсветку, если телефон лежит экраном вниз</string>
+
+    <string name="glyph_settings_auto_brightness_toggle_title">Автояркость</string>
+    <string name="glyph_settings_auto_brightness_toggle_summary">Яркость подсветки Glyph будет автоматически подстраиваться под окружающее освещение</string>
+
     <string name="glyph_settings_brightness">Яркость</string>
-    <string name="glyph_settings_charging_title">Заряжается</string>
-    <string name="glyph_settings_charging_level_title">Уровень заряда батареи</string>
-    <string name="glyph_settings_charging_level_summary">Показывать уровень заряда батареи при подключении зарядного устройства</string>
+
+    <string name="glyph_settings_charging_title">Зарядка</string>
+    <string name="glyph_settings_charging_level_title">Уровень батареи</string>
+    <string name="glyph_settings_charging_level_summary">Показывать уровень заряда при подключении</string>
     <string name="glyph_settings_charging_powershare_title">Обратная беспроводная зарядка</string>
     <string name="glyph_settings_charging_powershare_summary">Показывать анимацию при обнаружении обратной беспроводной зарядки</string>
-    <string name="glyph_settings_call_title">Вызовы</string>
-    <string name="glyph_settings_call_toggle_title">Анимация при вызовах</string>
-    <string name="glyph_settings_call_toggle_summary">Мигание светодиода при входящих звонках</string>
-    <string name="glyph_settings_call_sub_toggle_title">Включить анимацию при вызове</string>
-    <string name="glyph_settings_call_sub_animations_title">Паттерн</string>
+
+    <string name="glyph_settings_call_title">Звонки</string>
+    <string name="glyph_settings_call_toggle_title">Анимация вызова</string>
+    <string name="glyph_settings_call_toggle_summary">Мигание светодиодов при входящих вызовах</string>
+    <string name="glyph_settings_call_sub_toggle_title">Включить анимацию вызова</string>
+    <string name="glyph_settings_call_sub_animations_title">Шаблон</string>
+
     <string name="glyph_settings_notifs_title">Уведомления</string>
-    <string name="glyph_settings_notifs_toggle_title">Анимация при уведомлениях</string>
-    <string name="glyph_settings_notifs_toggle_summary">Мигание светодиода при новых уведомлениях</string>
-    <string name="glyph_settings_notifs_sub_title">Разрешенные приложения</string>
-    <string name="glyph_settings_notifs_sub_toggle_title">Включить анимацию при уведомлениях</string>
-    <string name="glyph_settings_notifs_sub_animations_title">Паттерн</string>
+    <string name="glyph_settings_notifs_toggle_title">Анимация уведомлений</string>
+    <string name="glyph_settings_notifs_toggle_summary">Мигание светодиодов при новых уведомлениях</string>
+    <string name="glyph_settings_notifs_sub_title">Разрешённые приложения</string>
+    <string name="glyph_settings_notifs_sub_toggle_title">Включить анимацию уведомлений</string>
+    <string name="glyph_settings_notifs_sub_animations_title">Шаблон</string>
     <string name="glyph_settings_notifs_sub_essential_title">Важные уведомления</string>
-    <string name="glyph_settings_notifs_sub_essential_summary">Основной Glyph будет отображаться до тех пор, пока основные уведомления не будут прочитаны или отклонены.</string>
+    <string name="glyph_settings_notifs_sub_essential_summary">Важная подсветка Glyph будет отображаться, пока важные уведомления не будут прочитаны или отклонены</string>
+
+    <string name="glyph_settings_notifs_permission_dialog_title">Требуется доступ к уведомлениям</string>
+    <string name="glyph_settings_notifs_permission_dialog_message">Чтобы использовать интерфейс Glyph для уведомлений, необходимо предоставить доступ к уведомлениям.</string>
+
     <string name="glyph_settings_volume_title">Громкость</string>
     <string name="glyph_settings_volume_level_toggle_title">Индикатор громкости</string>
     <string name="glyph_settings_volume_level_toggle_summary">Показывать уровень громкости при регулировке</string>
+
     <string name="glyph_settings_misc_title">Прочее</string>
-    <string name="glyph_settings_music_visualizer_toggle_title">Визуализация музыки</string>
-    <string name="glyph_settings_music_visualizer_toggle_summary">Подсветка Glyph будет реагировать на проигрыватель устройства.\nВсе остальные функции Glyph будут отключены.</string>
+    <string name="glyph_settings_music_visualizer_toggle_title">Музыкальный визуализатор</string>
+    <string name="glyph_settings_music_visualizer_toggle_summary">СВЕТОВАЯ ДИСКОТЕКА!</string>
+
+    <!-- QS tile -->
     <string name="glyph_accessibility_quick_settings">Glyph</string>
     <string name="glyph_accessibility_quick_settings_torch">Фонарик Glyph</string>
+    <string name="glyph_accessibility_quick_settings_music_visualizer">Музыкальный визуализатор Glyph</string>
+
     <string name="glyph_accessibility_quick_settings_off">Выкл</string>
     <string name="glyph_accessibility_quick_settings_on">Вкл</string>
+    <string name="glyph_accessibility_quick_settings_unavailable">Недоступно</string>
+
+    <!-- Gesture Settings -->
+    <string name="glyph_settings_gesture_title">Жесты</string>
+    <string name="glyph_settings_shake_torch_toggle_title">Встряхнуть для фонарика</string>
+    <string name="glyph_settings_shake_torch_toggle_summary">Встряхните устройство, чтобы включить или выключить фонарик Glyph</string>
+    <string name="glyph_settings_shake_sensitivity_title">Чувствительность встряхивания</string>
+    <string name="glyph_settings_shake_sensitivity_summary">Настройте силу встряхивания (меньше = более чувствительно)</string>
+
+    <!-- Flip to Glyph Ringer Mode -->
+    <string name="glyph_settings_flip_ringer_mode_title">Режим звонка при перевороте</string>
+    <string name="glyph_settings_flip_ringer_mode_summary">Выберите режим звонка, когда устройство перевёрнуто</string>
+    
+    <!-- Ringer Mode Options -->
+    <string name="glyph_settings_flip_ringer_mode_follow_system">Как в системе</string>
+    <string name="glyph_settings_flip_ringer_mode_vibrate">Вибрация</string>
+    <string name="glyph_settings_flip_ringer_mode_silent">Без звука</string>
+    <string name="glyph_settings_flip_ringer_mode_normal">Звонок</string>
+
+    <!-- Glyph Composer -->
+    <string name="glyph_settings_composer_enable_title">Включить зону вызова Glyph</string>
+    <string name="glyph_settings_composer_enable_summary">Синхронизировать подсветку Glyph с пользовательскими мелодиями звонка</string>
+    <string name="glyph_settings_composer_fallback_title">Резервная анимация</string>
+    <string name="glyph_settings_composer_fallback_summary">Использовать стандартные анимации, если шаблон не найден</string>
+    <string name="glyph_settings_composer_preview_title">Предпросмотр шаблонов</string>
+    <string name="glyph_settings_composer_preview_summary">Просмотреть шаблоны и резервные анимации</string>
+    <string name="glyph_settings_composer_create_title">Создать шаблон</string>
+    <string name="glyph_settings_composer_create_summary">Создайте собственные шаблоны подсветки Glyph</string>
+    <string name="glyph_settings_composer_apply_title">Применить шаблон к мелодии</string>
+    <string name="glyph_settings_composer_apply_summary">Быстро выбирайте и применяйте сохранённые шаблоны</string>
+    
+    <!-- Glyph Schedule Settings -->
+    <string name="glyph_settings_schedule_title">Расписание Glyph</string>
+    <string name="glyph_settings_schedule_summary">Автоматически отключать Glyph в указанные часы</string>
+    <string name="glyph_settings_schedule_enable_title">Включить расписание</string>
+    <string name="glyph_settings_schedule_enable_summary">Автоматически отключать функции Glyph в заданные часы</string>
+    <string name="glyph_settings_schedule_start_time_title">Время начала</string>
+    <string name="glyph_settings_schedule_start_time_summary">Установить время, когда функции Glyph будут отключены</string>
+    <string name="glyph_settings_schedule_end_time_title">Время окончания</string>
+    <string name="glyph_settings_schedule_end_time_summary">Установить время, когда функции Glyph будут снова включены</string>
+    <string name="glyph_settings_schedule_info_summary">Расписание отключает функции Glyph, кроме фонарика. Плитка фонарика и жест «встряхивание для включения фонарика» будут работать в течение запланированных часов</string>
+    <string name="glyph_settings_schedule_status_title">Текущий статус</string>
+    <string name="glyph_settings_schedule_status_summary">Показывает, активно ли расписание в данный момент</string>
+    <string name="glyph_settings_schedule_active">Расписание активно — Glyph отключён (фонарик работает)</string>
+    <string name="glyph_settings_schedule_inactive">Расписание неактивно — Glyph включён</string>
+    <string name="glyph_settings_schedule_disabled">Расписание отключено</string>
+    <string name="glyph_accessibility_quick_settings_disabled">Отключено</string>
+    <string name="glyph_settings_active_days_title">Активные дни</string>
+    <string name="glyph_settings_active_days_summary">Каждый день</string>
+    <string name="glyph_settings_active_days_dialog_title">Выбор дней</string>
 </resources>
+

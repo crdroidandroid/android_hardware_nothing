@@ -19,12 +19,19 @@
 package co.aospa.glyph.Utils;
 
 import android.content.Context;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.UserHandle;
+import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 
 import co.aospa.glyph.Constants.Constants;
+import co.aospa.glyph.Manager.AnimationManager;
 import co.aospa.glyph.Manager.SettingsManager;
+import co.aospa.glyph.Manager.ShakeManager;
+import co.aospa.glyph.Manager.StatusManager;
+import co.aospa.glyph.Services.AutoBrightnessService;
 import co.aospa.glyph.Services.CallReceiverService;
 import co.aospa.glyph.Services.ChargingService;
 import co.aospa.glyph.Services.FlipToGlyphService;
@@ -39,6 +46,21 @@ public final class ServiceUtils {
     private static final boolean DEBUG = true;
 
     private static Context context = Constants.CONTEXT;
+
+    public static boolean isNotificationServiceEnabled() {
+        String pkgName = context.getPackageName();
+        final String flat = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ENABLED_NOTIFICATION_LISTENERS);
+        if (flat != null) {
+            String[] names = flat.split(":");
+            for (String name : names) {
+                ComponentName cn = ComponentName.unflattenFromString(name);
+                if (cn != null && TextUtils.equals(pkgName, cn.getPackageName())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     private static void startCallReceiverService() {
         if (DEBUG) Log.d(TAG, "Starting Glyph call receiver service");
@@ -112,6 +134,18 @@ public final class ServiceUtils {
                 UserHandle.CURRENT);
     }
 
+    private static void startAutoBrightnessService() {
+        if (DEBUG) Log.d(TAG, "Starting Auto Brightness service");
+        context.startServiceAsUser(new Intent(context, AutoBrightnessService.class),
+                UserHandle.CURRENT);
+    }
+
+    private static void stopAutoBrightnessService() {
+        if (DEBUG) Log.d(TAG, "Stopping Auto Brightness service");
+        context.stopServiceAsUser(new Intent(context, AutoBrightnessService.class),
+                UserHandle.CURRENT);
+    }
+
     public static void startThirdPartyService() {
         if (DEBUG) Log.d(TAG, "Starting ThirdParty service");
         context.startServiceAsUser(new Intent(context, ThirdPartyService.class),
@@ -125,9 +159,18 @@ public final class ServiceUtils {
     }
 
     public static void checkGlyphService() {
-        if (SettingsManager.isGlyphEnabled()) {
+        if (SettingsManager.getGlyphBrightness() != Constants.getBrightness()) {
             Constants.setBrightness(SettingsManager.getGlyphBrightness());
             startThirdPartyService();
+            if (StatusManager.isEssentialLedActive())
+                AnimationManager.playEssential();
+        }
+        
+        boolean glyphEnabled = SettingsManager.isGlyphEnabled();
+        
+        boolean glyphBaseEnabled = SettingsManager.isGlyphEnabledIgnoreSchedule();
+        
+        if (glyphEnabled) {
             if (SettingsManager.isGlyphChargingEnabled()) {
                 startChargingService();
             } else {
@@ -158,6 +201,11 @@ public final class ServiceUtils {
             } else {
                 stopVolumeLevelService();
             }
+            if (SettingsManager.isGlyphAutoBrightnessEnabled()) {
+                startAutoBrightnessService();
+            } else {
+                stopAutoBrightnessService();
+            }
         } else {
             stopChargingService();
             stopPowershareService();
@@ -165,6 +213,18 @@ public final class ServiceUtils {
             stopFlipToGlyphService();
             stopMusicVisualizerService();
             stopVolumeLevelService();
+            stopAutoBrightnessService();
+        }
+        
+        if (glyphBaseEnabled && ShakeManager.isShakeEnabled(context)) {
+            ShakeManager.startShakeService(context);
+        } else {
+            ShakeManager.stopShakeService(context);
+        }
+        
+        if (glyphBaseEnabled) {
+            startThirdPartyService();
+        } else {
             stopThirdPartyService();
         }
     }

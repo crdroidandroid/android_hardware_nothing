@@ -24,11 +24,11 @@
 
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-    <uses-sdk
-        android:minSdkVersion="31"
-        android:targetSdkVersion="31"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 
     <application
         android:label="@string/glyph_settings_app_name"
@@ -46,6 +46,20 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
+
+        <!-- Schedule Receiver -->
+        <receiver
+            android:name=".Manager.GlyphScheduleManager$ScheduleReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="co.aospa.glyph.ACTION_SCHEDULE_START" />
+                <action android:name="co.aospa.glyph.ACTION_SCHEDULE_END" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".Services.AutoBrightnessService">
+        </service>
 
         <service
             android:name=".Services.CallReceiverService"
@@ -73,6 +87,10 @@
         </service>
 
         <service
+            android:name=".Services.ShakeDetectorService">
+        </service>
+
+        <service
             android:name=".Services.NotificationService"
             android:exported="false"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
@@ -95,7 +113,17 @@
             android:name=".Tiles.TorchTileService"
             android:exported="true"
             android:label="@string/glyph_accessibility_quick_settings_torch"
-            android:icon="@drawable/qs_glyphs_torch_icon"
+            android:icon="@drawable/ic_glyphs_logo"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".Tiles.MusicVisualizerTileService"
+            android:exported="true"
+            android:label="@string/glyph_accessibility_quick_settings_music_visualizer"
+            android:icon="@drawable/ic_music_visualizer"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
@@ -109,27 +137,22 @@
                 <action android:name="co.aospa.glyph.Services.ThirdPartyService" />
             </intent-filter>
         </service>
-        <activity
-            android:name=".Tiles.TileActivity"
-            android:exported="true"
-            android:theme="@style/Theme.SubSettingsBase">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
-            </intent-filter>
-        </activity>
 
         <activity
             android:name=".Settings.SettingsActivity"
             android:configChanges="orientation|screenSize"
             android:exported="true"
             android:label="@string/glyph_settings_title"
-            android:theme="@style/Theme.SubSettingsBase">
+            android:theme="@style/Theme.SubSettingsBase.Expressive">
             <intent-filter>
                 <action android:name="com.android.settings.action.IA_SETTINGS" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
+            </intent-filter>
             <meta-data
                 android:name="com.android.settings.category"
-                android:value="com.android.settings.category.ia.homepage" />
+                android:value="com.android.settings.category.ia.system" />
             <meta-data
                 android:name="com.android.settings.icon"
                 android:resource="@drawable/ic_glyphs_logo" />
@@ -138,20 +161,14 @@
                 android:value="@string/glyph_settings_summary" />
              <meta-data
                 android:name="com.android.settings.order"
-                android:value="-115" />
-             <meta-data
-		android:name="com.android.settings.group_key"
-		android:value="top_level_personalize_category" />
-	     <meta-data
-		android:name="com.android.settings.icon_color_scheme"
-		android:value="pink" />
+                android:value="-255" />
         </activity>
 
         <activity
             android:name=".Settings.CallSettingsActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"
-            android:theme="@style/Theme.SubSettingsBase">
+            android:theme="@style/Theme.SubSettingsBase.Expressive">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -161,11 +178,41 @@
             android:name=".Settings.NotifsSettingsActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"
-            android:theme="@style/Theme.SubSettingsBase">
+            android:theme="@style/Theme.SubSettingsBase.Expressive">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".Settings.ScheduleSettingsActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:theme="@style/Theme.SubSettingsBase.Expressive">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".Settings.GlyphPatternPreviewActivity"
+            android:label="Pattern Preview"
+            android:theme="@android:style/Theme.DeviceDefault.Dialog"
+            android:exported="false" />
+
+        <activity
+            android:name=".Settings.GlyphPatternCreatorActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Pattern Creator"
+            android:theme="@style/Theme.SubSettingsBase.Expressive" />
+
+        <activity
+            android:name=".Settings.GlyphPatternSelectorActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Apply Pattern"
+            android:theme="@style/Theme.SubSettingsBase.Expressive" />
 
     </application>
 </manifest>

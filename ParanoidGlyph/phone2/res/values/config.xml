@@ -19,12 +19,22 @@
     <!-- Device -->
     <string name="glyph_settings_device" translatable="false">phone2</string>
 
+    <!-- Auto brightness -->
+    <string name="glyph_light_sensor" translatable="false">qti.sensor.light_back</string>
+    <integer-array name="glyph_auto_brightness_levels" translatable="false">
+        <item>0</item>
+        <item>101</item>
+        <item>1001</item>
+        <item>2501</item>
+    </integer-array>
+
     <!-- Brighntess -->
-    <integer name="glyph_settings_brightness_max" translatable="false">254</integer>
+    <integer name="glyph_settings_brightness_max" translatable="false">255</integer>
+    <!-- Should be the same length as glyph_auto_brightness_levels array -->
     <integer-array name="glyph_settings_brightness_levels" translatable="false">
-        <item>64</item>
-        <item>127</item>
-        <item>190</item>
+        <item>60</item>
+        <item>131</item>
+        <item>187</item>
         <item>@integer/glyph_settings_brightness_max</item>
     </integer-array>
 

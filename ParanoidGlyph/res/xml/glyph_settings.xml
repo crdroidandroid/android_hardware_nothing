@@ -31,6 +31,21 @@
         android:title="@string/glyph_settings_flip_toggle_title"
         android:summary="@string/glyph_settings_flip_toggle_summary" />
 
+    <ListPreference
+        android:key="glyph_settings_flip_ringer_mode"
+        android:title="@string/glyph_settings_flip_ringer_mode_title"
+        android:summary="@string/glyph_settings_flip_ringer_mode_summary"
+        android:entries="@array/glyph_flip_ringer_mode_entries"
+        android:entryValues="@array/glyph_flip_ringer_mode_values"
+        android:defaultValue="1"
+        android:dependency="glyph_settings_flip_toggle" />
+
+    <SwitchPreferenceCompat
+        android:key="glyph_settings_auto_brightness_toggle"
+        android:defaultValue="true"
+        android:title="@string/glyph_settings_auto_brightness_toggle_title"
+        android:summary="@string/glyph_settings_auto_brightness_toggle_summary" />
+
     <SeekBarPreference
         android:key="glyph_settings_brightness"
         android:title="@string/glyph_settings_brightness" />
@@ -48,6 +63,34 @@
                  android:targetPackage="co.aospa.glyph"
                  android:targetClass="co.aospa.glyph.Settings.CallSettingsActivity"/>
         </com.android.settingslib.PrimarySwitchPreference>
+
+        <SwitchPreferenceCompat
+            android:key="glyph_settings_composer_enable"
+            android:title="@string/glyph_settings_composer_enable_title"
+            android:summary="@string/glyph_settings_composer_enable_summary"
+            android:defaultValue="true" />
+
+        <SwitchPreferenceCompat
+            android:key="glyph_settings_composer_fallback"
+            android:title="@string/glyph_settings_composer_fallback_title"
+            android:summary="@string/glyph_settings_composer_fallback_summary"
+            android:defaultValue="true"
+            android:dependency="glyph_settings_composer_enable" />
+
+        <Preference
+            android:key="glyph_settings_composer_create"
+            android:title="@string/glyph_settings_composer_create_title"
+            android:summary="@string/glyph_settings_composer_create_summary" />
+
+        <Preference
+            android:key="glyph_settings_composer_preview"
+            android:title="@string/glyph_settings_composer_preview_title"
+            android:summary="@string/glyph_settings_composer_preview_summary" />
+
+        <Preference
+            android:key="glyph_settings_composer_apply"
+            android:title="@string/glyph_settings_composer_apply_title"
+            android:summary="@string/glyph_settings_composer_apply_summary" />
 
     <PreferenceCategory
         android:key="glyph_settings_notifs"
@@ -90,8 +133,36 @@
             android:summary="@string/glyph_settings_volume_level_toggle_summary" />
 
     <PreferenceCategory
+        android:key="glyph_settings_gesture"
+        android:title="@string/glyph_settings_gesture_title" />
+
+        <SwitchPreferenceCompat
+            android:key="glyph_settings_shake_torch_toggle"
+            android:defaultValue="false"
+            android:title="@string/glyph_settings_shake_torch_toggle_title"
+            android:summary="@string/glyph_settings_shake_torch_toggle_summary" />
+
+        <SeekBarPreference
+            android:key="glyph_settings_shake_sensitivity"
+            android:title="@string/glyph_settings_shake_sensitivity_title"
+            android:summary="@string/glyph_settings_shake_sensitivity_summary"
+            android:min="20"
+            android:max="55"
+            android:defaultValue="35"
+            android:dependency="glyph_settings_shake_torch_toggle" />
+
+    <PreferenceCategory
         android:key="glyph_settings_misc"
         android:title="@string/glyph_settings_misc_title" />
+
+        <Preference
+            android:key="glyph_settings_schedule"
+            android:title="@string/glyph_settings_schedule_title"
+            android:summary="@string/glyph_settings_schedule_summary">
+            <intent android:action="android.intent.action.MAIN"
+                android:targetPackage="co.aospa.glyph"
+                android:targetClass="co.aospa.glyph.Settings.ScheduleSettingsActivity"/>
+        </Preference>
 
         <SwitchPreferenceCompat
             android:key="glyph_settings_music_visualizer_toggle"

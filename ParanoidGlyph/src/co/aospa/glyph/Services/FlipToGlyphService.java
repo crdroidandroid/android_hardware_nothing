@@ -23,11 +23,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.IBinder;
-import android.os.PowerManager;
-import android.os.PowerManager.WakeLock;
 import android.util.Log;
 
 import co.aospa.glyph.Manager.AnimationManager;
+import co.aospa.glyph.Manager.SettingsManager;
 import co.aospa.glyph.Sensors.FlipToGlyphSensor;
 
 public class FlipToGlyphService extends Service {
@@ -40,19 +39,15 @@ public class FlipToGlyphService extends Service {
 
     private AudioManager mAudioManager;
     private FlipToGlyphSensor mFlipToGlyphSensor;
-    private PowerManager mPowerManager;
-    private WakeLock mWakeLock;
+    private Context mContext;
 
     @Override
     public void onCreate() {
         if (DEBUG) Log.d(TAG, "Creating service");
 
+        mContext = this;
         mFlipToGlyphSensor = new FlipToGlyphSensor(this, this::onFlip);
-
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-
-        mPowerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        mWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
     }
 
     @Override
@@ -78,12 +73,22 @@ public class FlipToGlyphService extends Service {
         if (flipped == isFlipped) return;
         if (DEBUG) Log.d(TAG, "Flipped: " + flipped);
         if (flipped) {
-            mWakeLock.acquire(2500);
-            AnimationManager.playCsv("flip");
+            AnimationManager.playCsv(mContext, "flip");
             ringerMode = mAudioManager.getRingerModeInternal();
-            mAudioManager.setRingerModeInternal(AudioManager.RINGER_MODE_SILENT);
+            int preferredMode = SettingsManager.getFlipRingerMode();
+            if (DEBUG) Log.d(TAG, "Preferred ringer mode: " + preferredMode);
+            
+            if (preferredMode != -1) {
+                if (DEBUG) Log.d(TAG, "Setting ringer mode to: " + preferredMode);
+                mAudioManager.setRingerModeInternal(preferredMode);
+            } else {
+                if (DEBUG) Log.d(TAG, "Following system ringer mode: " + ringerMode);
+            }
         } else {
-            mAudioManager.setRingerModeInternal(ringerMode);
+            int preferredMode = SettingsManager.getFlipRingerMode();
+            if (preferredMode != -1) {
+                mAudioManager.setRingerModeInternal(ringerMode);
+            }
         }
         isFlipped = flipped;
     }

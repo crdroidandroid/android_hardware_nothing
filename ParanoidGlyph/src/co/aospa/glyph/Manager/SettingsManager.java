@@ -17,6 +17,7 @@
 package co.aospa.glyph.Manager;
 
 import android.content.Context;
+import android.media.AudioManager;
 import android.provider.Settings;
 import android.util.Log;
 
@@ -39,13 +40,32 @@ public final class SettingsManager {
     private static Context context = Constants.CONTEXT;
 
     public static boolean enableGlyph(boolean enable) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit()
+                .putBoolean(Constants.GLYPH_ENABLE, enable).apply();
+
         return Settings.Secure.putInt(context.getContentResolver(),
                 Constants.GLYPH_ENABLE, enable ? 1 : 0);
     }
 
     public static boolean isGlyphEnabled() {
-        return Settings.Secure.getInt(context.getContentResolver(),
-                Constants.GLYPH_ENABLE, 1) != 0;
+        boolean baseEnabled = (Settings.Secure.getInt(context.getContentResolver(),
+                Constants.GLYPH_ENABLE, 1) != 0 
+            || PreferenceManager.getDefaultSharedPreferences(context)
+                .getBoolean(Constants.GLYPH_ENABLE, false));
+        
+        if (GlyphScheduleManager.isScheduleEnabled(context) && 
+            GlyphScheduleManager.isScheduleCurrentlyActive(context)) {
+            return false;
+        }
+        
+        return baseEnabled;
+    }
+
+    public static boolean isGlyphEnabledIgnoreSchedule() {
+        return (Settings.Secure.getInt(context.getContentResolver(),
+                Constants.GLYPH_ENABLE, 1) != 0 
+            || PreferenceManager.getDefaultSharedPreferences(context)
+                .getBoolean(Constants.GLYPH_ENABLE, false));
     }
 
     public static boolean isGlyphFlipEnabled() {
@@ -126,5 +146,32 @@ public final class SettingsManager {
         Set<String> selectedValues = PreferenceManager.getDefaultSharedPreferences(context)
                 .getStringSet(Constants.GLYPH_NOTIFS_SUB_ESSENTIAL , new HashSet<String>());
         return selectedValues.contains(app) && isGlyphNotifsEnabled();
+    }
+
+    public static boolean isGlyphAutoBrightnessEnabled() {
+        return !ResourceUtils.getString("glyph_light_sensor").isBlank() 
+            && PreferenceManager.getDefaultSharedPreferences(context)
+            .getBoolean(Constants.GLYPH_AUTO_BRIGHTNESS_ENABLE, false) 
+            && isGlyphEnabled();
+    }
+
+    public static int getFlipRingerMode() {
+        return Settings.Secure.getInt(Constants.CONTEXT.getContentResolver(),
+                Constants.GLYPH_FLIP_RINGER_MODE, AudioManager.RINGER_MODE_VIBRATE);
+    }
+
+    public static boolean isGlyphComposerEnabled() {
+        return Settings.Secure.getInt(Constants.CONTEXT.getContentResolver(),
+                Constants.GLYPH_COMPOSER_ENABLE, 1) == 1;
+    }
+
+    public static void setGlyphComposerEnabled(boolean enabled) {
+        Settings.Secure.putInt(Constants.CONTEXT.getContentResolver(),
+                Constants.GLYPH_COMPOSER_ENABLE, enabled ? 1 : 0);
+    }
+
+    public static boolean useComposerFallback() {
+        return Settings.Secure.getInt(Constants.CONTEXT.getContentResolver(),
+                Constants.GLYPH_COMPOSER_FALLBACK, 1) == 1;
     }
 }

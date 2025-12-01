@@ -27,8 +27,6 @@ import android.content.SharedPreferences;
 import android.database.ContentObserver;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.PowerManager;
-import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.service.notification.NotificationListenerService;
@@ -48,9 +46,9 @@ public class NotificationService extends NotificationListenerService
     private static final String TAG = "GlyphNotification";
     private static final boolean DEBUG = true;
 
+    private Context mContext;
+
     private NotificationManager mNotificationManager;
-    private PowerManager mPowerManager;
-    private WakeLock mWakeLock;
 
     private ContentResolver mContentResolver;
     private SettingObserver mSettingObserver;
@@ -60,9 +58,9 @@ public class NotificationService extends NotificationListenerService
     @Override
     public void onCreate() {
         if (DEBUG) Log.d(TAG, "Creating service");
+
+        mContext = this;
         mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mPowerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        mWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
         mContentResolver = getContentResolver();
         mSettingObserver = new SettingObserver();
         mSettingObserver.register(mContentResolver);
@@ -118,8 +116,7 @@ public class NotificationService extends NotificationListenerService
                         && !ArrayUtils.contains(Constants.NOTIFS_TO_IGNORE, packageName + ":" + packageChannelID)
                         && (packageImportance >= NotificationManager.IMPORTANCE_DEFAULT || packageImportance == -1)
                         && (interruptionFilter <= NotificationManager.INTERRUPTION_FILTER_ALL || packageCanBypassDnd)) {
-            mWakeLock.acquire(2500);
-            AnimationManager.playCsv(SettingsManager.getGlyphNotifsAnimation());
+            AnimationManager.playCsv(mContext, SettingsManager.getGlyphNotifsAnimation());
         }
         if (SettingsManager.isGlyphNotifsAppEssential(packageName)
                         && !sbn.isOngoing()

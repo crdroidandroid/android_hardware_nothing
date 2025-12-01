@@ -16,6 +16,8 @@
 
 package co.aospa.glyph.Manager;
 
+import co.aospa.glyph.Utils.ResourceUtils;
+
 public final class StatusManager {
 
     private static final String TAG = "GlyphStatusManager";
@@ -23,11 +25,14 @@ public final class StatusManager {
 
     private static boolean allLedActive = false;
     private static boolean animationActive = false;
+    private static boolean chargingAnimationActive = false;
+    private static boolean volumeAnimationActive = false;
     private static boolean callLedActive = false;
     private static boolean essentialLedActive = false;
-    private static boolean volumeLedActive = false;
+    private static int chargingLedLast = 0;
+    private static int[] batteryArray = new int[ResourceUtils.getInteger("glyph_settings_battery_levels_num")];
     private static int volumeLedLast = 0;
-    private static boolean volumeLedUpdate = false;
+    private static int[] volumeArray = new int[ResourceUtils.getInteger("glyph_settings_volume_levels_num")];
 
     private static boolean callLedEnabled = false;
 
@@ -37,6 +42,22 @@ public final class StatusManager {
 
     public static void setAnimationActive(boolean status) {
         animationActive = status;
+    }
+
+    public static boolean isChargingAnimationActive() {
+        return chargingAnimationActive;
+    }
+
+    public static void setChargingAnimationActive(boolean status) {
+        chargingAnimationActive = status;
+    }
+
+    public static boolean isVolumeAnimationActive() {
+        return volumeAnimationActive;
+    }
+
+    public static void setVolumeAnimationActive(boolean status) {
+        volumeAnimationActive = status;
     }
 
     public static boolean isAllLedActive() {
@@ -63,12 +84,20 @@ public final class StatusManager {
         essentialLedActive = status;
     }
 
-    public static boolean isVolumeLedActive() {
-        return volumeLedActive;
+    public static int getChargingLedLast() {
+        return chargingLedLast;
     }
 
-    public static void setVolumeLedActive(boolean status) {
-        volumeLedActive = status;
+    public static void setChargingLedLast(int last) {
+        chargingLedLast = last;
+    }
+
+    public static int[] getBatteryArray() {
+        return batteryArray;
+    }
+
+    public static void setBatteryArray(int[] batteryArrayNext) {
+        batteryArray = batteryArrayNext;
     }
 
     public static int getVolumeLedLast() {
@@ -79,12 +108,12 @@ public final class StatusManager {
         volumeLedLast = last;
     }
 
-    public static boolean isVolumeLedUpdate() {
-        return volumeLedUpdate;
+    public static int[] getVolumeArray() {
+        return volumeArray;
     }
 
-    public static void setVolumeLedUpdate(boolean status) {
-        volumeLedUpdate = status;
+    public static void setVolumeArray(int[] volumeArrayNext) {
+        volumeArray = volumeArrayNext;
     }
 
     public static boolean isCallLedEnabled() {
@@ -94,5 +123,13 @@ public final class StatusManager {
     public static void setCallLedEnabled(boolean status) {
         callLedEnabled = status;
     }
-
+    
+    public static boolean isGlyphIdle() {
+        if (isAllLedActive() || isCallLedActive() || isAnimationActive() 
+            || isChargingAnimationActive() || isVolumeAnimationActive() || isCallLedEnabled()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
