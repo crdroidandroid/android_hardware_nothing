@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="dolby_title">Dolby Atmos</string>
+    <string name="dolby_enable">Использовать Dolby Atmos</string>
+    <string name="dolby_profile_title">Выберите профиль</string>
+    <string name="dolby_preset">Графический эквалайзер</string>
+    <string name="dolby_off">Выкл.</string>
+    <string name="dolby_on">Вкл.</string>
+    <string name="dolby_low">Низкий</string>
+    <string name="dolby_medium">Средний</string>
+    <string name="dolby_high">Высокий</string>
+    <string name="dolby_max">Макс.</string>
+    <string name="dolby_unknown">Неизвестно</string>
+    <string name="dolby_on_with_profile">Вкл. (%1$s)</string>
+    <string name="dolby_category_settings">Настройки</string>
+    <string name="dolby_category_adv_settings">Расширенные настройки</string>
+    <string name="dolby_adv_settings_footer">Выберите другой профиль, чтобы отобразить расширенные настройки.</string>
+    <string name="dolby_bass_enhancer">Усиление басов</string>
+    <string name="dolby_dialogue_enhancer">Улучшение диалогов</string>
+    <string name="dolby_spk_virtualizer">Виртуальный объёмный звук (динамики)</string>
+    <string name="dolby_hp_virtualizer">Виртуальный объёмный звук (наушники)</string>
+    <string name="dolby_volume_leveler">Выравнивание громкости</string>
+    <string name="dolby_bass_enhancer_summary">Усиливает низкие частоты для более глубокого баса</string>
+    <string name="dolby_dialogue_enhancer_summary">Улучшает чёткость голосов и речи</string>
+    <string name="dolby_spk_virtualizer_summary">Создаёт эффект виртуального объёмного звука на динамиках</string>
+    <string name="dolby_hp_virtualizer_summary">Создаёт эффект виртуального объёмного звука в наушниках</string>
+    <string name="dolby_volume_leveler_summary">Балансирует громкость для равномерного прослушивания</string>
+    <string name="dolby_connect_headphones">Подключите наушники</string>
+    <string name="dolby_reset_all">Сбросить профили</string>
+    <string name="dolby_reset_all_message">Все профили будут сброшены до заводских настроек.</string>
+    <string name="dolby_reset_all_toast">Все профили успешно сброшены</string>
+    <string name="dolby_strength">Интенсивность</string>
+    <string name="dolby_hp_virtualizer_dolby_strength">Интенсивность объёмного звука</string>
+    <string name="dolby_dialogue_enhancer_dolby_strength">Интенсивность улучшения диалогов</string>
+
+    <string name="dolby_profile_dynamic">Динамический</string>
+    <string name="dolby_profile_video">Фильм/Видео</string>
+    <string name="dolby_profile_music">Музыка</string>
+    <string name="dolby_profile_custom">Пользовательский</string>
+
+    <string name="dolby_preset_default">Плоский (выкл.)</string>
+    <string name="dolby_preset_rock">Рок</string>
+    <string name="dolby_preset_jazz">Джаз</string>
+    <string name="dolby_preset_pop">Поп</string>
+    <string name="dolby_preset_classical">Классика</string>
+    <string name="dolby_preset_hiphop">Хип-хоп</string>
+    <string name="dolby_preset_blues">Блюз</string>
+    <string name="dolby_preset_electronic">Электронная</string>
+    <string name="dolby_preset_country">Кантри</string>
+    <string name="dolby_preset_dance">Танцевальная</string>
+    <string name="dolby_preset_metal">Метал</string>
+    <string name="dolby_preset_custom">Пользовательский</string>
+
+    <string name="dolby_geq_slider_label_gain">Усиление</string>
+    <string name="dolby_geq_preset">Предустановка</string>
+    <string name="dolby_geq_preset_name">Название предустановки</string>
+    <string name="dolby_geq_new_preset">Новая предустановка</string>
+    <string name="dolby_geq_rename_preset">Переименовать предустановку</string>
+    <string name="dolby_geq_delete_preset">Удалить предустановку</string>
+    <string name="dolby_geq_delete_preset_prompt">Вы хотите удалить эту предустановку?</string>
+    <string name="dolby_geq_reset_gains">Сбросить усиление</string>
+    <string name="dolby_geq_reset_gains_prompt">Вы хотите сбросить эту предустановку до значений по умолчанию?</string>
+    <string name="dolby_geq_preset_name_exists">Предустановка с таким названием уже существует!</string>
+    <string name="dolby_geq_preset_name_too_long">Название предустановки слишком длинное!</string>
+
+    <string name="dolby_ieq">Интеллектуальный эквалайзер</string>
+    <string name="dolby_balanced">Сбалансированный</string>
+    <string name="dolby_warm">Тёплый</string>
+    <string name="dolby_detailed">Детальный</string>
+
+</resources>
