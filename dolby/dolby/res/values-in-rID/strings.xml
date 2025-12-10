@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2023-25 Paranoid Android
+     SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+
+    <!-- Dolby Atmos -->
+    <string name="dolby_title">Dolby Atmos</string>
+    <string name="dolby_enable">Aktifkan Dolby Atmos</string>
+    <string name="dolby_profile_title">Pilih profil</string>
+    <string name="dolby_preset">Equalizer Grafik</string>
+    <string name="dolby_off">Nonaktif</string>
+    <string name="dolby_on">Aktif</string>
+    <string name="dolby_low">Rendah</string>
+    <string name="dolby_medium">Sedang</string>
+    <string name="dolby_high">Tinggi</string>
+    <string name="dolby_max">Maksimal</string>
+    <string name="dolby_unknown">Tidak Diketahui</string>
+    <string name="dolby_on_with_profile">Aktif (%1$s)</string>
+    <string name="dolby_category_settings">Setelan</string>
+    <string name="dolby_category_adv_settings">Setelan Lanjutan</string>
+    <string name="dolby_adv_settings_footer">Pilih profil lain untuk menunjukan setelan lanjutan .</string>
+    <string name="dolby_bass_enhancer">Tingkatkan bass</string>
+    <string name="dolby_dialogue_enhancer">Tingkatkan dialog</string>
+    <string name="dolby_spk_virtualizer">Virtualisasi speaker surround</string>
+    <string name="dolby_hp_virtualizer">Virtualisasi headphone surround</string>
+    <string name="dolby_volume_leveler">Seimbangkan volume</string>
+    <string name="dolby_bass_enhancer_summary">Meningkatkan suara frekuensi rendah untuk bass lebih dalam</string>
+    <string name="dolby_dialogue_enhancer_summary">Meningkatkan kejernihan suara dan kata</string>
+    <string name="dolby_spk_virtualizer_summary">Membuat suara surround virtual pada speaker</string>
+    <string name="dolby_hp_virtualizer_summary">Membuat suara surround virtual pada headphone</string>
+    <string name="dolby_volume_leveler_summary">Menyeimbangkan volume untuk konsistensi suara</string>
+    <string name="dolby_connect_headphones">Hubungkan headphones</string>
+    <string name="dolby_reset_all">Atur ulang profil</string>
+    <string name="dolby_reset_all_message">Ini akan mengatur ulang semua profil ke setelan awal</string>
+    <string name="dolby_reset_all_toast">Sukses mengatur ulang semua profil</string>
+    <string name="dolby_strength">Kekuatan</string>
+    <string name="dolby_hp_virtualizer_dolby_strength">Kekuatan virtualisasi surround</string>
+    <string name="dolby_dialogue_enhancer_dolby_strength">Kekuatan peningkatan dialog</string>
+
+    <!-- Dolby profiles -->
+    <string name="dolby_profile_dynamic">Dinamis</string>
+    <string name="dolby_profile_video">Film/Video</string>
+    <string name="dolby_profile_music">Musik</string>
+    <string name="dolby_profile_custom">Custom</string>
+
+    <!-- Dolby equalizer presets -->
+    <string name="dolby_preset_default">Flat (nonaktif)</string>
+    <string name="dolby_preset_rock">Rock</string>
+    <string name="dolby_preset_jazz">Jazz</string>
+    <string name="dolby_preset_pop">Pop</string>
+    <string name="dolby_preset_classical">Classical</string>
+    <string name="dolby_preset_hiphop">Hip Hop</string>
+    <string name="dolby_preset_blues">Blues</string>
+    <string name="dolby_preset_electronic">Electronic</string>
+    <string name="dolby_preset_country">Country</string>
+    <string name="dolby_preset_dance">Dance</string>
+    <string name="dolby_preset_metal">Metal</string>
+    <string name="dolby_preset_custom">Custom</string>
+
+    <!-- Dolby equalizer UI -->
+    <string name="dolby_geq_slider_label_gain">Gain</string>
+    <string name="dolby_geq_preset">Preset</string>
+    <string name="dolby_geq_preset_name">Nama preset</string>
+    <string name="dolby_geq_new_preset">Preset baru</string>
+    <string name="dolby_geq_rename_preset">Ubah nama preset</string>
+    <string name="dolby_geq_delete_preset">Hapus preset</string>
+    <string name="dolby_geq_delete_preset_prompt">Apakah kamu ingin menghapus preset ini?</string>
+    <string name="dolby_geq_reset_gains">Atur ulang gains</string>
+    <string name="dolby_geq_reset_gains_prompt">Apakah kamu ingin mengatur ulang preset ke setelan awal?</string>
+    <string name="dolby_geq_preset_name_exists">Nama preset suda ada!</string>
+    <string name="dolby_geq_preset_name_too_long">Nama preset terlalu panjang!</string>
+
+    <!-- Dolby intelligent EQ -->
+    <string name="dolby_ieq">Equalizer pintar</string>
+    <string name="dolby_balanced">Seimbang</string>
+    <string name="dolby_warm">Hangat</string>
+    <string name="dolby_detailed">Detail</string>
+
+</resources>
