@@ -37,6 +37,7 @@ import com.android.internal.util.ArrayUtils;
 
 import co.aospa.glyph.Constants.Constants;
 import co.aospa.glyph.Manager.AnimationManager;
+import co.aospa.glyph.Manager.EssentialLedManager;
 import co.aospa.glyph.Manager.SettingsManager;
 import co.aospa.glyph.Manager.StatusManager;
 
@@ -93,13 +94,26 @@ public class NotificationService extends NotificationListenerService
     @Override
     public void onNotificationPosted(StatusBarNotification sbn){
         if (Constants.CONTEXT == null) return;
-        if (DEBUG) Log.d(TAG, "onNotificationPosted");
+        if (DEBUG) Log.d(TAG, "onNotificationPosted: " + sbn.getPackageName());
+        
+        if (SettingsManager.isGlyphProgressEnabled()) {
+            checkProgressNotification(sbn);
+        }
+        
         if (!SettingsManager.isGlyphNotifsEnabled()) return;
+        
         String packageName = sbn.getPackageName();
         String packageChannelID = sbn.getNotification().getChannelId();
+        
+        if (hasProgressBar(sbn.getNotification())) {
+            if (DEBUG) Log.d(TAG, "Skipping progress notification for regular glyph: " + packageName);
+            return;
+        }
+        
         int packageImportance = -1;
         boolean packageCanBypassDnd = false;
         int interruptionFilter = mNotificationManager.getCurrentInterruptionFilter();
+        
         try {
             Context packageContext = createPackageContext(packageName, 0);
             NotificationManager packageNotificationManager = (NotificationManager) packageContext.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -109,7 +123,9 @@ public class NotificationService extends NotificationListenerService
                 packageCanBypassDnd = packageChannel.canBypassDnd();
             }
         } catch (PackageManager.NameNotFoundException e) {}
+        
         if (DEBUG) Log.d(TAG, "onNotificationPosted: package:" + packageName + " | channel id: " + packageChannelID + " | importance: " + packageImportance + " | can bypass dnd: " + packageCanBypassDnd);
+        
         if (SettingsManager.isGlyphNotifsAppEnabled(packageName)
                         && !sbn.isOngoing()
                         && !ArrayUtils.contains(Constants.APPS_TO_IGNORE, packageName)
@@ -118,6 +134,7 @@ public class NotificationService extends NotificationListenerService
                         && (interruptionFilter <= NotificationManager.INTERRUPTION_FILTER_ALL || packageCanBypassDnd)) {
             AnimationManager.playCsv(mContext, SettingsManager.getGlyphNotifsAnimation());
         }
+        
         if (SettingsManager.isGlyphNotifsAppEssential(packageName)
                         && !sbn.isOngoing()
                         && !ArrayUtils.contains(Constants.APPS_TO_IGNORE, packageName)
@@ -125,13 +142,88 @@ public class NotificationService extends NotificationListenerService
                         && (packageImportance >= NotificationManager.IMPORTANCE_DEFAULT || packageImportance == -1)
                         && (interruptionFilter <= NotificationManager.INTERRUPTION_FILTER_ALL || packageCanBypassDnd)
                         && mNotificationManager.isNotificationPolicyAccessGranted()) {
-            AnimationManager.playEssential();
+            AnimationManager.playEssentialForApp(mContext, packageName);
+        }
+    }
+
+    private boolean hasProgressBar(Notification notification) {
+        if (notification == null || notification.extras == null) return false;
+        
+        int progress = notification.extras.getInt(Notification.EXTRA_PROGRESS, -1);
+        int maxProgress = notification.extras.getInt(Notification.EXTRA_PROGRESS_MAX, -1);
+        
+        return progress >= 0 && maxProgress > 0;
+    }
+
+    private void checkProgressNotification(StatusBarNotification sbn) {
+        try {
+            Notification notification = sbn.getNotification();
+            if (notification == null || notification.extras == null) return;
+
+            int progress = notification.extras.getInt(Notification.EXTRA_PROGRESS, -1);
+            int maxProgress = notification.extras.getInt(Notification.EXTRA_PROGRESS_MAX, -1);
+            boolean indeterminate = notification.extras.getBoolean(Notification.EXTRA_PROGRESS_INDETERMINATE, true);
+
+            if (DEBUG) {
+                Log.d(TAG, "Checking progress: pkg=" + sbn.getPackageName() + 
+                        ", progress=" + progress + "/" + maxProgress + 
+                        ", indeterminate=" + indeterminate + 
+                        ", ongoing=" + sbn.isOngoing());
+            }
+
+            if (progress >= 0 && maxProgress > 0 && !indeterminate) {
+                Intent intent = new Intent(ProgressService.ACTION_PROGRESS_NOTIFICATION);
+                intent.putExtra(ProgressService.EXTRA_PACKAGE_NAME, sbn.getPackageName());
+                intent.putExtra(ProgressService.EXTRA_NOTIFICATION_ID, sbn.getId());
+                intent.putExtra(ProgressService.EXTRA_PROGRESS, progress);
+                intent.putExtra(ProgressService.EXTRA_MAX, maxProgress);
+                sendBroadcast(intent);
+
+                if (DEBUG) {
+                    Log.d(TAG, ">>> BROADCAST SENT: Progress notification detected: " + 
+                            sbn.getPackageName() + " - " + progress + "/" + maxProgress);
+                }
+            } else {
+                if (DEBUG) {
+                    Log.d(TAG, "Not broadcasting: invalid progress or indeterminate");
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error checking progress notification", e);
+        }
+    }
+
+    private void checkProgressNotificationRemoved(StatusBarNotification sbn) {
+        try {
+            Notification notification = sbn.getNotification();
+            if (notification == null || notification.extras == null) return;
+
+            int progress = notification.extras.getInt(Notification.EXTRA_PROGRESS, -1);
+            int maxProgress = notification.extras.getInt(Notification.EXTRA_PROGRESS_MAX, -1);
+
+            if (progress >= 0 && maxProgress > 0) {
+                Intent intent = new Intent(ProgressService.ACTION_PROGRESS_REMOVED);
+                intent.putExtra(ProgressService.EXTRA_PACKAGE_NAME, sbn.getPackageName());
+                intent.putExtra(ProgressService.EXTRA_NOTIFICATION_ID, sbn.getId());
+                sendBroadcast(intent);
+
+                if (DEBUG) {
+                    Log.d(TAG, ">>> BROADCAST SENT: Progress notification removed: " + sbn.getPackageName());
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error checking progress notification removal", e);
         }
     }
 
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn){
         if (DEBUG) Log.d(TAG, "onNotificationRemoved: package:" + sbn.getPackageName() + " | channel id: " + sbn.getNotification().getChannelId());
+        
+        if (SettingsManager.isGlyphProgressEnabled()) {
+            checkProgressNotificationRemoved(sbn);
+        }
+        
         onNotificationUpdated();
     }
 
@@ -146,6 +238,7 @@ public class NotificationService extends NotificationListenerService
     private void onNotificationUpdated() {
         if (DEBUG) Log.d(TAG, "onNotificationUpdated");
         boolean playEssential = false;
+        String essentialPackageName = null;
         if (SettingsManager.isGlyphNotifsEnabled()) {
             if (!mNotificationManager.isNotificationPolicyAccessGranted()) return;
             StatusBarNotification[] activeNotifications = getActiveNotifications();
@@ -173,11 +266,13 @@ public class NotificationService extends NotificationListenerService
                                 && (interruptionFilter <= NotificationManager.INTERRUPTION_FILTER_ALL || packageCanBypassDnd)) {
                     if (DEBUG) Log.d(TAG, "onNotificationUpdated: found essential notification | package:" + packageName);
                     playEssential = true;
+                    essentialPackageName = packageName;
+                    break;
                 }
             }
         }
-        if (playEssential) {
-            AnimationManager.playEssential();
+        if (playEssential && essentialPackageName != null) {
+            AnimationManager.playEssentialForApp(mContext, essentialPackageName);
         } else {
             AnimationManager.stopEssential();
         }

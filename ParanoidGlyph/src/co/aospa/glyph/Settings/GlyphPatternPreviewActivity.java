@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import co.aospa.glyph.Composer.GlyphComposerParser;
 import co.aospa.glyph.Composer.GlyphPattern;
+import co.aospa.glyph.Constants.Constants;
 import co.aospa.glyph.Manager.AnimationManager;
 import co.aospa.glyph.Manager.SettingsManager;
 import co.aospa.glyph.R;
@@ -55,6 +56,10 @@ public class GlyphPatternPreviewActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (Constants.CONTEXT == null) {
+            Constants.CONTEXT = getApplicationContext();
+        }
         
         previewHandler = new Handler(Looper.getMainLooper());
         

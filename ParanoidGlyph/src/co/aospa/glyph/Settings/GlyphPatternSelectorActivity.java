@@ -36,6 +36,7 @@ import android.widget.Toast;
 
 import co.aospa.glyph.Composer.GlyphComposerParser;
 import co.aospa.glyph.Composer.GlyphPattern;
+import co.aospa.glyph.Constants.Constants;
 import co.aospa.glyph.Manager.SettingsManager;
 
 import java.io.File;
@@ -62,6 +63,10 @@ public class GlyphPatternSelectorActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (Constants.CONTEXT == null) {
+            Constants.CONTEXT = getApplicationContext();
+        }
         
         ScrollView scrollView = createLayout();
         setContentView(scrollView);

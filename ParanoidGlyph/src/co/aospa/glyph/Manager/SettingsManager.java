@@ -36,25 +36,36 @@ public final class SettingsManager {
 
     private static final String TAG = "GlyphSettingsManager";
     private static final boolean DEBUG = true;
+    private static Context context;
 
-    private static Context context = Constants.CONTEXT;
+    private static Context getContext() {
+        if (context == null) {
+            if (Constants.CONTEXT == null) {
+                throw new IllegalStateException("Constants.CONTEXT is not initialized");
+            }
+            context = Constants.CONTEXT;
+        }
+        return context;
+    }
 
     public static boolean enableGlyph(boolean enable) {
-        PreferenceManager.getDefaultSharedPreferences(context).edit()
+        Context ctx = getContext();
+        PreferenceManager.getDefaultSharedPreferences(ctx).edit()
                 .putBoolean(Constants.GLYPH_ENABLE, enable).apply();
 
-        return Settings.Secure.putInt(context.getContentResolver(),
+        return Settings.Secure.putInt(ctx.getContentResolver(),
                 Constants.GLYPH_ENABLE, enable ? 1 : 0);
     }
 
     public static boolean isGlyphEnabled() {
-        boolean baseEnabled = (Settings.Secure.getInt(context.getContentResolver(),
+        Context ctx = getContext();
+        boolean baseEnabled = (Settings.Secure.getInt(ctx.getContentResolver(),
                 Constants.GLYPH_ENABLE, 1) != 0 
-            || PreferenceManager.getDefaultSharedPreferences(context)
+            || PreferenceManager.getDefaultSharedPreferences(ctx)
                 .getBoolean(Constants.GLYPH_ENABLE, false));
         
-        if (GlyphScheduleManager.isScheduleEnabled(context) && 
-            GlyphScheduleManager.isScheduleCurrentlyActive(context)) {
+        if (GlyphScheduleManager.isScheduleEnabled(ctx) && 
+            GlyphScheduleManager.isScheduleCurrentlyActive(ctx)) {
             return false;
         }
         
@@ -62,14 +73,16 @@ public final class SettingsManager {
     }
 
     public static boolean isGlyphEnabledIgnoreSchedule() {
-        return (Settings.Secure.getInt(context.getContentResolver(),
+        Context ctx = getContext();
+        return (Settings.Secure.getInt(ctx.getContentResolver(),
                 Constants.GLYPH_ENABLE, 1) != 0 
-            || PreferenceManager.getDefaultSharedPreferences(context)
+            || PreferenceManager.getDefaultSharedPreferences(ctx)
                 .getBoolean(Constants.GLYPH_ENABLE, false));
     }
 
     public static boolean isGlyphFlipEnabled() {
-        return PreferenceManager.getDefaultSharedPreferences(context)
+        Context ctx = getContext();
+        return PreferenceManager.getDefaultSharedPreferences(ctx)
                 .getBoolean(Constants.GLYPH_FLIP_ENABLE, false) && isGlyphEnabled();
     }
 
@@ -80,98 +93,124 @@ public final class SettingsManager {
     }
 
     public static int getGlyphBrightnessSetting() {
+        Context ctx = getContext();
         int d = 3; if (FileUtils.readLine("/mnt/vendor/persist/color") == "white") d = 2;
-        return PreferenceManager.getDefaultSharedPreferences(context)
+        return PreferenceManager.getDefaultSharedPreferences(ctx)
                 .getInt(Constants.GLYPH_BRIGHTNESS, d);
     }
 
     public static boolean isGlyphChargingEnabled() {
-        return PreferenceManager.getDefaultSharedPreferences(context)
+        Context ctx = getContext();
+        return PreferenceManager.getDefaultSharedPreferences(ctx)
                 .getBoolean(Constants.GLYPH_CHARGING_LEVEL_ENABLE, false) && isGlyphEnabled();
     }
 
     public static boolean isGlyphPowershareEnabled() {
-        return PreferenceManager.getDefaultSharedPreferences(context)
+        Context ctx = getContext();
+        return PreferenceManager.getDefaultSharedPreferences(ctx)
                 .getBoolean(Constants.GLYPH_CHARGING_POWERSHARE_ENABLE, false) && isGlyphEnabled();
     }
 
     public static boolean isGlyphCallEnabled() {
-        return Settings.Secure.getInt(context.getContentResolver(),
+        Context ctx = getContext();
+        return Settings.Secure.getInt(ctx.getContentResolver(),
                 Constants.GLYPH_CALL_ENABLE, 1) != 0 && isGlyphEnabled();
     }
 
     public static boolean setGlyphCallEnabled(boolean enable) {
-        return Settings.Secure.putInt(context.getContentResolver(),
+        Context ctx = getContext();
+        return Settings.Secure.putInt(ctx.getContentResolver(),
                 Constants.GLYPH_CALL_ENABLE, enable ? 1 : 0);
     }
 
     public static String getGlyphCallAnimation() {
-        return PreferenceManager.getDefaultSharedPreferences(context)
+        Context ctx = getContext();
+        return PreferenceManager.getDefaultSharedPreferences(ctx)
                 .getString(Constants.GLYPH_CALL_SUB_ANIMATIONS,
                         ResourceUtils.getString("glyph_settings_call_animations_default"));
     }
 
     public static boolean isGlyphMusicVisualizerEnabled() {
-        return PreferenceManager.getDefaultSharedPreferences(context)
+        Context ctx = getContext();
+        return PreferenceManager.getDefaultSharedPreferences(ctx)
                 .getBoolean(Constants.GLYPH_MUSIC_VISUALIZER_ENABLE, false) && isGlyphEnabled();
     }
 
     public static boolean isGlyphVolumeLevelEnabled() {
-        return PreferenceManager.getDefaultSharedPreferences(context)
+        Context ctx = getContext();
+        return PreferenceManager.getDefaultSharedPreferences(ctx)
                 .getBoolean(Constants.GLYPH_VOLUME_LEVEL_ENABLE, false) && isGlyphEnabled();
     }
 
     public static boolean isGlyphNotifsEnabled() {
-        return Settings.Secure.getInt(context.getContentResolver(),
+        Context ctx = getContext();
+        return Settings.Secure.getInt(ctx.getContentResolver(),
                 Constants.GLYPH_NOTIFS_ENABLE, 1) != 0 && isGlyphEnabled();
     }
 
     public static boolean setGlyphNotifsEnabled(boolean enable) {
-        return Settings.Secure.putInt(context.getContentResolver(),
+        Context ctx = getContext();
+        return Settings.Secure.putInt(ctx.getContentResolver(),
                 Constants.GLYPH_NOTIFS_ENABLE, enable ? 1 : 0);
     }
 
     public static String getGlyphNotifsAnimation() {
-        return PreferenceManager.getDefaultSharedPreferences(context)
+        Context ctx = getContext();
+        return PreferenceManager.getDefaultSharedPreferences(ctx)
                 .getString(Constants.GLYPH_NOTIFS_SUB_ANIMATIONS,
                         ResourceUtils.getString("glyph_settings_notifs_animations_default"));
     }
 
     public static boolean isGlyphNotifsAppEnabled(String app) {
-        return PreferenceManager.getDefaultSharedPreferences(context)
+        Context ctx = getContext();
+        return PreferenceManager.getDefaultSharedPreferences(ctx)
                 .getBoolean(app, true) && isGlyphNotifsEnabled();
     }
 
     public static boolean isGlyphNotifsAppEssential(String app) {
-        Set<String> selectedValues = PreferenceManager.getDefaultSharedPreferences(context)
+        Context ctx = getContext();
+        Set<String> selectedValues = PreferenceManager.getDefaultSharedPreferences(ctx)
                 .getStringSet(Constants.GLYPH_NOTIFS_SUB_ESSENTIAL , new HashSet<String>());
         return selectedValues.contains(app) && isGlyphNotifsEnabled();
     }
 
     public static boolean isGlyphAutoBrightnessEnabled() {
+        Context ctx = getContext();
         return !ResourceUtils.getString("glyph_light_sensor").isBlank() 
-            && PreferenceManager.getDefaultSharedPreferences(context)
+            && PreferenceManager.getDefaultSharedPreferences(ctx)
             .getBoolean(Constants.GLYPH_AUTO_BRIGHTNESS_ENABLE, false) 
             && isGlyphEnabled();
     }
 
     public static int getFlipRingerMode() {
-        return Settings.Secure.getInt(Constants.CONTEXT.getContentResolver(),
+        return Settings.Secure.getInt(getContext().getContentResolver(),
                 Constants.GLYPH_FLIP_RINGER_MODE, AudioManager.RINGER_MODE_VIBRATE);
     }
 
     public static boolean isGlyphComposerEnabled() {
-        return Settings.Secure.getInt(Constants.CONTEXT.getContentResolver(),
+        return Settings.Secure.getInt(getContext().getContentResolver(),
                 Constants.GLYPH_COMPOSER_ENABLE, 1) == 1;
     }
 
     public static void setGlyphComposerEnabled(boolean enabled) {
-        Settings.Secure.putInt(Constants.CONTEXT.getContentResolver(),
+        Settings.Secure.putInt(getContext().getContentResolver(),
                 Constants.GLYPH_COMPOSER_ENABLE, enabled ? 1 : 0);
     }
 
     public static boolean useComposerFallback() {
-        return Settings.Secure.getInt(Constants.CONTEXT.getContentResolver(),
+        return Settings.Secure.getInt(getContext().getContentResolver(),
                 Constants.GLYPH_COMPOSER_FALLBACK, 1) == 1;
+    }
+
+    public static boolean isGlyphProgressEnabled() {
+        Context ctx = getContext();
+        return PreferenceManager.getDefaultSharedPreferences(ctx)
+                .getBoolean(Constants.GLYPH_PROGRESS_ENABLE, false) && isGlyphEnabled();
+    }
+
+    public static boolean isGlyphProgressMusicEnabled() {
+        Context ctx = getContext();
+        return PreferenceManager.getDefaultSharedPreferences(ctx)
+                .getBoolean(Constants.GLYPH_PROGRESS_MUSIC_ENABLE, false) && isGlyphProgressEnabled();
     }
 }

@@ -123,6 +123,23 @@
             android:summary="@string/glyph_settings_charging_powershare_summary" />
 
     <PreferenceCategory
+        android:key="glyph_settings_progress"
+        android:title="@string/glyph_settings_progress_title" />
+
+    <SwitchPreferenceCompat
+        android:key="glyph_settings_progress_toggle"
+        android:defaultValue="false"
+        android:title="@string/glyph_settings_progress_toggle_title"
+        android:summary="@string/glyph_settings_progress_toggle_summary" />
+
+    <SwitchPreferenceCompat
+        android:key="glyph_settings_progress_music_toggle"
+        android:defaultValue="false"
+        android:title="@string/glyph_settings_progress_music_toggle_title"
+        android:summary="@string/glyph_settings_progress_music_toggle_summary"
+        android:dependency="glyph_settings_progress_toggle" />
+
+    <PreferenceCategory
         android:key="glyph_settings_volume"
         android:title="@string/glyph_settings_volume_title" />
 

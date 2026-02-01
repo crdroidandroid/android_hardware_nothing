@@ -29,10 +29,15 @@ public final class StatusManager {
     private static boolean volumeAnimationActive = false;
     private static boolean callLedActive = false;
     private static boolean essentialLedActive = false;
+    private static boolean progressAnimationActive = false;
+    private static int progressType = 0;
+    private static int progressLedLast = 0;
     private static int chargingLedLast = 0;
     private static int[] batteryArray = new int[ResourceUtils.getInteger("glyph_settings_battery_levels_num")];
     private static int volumeLedLast = 0;
     private static int[] volumeArray = new int[ResourceUtils.getInteger("glyph_settings_volume_levels_num")];
+    private static int[] progressArray = new int[ResourceUtils.getInteger("glyph_settings_volume_levels_num")];
+    private static int essentialLedZone = -1;
 
     private static boolean callLedEnabled = false;
 
@@ -124,6 +129,34 @@ public final class StatusManager {
         callLedEnabled = status;
     }
     
+    public static void setProgressAnimationActive(boolean status) {
+        progressAnimationActive = status;
+    }
+
+    public static int getProgressType() {
+        return progressType;
+    }
+
+    public static void setProgressType(int type) {
+        progressType = type;
+    }
+
+    public static int getProgressLedLast() {
+        return progressLedLast;
+    }
+
+    public static void setProgressLedLast(int last) {
+        progressLedLast = last;
+    }
+
+    public static int[] getProgressArray() {
+        return progressArray;
+    }
+
+    public static void setProgressArray(int[] progressArrayNext) {
+        progressArray = progressArrayNext;
+    }
+    
     public static boolean isGlyphIdle() {
         if (isAllLedActive() || isCallLedActive() || isAnimationActive() 
             || isChargingAnimationActive() || isVolumeAnimationActive() || isCallLedEnabled()) {
@@ -131,5 +164,16 @@ public final class StatusManager {
         } else {
             return true;
         }
+    }
+
+    public static int getEssentialLedZone() {
+        if (essentialLedZone == -1) {
+            essentialLedZone = ResourceUtils.getInteger("glyph_settings_notifs_essential_led");
+        }
+        return essentialLedZone;
+    }
+
+    public static void setEssentialLedZone(int zone) {
+        essentialLedZone = zone;
     }
 }

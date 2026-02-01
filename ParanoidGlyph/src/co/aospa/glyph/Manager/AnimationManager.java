@@ -30,6 +30,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import co.aospa.glyph.Constants.Constants;
+import co.aospa.glyph.Manager.EssentialLedManager;
 import co.aospa.glyph.Utils.FileUtils;
 import co.aospa.glyph.Utils.ResourceUtils;
 
@@ -93,7 +94,8 @@ public final class AnimationManager {
     private static boolean checkInterruption(String name) {
         if (StatusManager.isAllLedActive()
                 || (name != "call" && StatusManager.isCallLedEnabled())
-                || (name == "call" && !StatusManager.isCallLedEnabled())) {
+                || (name == "call" && !StatusManager.isCallLedEnabled())
+                || (name == "progress" && StatusManager.isVolumeAnimationActive())) {
             return true;
         }
         return false;
@@ -274,8 +276,10 @@ public final class AnimationManager {
         int[] emptyArray = new int[ResourceUtils.getInteger("glyph_settings_volume_levels_num")];
         int[] volumeArray = StatusManager.getVolumeArray();
 
-        if (Arrays.equals(emptyArray, volumeArray))
+        if (Arrays.equals(emptyArray, volumeArray)) {
+            StatusManager.setVolumeAnimationActive(false);
             return;
+        }
 
         if (!check("Dismiss volume", false))
             return;
@@ -381,12 +385,51 @@ public final class AnimationManager {
         }
     }
 
+    public static void playEssentialForApp(Context context, String packageName) {
+        if (DEBUG) Log.d(TAG, "Playing Essential Animation for app: " + packageName);
+        
+        int ledZone = EssentialLedManager.getEffectiveLedZone(context, packageName);
+        
+        if (!StatusManager.isEssentialLedActive()) {
+            submit(() -> {
+                if (!check("essential", true))
+                    return;
+
+                StatusManager.setAnimationActive(true);
+
+                try {
+                    if (checkInterruption("essential")) throw new InterruptedException();
+                    int[] steps = {12, 24, 36, 48, 60};
+                    for (int i : steps) {
+                        if (checkInterruption("essential")) throw new InterruptedException();
+                        updateLedSingle(ledZone, Constants.MAX_PATTERN_BRIGHTNESS / 100 * i);
+                        Thread.sleep(16, 666000);
+                    }
+                } catch (InterruptedException e) {}
+                StatusManager.setAnimationActive(false);
+                StatusManager.setEssentialLedActive(true);
+                StatusManager.setEssentialLedZone(ledZone);
+                if (DEBUG) Log.d(TAG, "Done playing animation | name: essential | zone: " + ledZone);
+            });
+        } else {
+            int currentZone = StatusManager.getEssentialLedZone();
+            if (currentZone != ledZone) {
+                updateLedSingle(currentZone, 0);
+                updateLedSingle(ledZone, Constants.MAX_PATTERN_BRIGHTNESS / 100 * 60);
+                StatusManager.setEssentialLedZone(ledZone);
+            } else {
+                updateLedSingle(ledZone, Constants.MAX_PATTERN_BRIGHTNESS / 100 * 60);
+            }
+            return;
+        }
+    }
+
     public static void stopEssential() {
         if (DEBUG) Log.d(TAG, "Disabling Essential Animation");
         StatusManager.setEssentialLedActive(false);
         if (!StatusManager.isAnimationActive() && !StatusManager.isAllLedActive()) {
-            int led = ResourceUtils.getInteger("glyph_settings_notifs_essential_led");
-            updateLedSingle(led, 0);
+            int ledZone = StatusManager.getEssentialLedZone();
+            updateLedSingle(ledZone, 0);
         }
     }
 
@@ -591,5 +634,97 @@ public final class AnimationManager {
         }
         
         return true;
+    }
+
+    public static void playProgress(Context context, int progressPercent, int progressType, boolean wait) {
+        if (!check("progress", wait))
+            return;
+
+        acquireWakeLock(context);
+
+        StatusManager.setAnimationActive(true);
+        StatusManager.setProgressAnimationActive(true);
+        StatusManager.setProgressType(progressType);
+
+        int[] progressArray = StatusManager.getProgressArray();
+        if (progressArray == null) {
+            if (DEBUG) Log.d(TAG, "Progress array is null, cannot play animation");
+            return;
+        }
+
+        int amount = (int) Math.round((progressPercent / 100D) * progressArray.length);
+        int last = StatusManager.getProgressLedLast();
+        int next = amount - 1;
+
+        try {
+            if (last <= next) {
+                for (int i = last; i <= next; i++) {
+                    if (checkInterruption("progress")) throw new InterruptedException();
+                    StatusManager.setProgressLedLast(i);
+                    progressArray[i] = Constants.MAX_PATTERN_BRIGHTNESS;
+                    updateLedFrame(progressArray);
+                    Thread.sleep(16, 666000);
+                }
+            } else if (last > next) {
+                for (int i = last; i > next; i--) {
+                    if (checkInterruption("progress")) throw new InterruptedException();
+                    StatusManager.setProgressLedLast(i);
+                    progressArray[i] = 0;
+                    updateLedFrame(progressArray);
+                    Thread.sleep(16, 666000);
+                }
+            }
+        } catch (InterruptedException e) {
+            if (DEBUG) Log.d(TAG, "Exception while playing animation, interrupted | name: progress");
+            if (!StatusManager.isAllLedActive()) {
+                StatusManager.setProgressLedLast(0);
+                progressArray = new int[ResourceUtils.getInteger("glyph_settings_volume_levels_num")];
+                updateLedFrame(progressArray);
+            }
+        } finally {
+            StatusManager.setAnimationActive(false);
+            StatusManager.setProgressArray(progressArray);
+            if (DEBUG) Log.d(TAG, "Done playing animation | name: progress");
+            releaseWakeLock();
+        }
+    }
+
+    public static void dismissProgress(Context context) {
+        int[] emptyArray = new int[ResourceUtils.getInteger("glyph_settings_volume_levels_num")];
+        int[] progressArray = StatusManager.getProgressArray();
+
+        if (Arrays.equals(emptyArray, progressArray))
+            return;
+
+        if (!check("Dismiss progress", false))
+            return;
+
+        acquireWakeLock(context);
+
+        StatusManager.setAnimationActive(true);
+
+        try {
+            if (checkInterruption("Dismiss progress")) throw new InterruptedException();
+            for (int i = progressArray.length - 1; i >= 0; i--) {
+                if (progressArray[i] != 0) {
+                    if (checkInterruption("Dismiss progress")) throw new InterruptedException();
+                    StatusManager.setProgressLedLast(i);
+                    progressArray[i] = 0;
+                    updateLedFrame(progressArray);
+                    Thread.sleep(16, 666000);
+                }
+            }
+        } catch (InterruptedException e) {
+            if (DEBUG) Log.d(TAG, "Exception while playing animation, interrupted | name: Dismiss progress");
+            if (!StatusManager.isAllLedActive())
+                updateLedFrame(new int[progressArray.length]);
+        } finally {
+            StatusManager.setProgressLedLast(0);
+            StatusManager.setProgressAnimationActive(false);
+            StatusManager.setProgressType(0);
+            StatusManager.setAnimationActive(false);
+            if (DEBUG) Log.d(TAG, "Done playing animation | name: Dismiss progress");
+            releaseWakeLock();
+        }
     }
 }

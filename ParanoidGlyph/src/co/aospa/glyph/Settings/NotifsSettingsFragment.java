@@ -16,6 +16,7 @@
 
 package co.aospa.glyph.Settings;
 
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -23,7 +24,6 @@ import android.os.Handler;
 import android.view.View;
 
 import androidx.preference.ListPreference;
-import androidx.preference.MultiSelectListPreference;
 import androidx.preference.Preference;
 import androidx.preference.Preference.OnPreferenceChangeListener;
 import androidx.preference.PreferenceCategory;
@@ -41,6 +41,7 @@ import java.util.List;
 
 import co.aospa.glyph.R;
 import co.aospa.glyph.Constants.Constants;
+import co.aospa.glyph.Manager.EssentialLedManager;
 import co.aospa.glyph.Manager.SettingsManager;
 import co.aospa.glyph.Preference.GlyphAnimationPreference;
 import co.aospa.glyph.Utils.ResourceUtils;
@@ -60,7 +61,6 @@ public class NotifsSettingsFragment extends SettingsBasePreferenceFragment imple
     private PackageManager mPackageManager;
 
     private ListPreference mListPreference;
-    private MultiSelectListPreference mMultiSelectListPreference;
 
     private GlyphAnimationPreference mGlyphAnimationPreference;
 
@@ -107,10 +107,15 @@ public class NotifsSettingsFragment extends SettingsBasePreferenceFragment imple
             }
         }
 
-        mMultiSelectListPreference = (MultiSelectListPreference) findPreference(Constants.GLYPH_NOTIFS_SUB_ESSENTIAL);
-        mMultiSelectListPreference.setOnPreferenceChangeListener(this);
-        mMultiSelectListPreference.setEntries(mEssentialAppsNames.toArray(new CharSequence[0]));
-        mMultiSelectListPreference.setEntryValues(mEssentialApps.toArray(new CharSequence[0]));
+        Preference mEssentialPreference = new Preference(mScreen.getContext());
+        mEssentialPreference.setKey(Constants.GLYPH_NOTIFS_SUB_ESSENTIAL);
+        mEssentialPreference.setTitle(getString(R.string.glyph_settings_notifs_sub_essential_title));
+        mEssentialPreference.setSummary(getString(R.string.glyph_settings_notifs_sub_essential_summary));
+        mEssentialPreference.setOnPreferenceClickListener(preference -> {
+            Intent intent = new Intent(getActivity(), EssentialSettingsActivity.class);
+            startActivity(intent);
+            return true;
+        });
 
     }
 

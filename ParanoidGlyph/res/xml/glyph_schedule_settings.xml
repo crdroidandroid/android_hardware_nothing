@@ -22,13 +22,10 @@
         android:key="glyph_schedule_enable"
         android:title="@string/glyph_settings_schedule_enable_title"/>
 
-    <MultiSelectListPreference
+    <androidx.preference.Preference
         android:key="glyph_schedule_days"
         android:title="@string/glyph_settings_active_days_title"
         android:summary="@string/glyph_settings_active_days_summary"
-        android:dialogTitle="@string/glyph_settings_active_days_dialog_title"
-        android:entries="@array/day_of_week_names"
-        android:entryValues="@array/day_of_week_values"
         android:dependency="glyph_schedule_enable" />
 
     <Preference

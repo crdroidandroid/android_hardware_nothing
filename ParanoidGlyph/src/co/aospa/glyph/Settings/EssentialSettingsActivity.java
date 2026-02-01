@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024-2025 LunarisAOSP
+ * Copyright (C) 2024-2025 Lunaris AOSP
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,9 +23,9 @@ import co.aospa.glyph.Constants.Constants;
 
 import com.android.settingslib.collapsingtoolbar.CollapsingToolbarBaseActivity;
 
-public class ScheduleSettingsActivity extends CollapsingToolbarBaseActivity {
+public class EssentialSettingsActivity extends CollapsingToolbarBaseActivity {
 
-    private ScheduleSettingsFragment mScheduleSettingsFragment;
+    private EssentialSettingsFragment mEssentialSettingsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +38,13 @@ public class ScheduleSettingsActivity extends CollapsingToolbarBaseActivity {
         Fragment fragment = getSupportFragmentManager().findFragmentById(
             com.android.settingslib.collapsingtoolbar.R.id.content_frame);
         if (fragment == null) {
-            mScheduleSettingsFragment = new ScheduleSettingsFragment();
+            mEssentialSettingsFragment = new EssentialSettingsFragment();
             getSupportFragmentManager().beginTransaction()
                 .add(com.android.settingslib.collapsingtoolbar.R.id.content_frame, 
-                     mScheduleSettingsFragment)
+                     mEssentialSettingsFragment)
                 .commit();
         } else {
-            mScheduleSettingsFragment = (ScheduleSettingsFragment) fragment;
+            mEssentialSettingsFragment = (EssentialSettingsFragment) fragment;
         }
     }
 }

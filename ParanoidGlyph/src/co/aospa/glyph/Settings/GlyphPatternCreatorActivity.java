@@ -40,6 +40,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import co.aospa.glyph.Composer.GlyphPattern;
+import co.aospa.glyph.Constants.Constants;
 import co.aospa.glyph.Manager.AnimationManager;
 import co.aospa.glyph.Manager.SettingsManager;
 
@@ -93,6 +94,10 @@ public class GlyphPatternCreatorActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (Constants.CONTEXT == null) {
+            Constants.CONTEXT = getApplicationContext();
+        }
         
         previewHandler = new android.os.Handler(getMainLooper());
         

@@ -30,6 +30,7 @@ import android.os.Looper;
 import android.util.Log;
 
 import co.aospa.glyph.Manager.AnimationManager;
+import co.aospa.glyph.Manager.StatusManager;
 
 public class VolumeLevelService extends Service {
 
@@ -78,6 +79,10 @@ public class VolumeLevelService extends Service {
         if (DEBUG) Log.d(TAG, "Destroying service");
         unregisterReceiver(mVolumeChangeReceiver);
         thread.quit();
+        if (StatusManager.isVolumeAnimationActive()) {
+            AnimationManager.dismissVolume(mContext);
+            StatusManager.setVolumeAnimationActive(false);
+        }
         super.onDestroy();
     }
 

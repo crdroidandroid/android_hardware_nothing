@@ -16,28 +16,32 @@
 
 package co.aospa.glyph.Settings;
 
+import android.app.AlertDialog;
 import android.app.TimePickerDialog;
+import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.widget.CompoundButton;
 
-import androidx.preference.MultiSelectListPreference;
 import androidx.preference.Preference;
+import androidx.preference.PreferenceManager;
 
 import com.android.settingslib.widget.MainSwitchPreference;
 import com.android.settingslib.widget.SettingsBasePreferenceFragment;
 
 import co.aospa.glyph.Manager.GlyphScheduleManager;
 import co.aospa.glyph.R;
+import co.aospa.glyph.Utils.ServiceUtils;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class ScheduleSettingsFragment extends SettingsBasePreferenceFragment 
-        implements CompoundButton.OnCheckedChangeListener, Preference.OnPreferenceChangeListener {
+        implements CompoundButton.OnCheckedChangeListener {
 
     private MainSwitchPreference mScheduleSwitch;
-    private MultiSelectListPreference mDaysPreference;
+    private Preference mDaysPreference;
     private Preference mStartTimePreference;
     private Preference mEndTimePreference;
     private Preference mStatusPreference;
@@ -60,7 +64,10 @@ public class ScheduleSettingsFragment extends SettingsBasePreferenceFragment
         }
 
         if (mDaysPreference != null) {
-            mDaysPreference.setOnPreferenceChangeListener(this);
+            mDaysPreference.setOnPreferenceClickListener(preference -> {
+                showDayPickerDialog(preference);
+                return true;
+            });
         }
 
         if (mStartTimePreference != null) {
@@ -84,18 +91,9 @@ public class ScheduleSettingsFragment extends SettingsBasePreferenceFragment
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         GlyphScheduleManager.setScheduleEnabled(requireContext(), isChecked);
         updatePreferences();
-    }
-
-    @Override
-    public boolean onPreferenceChange(Preference preference, Object newValue) {
-        if (preference == mDaysPreference) {
-            @SuppressWarnings("unchecked")
-            Set<String> selectedDays = (Set<String>) newValue;
-            GlyphScheduleManager.setScheduleDays(requireContext(), selectedDays);
-            updatePreferences();
-            return true;
+        if (!isChecked) {
+            ServiceUtils.checkGlyphService();
         }
-        return false;
     }
 
     private void showTimePickerDialog(boolean isStartTime) {
@@ -132,10 +130,40 @@ public class ScheduleSettingsFragment extends SettingsBasePreferenceFragment
         dialog.show();
     }
 
+    private void showDayPickerDialog(Preference preference) {
+    String[] days = getResources().getStringArray(R.array.day_of_week_names);
+    String[] dayValues = getResources().getStringArray(R.array.day_of_week_values);
+
+    // Load current selection from SharedPreferences
+    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
+    Set<String> selected = prefs.getStringSet(preference.getKey(), new HashSet<>());
+
+    boolean[] checked = new boolean[days.length];
+    for (int i = 0; i < dayValues.length; i++) {
+        checked[i] = selected.contains(dayValues[i]);
+    }
+
+    new AlertDialog.Builder(getContext())
+        .setTitle(preference.getTitle())
+        .setMultiChoiceItems(days, checked, (dialog, which, isChecked) -> {
+            checked[which] = isChecked;
+        })
+        .setOnDismissListener(dialog -> {
+            Set<String> newSelected = new HashSet<>();
+            for (int i = 0; i < checked.length; i++) {
+                if (checked[i]) newSelected.add(dayValues[i]);
+            }
+            prefs.edit().putStringSet(preference.getKey(), newSelected).apply();
+            GlyphScheduleManager.setScheduleDays(requireContext(), newSelected);
+            updatePreferences();
+        })
+        .show();
+}
+
+
     private void updatePreferences() {
         if (mDaysPreference != null) {
             Set<String> selectedDays = GlyphScheduleManager.getScheduleDays(requireContext());
-            mDaysPreference.setValues(selectedDays);
             mDaysPreference.setSummary(GlyphScheduleManager.getScheduleDaysFormatted(requireContext()));
         }
 

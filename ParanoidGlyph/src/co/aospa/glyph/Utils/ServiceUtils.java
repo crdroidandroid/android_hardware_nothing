@@ -37,6 +37,7 @@ import co.aospa.glyph.Services.ChargingService;
 import co.aospa.glyph.Services.FlipToGlyphService;
 import co.aospa.glyph.Services.MusicVisualizerService;
 import co.aospa.glyph.Services.PowershareService;
+import co.aospa.glyph.Services.ProgressService;
 import co.aospa.glyph.Services.ThirdPartyService;
 import co.aospa.glyph.Services.VolumeLevelService;
 
@@ -158,6 +159,18 @@ public final class ServiceUtils {
                 UserHandle.CURRENT);
     }
 
+    public static void startProgressService() {
+        if (DEBUG) Log.d(TAG, "Starting Progress service");
+        context.startServiceAsUser(new Intent(context, ProgressService.class),
+                UserHandle.CURRENT);
+    }
+
+    public static void stopProgressService() {
+        if (DEBUG) Log.d(TAG, "Stopping Progress service");
+        context.stopServiceAsUser(new Intent(context, ProgressService.class),
+                UserHandle.CURRENT);
+    }
+
     public static void checkGlyphService() {
         if (SettingsManager.getGlyphBrightness() != Constants.getBrightness()) {
             Constants.setBrightness(SettingsManager.getGlyphBrightness());
@@ -206,6 +219,11 @@ public final class ServiceUtils {
             } else {
                 stopAutoBrightnessService();
             }
+            if (SettingsManager.isGlyphProgressEnabled() && !SettingsManager.isGlyphMusicVisualizerEnabled()) {
+                startProgressService();
+            } else {
+                stopProgressService();
+            }
         } else {
             stopChargingService();
             stopPowershareService();
@@ -214,6 +232,7 @@ public final class ServiceUtils {
             stopMusicVisualizerService();
             stopVolumeLevelService();
             stopAutoBrightnessService();
+            stopProgressService();
         }
         
         if (glyphBaseEnabled && ShakeManager.isShakeEnabled(context)) {

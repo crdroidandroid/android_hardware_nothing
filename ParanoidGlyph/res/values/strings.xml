@@ -126,4 +126,24 @@
     <string name="glyph_settings_active_days_title">Active Days</string>
     <string name="glyph_settings_active_days_summary">Every day</string>
     <string name="glyph_settings_active_days_dialog_title">Select Days</string>
+
+    <string name="glyph_settings_progress_title">Progress</string>
+    <string name="glyph_settings_progress_toggle_title">Glyph progress</string>
+    <string name="glyph_settings_progress_toggle_summary">Show progress bar when Glyph is active</string>
+    <string name="glyph_settings_progress_music_toggle_title">Music progress</string>
+    <string name="glyph_settings_progress_music_toggle_summary">Show progress bar when music is playing</string>
+
+    <!-- Essential Notification Settings -->
+    <string name="glyph_settings_essential_title">Essential Notifications</string>
+    <string name="glyph_settings_essential_info">Essential Glyph will be displayed until Essential notifications are read or dismissed. You can customize which LED zone lights up for each app.</string>
+    <string name="glyph_settings_essential_apps_title">Essential Apps</string>
+    <string name="glyph_settings_essential_configure">Configure LED zone</string>
+    <string name="glyph_settings_essential_zone_dialog_title">LED Zone Configuration</string>
+    <string name="glyph_settings_essential_zone_default">Default (LED %d)</string>
+    <string name="glyph_settings_essential_zone_custom">Custom LED zone</string>
+    <string name="glyph_settings_essential_zone_select_title">Select LED Zone</string>
+    <string name="glyph_settings_essential_zone_preview">Previewing LED %d</string>
+    <string name="glyph_settings_essential_current_zone">Current: LED %d</string>
+    <string name="glyph_settings_essential_using_default">Using default LED</string>
+    <string name="glyph_settings_essential_using_custom">Using custom LED</string>
 </resources>
