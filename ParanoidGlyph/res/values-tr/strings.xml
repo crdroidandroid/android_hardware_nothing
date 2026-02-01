@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2013-2016 The CyanogenMod Project
+                   2017 The LineageOS Project
+                   2020-2024 Paranoid Android
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- DO NOT TRANSLATE Empty summary for dynamic preferences -->
+    <string name="summary_empty" translatable="false"></string>
+
+    <!-- App Name -->
+    <string name="glyph_settings_app_name">Glyph arayüzü</string>
+
+    <!-- Glyph Settings -->
+    <string name="glyph_settings_enable">Glyph ışıkları</string>
+    <string name="glyph_settings_title">Glyph arayüzü</string>
+    <string name="glyph_settings_summary">Glyph ışıkları için seçenekler</string>
+
+    <string name="glyph_settings_flip_toggle_title">Glyph için ters çevir</string>
+    <string name="glyph_settings_flip_toggle_summary">Telefon yüzüstü çevrildiğinde Glyph’leri göster</string>
+
+    <string name="glyph_settings_auto_brightness_toggle_title">Otomatik Parlaklık</string>
+    <string name="glyph_settings_auto_brightness_toggle_summary">Glyph parlaklığı ortamınıza göre otomatik olarak ayarlanır</string>
+
+    <string name="glyph_settings_brightness">Parlaklık</string>
+
+    <string name="glyph_settings_charging_title">Şarj</string>
+    <string name="glyph_settings_charging_level_title">Pil seviyesi</string>
+    <string name="glyph_settings_charging_level_summary">Şarja takıldığında pil seviyesini göster</string>
+    <string name="glyph_settings_charging_powershare_title">Ters kablosuz şarj</string>
+    <string name="glyph_settings_charging_powershare_summary">Ters kablosuz şarj algılandığında animasyon göster</string>
+
+    <string name="glyph_settings_call_title">Aramalar</string>
+    <string name="glyph_settings_call_toggle_title">Arama animasyonu</string>
+    <string name="glyph_settings_call_toggle_summary">Gelen aramalarda LED’leri yak</string>
+    <string name="glyph_settings_call_sub_toggle_title">Arama animasyonunu etkinleştir</string>
+    <string name="glyph_settings_call_sub_animations_title">Desen</string>
+
+    <string name="glyph_settings_notifs_title">Bildirimler</string>
+    <string name="glyph_settings_notifs_toggle_title">Bildirim animasyonu</string>
+    <string name="glyph_settings_notifs_toggle_summary">Yeni bildirimlerde LED’leri yak</string>
+    <string name="glyph_settings_notifs_sub_title">İzin verilen uygulamalar</string>
+    <string name="glyph_settings_notifs_sub_toggle_title">Bildirim animasyonunu etkinleştir</string>
+    <string name="glyph_settings_notifs_sub_animations_title">Desen</string>
+    <string name="glyph_settings_notifs_sub_essential_title">Önemli Bildirimler</string>
+    <string name="glyph_settings_notifs_sub_essential_summary">Önemli Glyph, bildirimler okunana veya kapatılana kadar görüntülenir</string>
+
+    <string name="glyph_settings_notifs_permission_dialog_title">Bildirim Erişimi Gerekli</string>
+    <string name="glyph_settings_notifs_permission_dialog_message">Bildirimler için Glyph Arayüzünü kullanabilmek adına bildirim erişim izni vermelisiniz.</string>
+
+    <string name="glyph_settings_volume_title">Ses</string>
+    <string name="glyph_settings_volume_level_toggle_title">Ses göstergesi</string>
+    <string name="glyph_settings_volume_level_toggle_summary">Ses seviyesi ayarlanırken göster</string>
+
+    <string name="glyph_settings_misc_title">Diğer</string>
+    <string name="glyph_settings_music_visualizer_toggle_title">Müzik Görselleştirici</string>
+    <string name="glyph_settings_music_visualizer_toggle_summary">DİSKO IŞIKLARI!</string>
+
+    <!-- QS tile -->
+    <string name="glyph_accessibility_quick_settings">Glyph</string>
+    <string name="glyph_accessibility_quick_settings_torch">Glyph fener</string>
+    <string name="glyph_accessibility_quick_settings_music_visualizer">Glyph Müzik Görselleştirici</string>
+
+    <string name="glyph_accessibility_quick_settings_off">Kapalı</string>
+    <string name="glyph_accessibility_quick_settings_on">Açık</string>
+    <string name="glyph_accessibility_quick_settings_unavailable">Kullanılamıyor</string>
+
+    <!-- Gesture Settings -->
+    <string name="glyph_settings_gesture_title">Hareket</string>
+    <string name="glyph_settings_shake_torch_toggle_title">Sallayarak feneri aç/kapat</string>
+    <string name="glyph_settings_shake_torch_toggle_summary">Cihazı sallayarak Glyph fenerini açıp kapat</string>
+    <string name="glyph_settings_shake_sensitivity_title">Sallama hassasiyeti</string>
+    <string name="glyph_settings_shake_sensitivity_summary">Ne kadar sert sallamanız gerektiğini ayarlayın (düşük = daha hassas)</string>
+
+    <!-- Flip to Glyph Ringer Mode -->
+    <string name="glyph_settings_flip_ringer_mode_title">Ters çevirme zil modu</string>
+    <string name="glyph_settings_flip_ringer_mode_summary">Cihaz ters çevrildiğinde kullanılacak zil modunu seçin</string>
+
+    <!-- Ringer Mode Options -->
+    <string name="glyph_settings_flip_ringer_mode_follow_system">Sistem ayarını takip et</string>
+    <string name="glyph_settings_flip_ringer_mode_vibrate">Titreşim</string>
+    <string name="glyph_settings_flip_ringer_mode_silent">Sessiz</string>
+    <string name="glyph_settings_flip_ringer_mode_normal">Zil</string>
+
+    <!-- Glyph Composer -->
+    <string name="glyph_settings_composer_enable_title">Arama Glyph bölgesini etkinleştir</string>
+    <string name="glyph_settings_composer_enable_summary">Glyph’leri özel zil sesi desenleriyle senkronize et</string>
+    <string name="glyph_settings_composer_fallback_title">Animasyonlara geri dön</string>
+    <string name="glyph_settings_composer_fallback_summary">Desen bulunamazsa standart animasyonları kullan</string>
+    <string name="glyph_settings_composer_preview_title">Desenleri önizle</string>
+    <string name="glyph_settings_composer_preview_summary">Oluşturucu ve yedek animasyonları önizle</string>
+    <string name="glyph_settings_composer_create_title">Desen oluştur</string>
+    <string name="glyph_settings_composer_create_summary">Özel Glyph desenleri tasarla</string>
+    <string name="glyph_settings_composer_apply_title">Deseni zil sesine uygula</string>
+    <string name="glyph_settings_composer_apply_summary">Kayıtlı desenleri kolayca seç ve uygula</string>
+
+    <!-- Glyph Schedule Settings -->
+    <string name="glyph_settings_schedule_title">Glyph Zamanlaması</string>
+    <string name="glyph_settings_schedule_summary">Belirtilen saatlerde Glyph’i otomatik olarak devre dışı bırak</string>
+    <string name="glyph_settings_schedule_enable_title">Zamanlamayı Etkinleştir</string>
+    <string name="glyph_settings_schedule_enable_summary">Planlanan saatlerde Glyph özelliklerini otomatik olarak devre dışı bırak</string>
+    <string name="glyph_settings_schedule_start_time_title">Başlangıç Saati</string>
+    <string name="glyph_settings_schedule_start_time_summary">Glyph özelliklerinin devre dışı bırakılacağı saati ayarla</string>
+    <string name="glyph_settings_schedule_end_time_title">Bitiş Saati</string>
+    <string name="glyph_settings_schedule_end_time_summary">Glyph özelliklerinin yeniden etkinleşeceği saati ayarla</string>
+    <string name="glyph_settings_schedule_info_summary">Zamanlama, fener hariç tüm Glyph özelliklerini devre dışı bırakır. Fener kısayolu ve sallayarak fener özelliği çalışmaya devam eder.</string>
+    <string name="glyph_settings_schedule_status_title">Mevcut Durum</string>
+    <string name="glyph_settings_schedule_status_summary">Zamanlamanın şu anda etkin olup olmadığını gösterir</string>
+    <string name="glyph_settings_schedule_active">Zamanlama aktif — Glyph devre dışı (Fener çalışmaya devam eder)</string>
+    <string name="glyph_settings_schedule_inactive">Zamanlama pasif — Glyph etkin</string>
+    <string name="glyph_settings_schedule_disabled">Zamanlama devre dışı</string>
+    <string name="glyph_accessibility_quick_settings_disabled">Devre Dışı</string>
+    <string name="glyph_settings_active_days_title">Aktif Günler</string>
+    <string name="glyph_settings_active_days_summary">Her gün</string>
+    <string name="glyph_settings_active_days_dialog_title">Günleri Seç</string>
+
+    <string name="glyph_settings_progress_title">İlerleme</string>
+    <string name="glyph_settings_progress_toggle_title">Glyph ilerleme</string>
+    <string name="glyph_settings_progress_toggle_summary">Glyph aktifken ilerleme çubuğunu göster</string>
+    <string name="glyph_settings_progress_music_toggle_title">Müzik ilerlemesi</string>
+    <string name="glyph_settings_progress_music_toggle_summary">Müzik çalarken ilerleme çubuğunu göster</string>
+
+    <!-- Essential Notification Settings -->
+    <string name="glyph_settings_essential_title">Önemli Bildirimler</string>
+    <string name="glyph_settings_essential_info">Önemli Glyph, bildirimler okunana veya kapatılana kadar görüntülenir. Her uygulama için hangi LED bölgesinin yanacağını özelleştirebilirsiniz.</string>
+    <string name="glyph_settings_essential_apps_title">Önemli Uygulamalar</string>
+    <string name="glyph_settings_essential_configure">LED bölgesini yapılandır</string>
+    <string name="glyph_settings_essential_zone_dialog_title">LED Bölgesi Yapılandırması</string>
+    <string name="glyph_settings_essential_zone_default">Varsayılan (LED %d)</string>
+    <string name="glyph_settings_essential_zone_custom">Özel LED bölgesi</string>
+    <string name="glyph_settings_essential_zone_select_title">LED Bölgesi Seç</string>
+    <string name="glyph_settings_essential_zone_preview">LED %d önizleniyor</string>
+    <string name="glyph_settings_essential_current_zone">Mevcut: LED %d</string>
+    <string name="glyph_settings_essential_using_default">Varsayılan LED kullanılıyor</string>
+    <string name="glyph_settings_essential_using_custom">Özel LED kullanılıyor</string>
+
+</resources>
