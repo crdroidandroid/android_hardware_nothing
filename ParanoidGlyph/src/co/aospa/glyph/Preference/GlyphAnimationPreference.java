@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -43,17 +43,17 @@ public class GlyphAnimationPreference extends Preference {
     private final boolean DEBUG = true;
 
     private Activity mActivity;
-
     private String animationName;
     private volatile boolean animationTerminated;
     private volatile boolean animationPaused = true;
     private volatile int animationTimeBetween = 0;
+
     private String[] animationSlugs;
     private ImageView[] animationImgs;
 
     private Thread animationThread;
-
     private View mRootView;
+
     private final View.OnClickListener mClickListener = v -> performClick(v);
 
     public GlyphAnimationPreference(Context context) {
@@ -61,16 +61,19 @@ public class GlyphAnimationPreference extends Preference {
         setActivity(context);
         setLayout(R.layout.glyph_settings_preview);
     }
+
     public GlyphAnimationPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
         setActivity(context);
         setLayout(R.layout.glyph_settings_preview);
     }
+
     public GlyphAnimationPreference(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setActivity(context);
         setLayout(R.layout.glyph_settings_preview);
     }
+
     public GlyphAnimationPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr);
         setActivity(context);
@@ -97,12 +100,12 @@ public class GlyphAnimationPreference extends Preference {
     @Override
     public void onBindViewHolder(PreferenceViewHolder holder) {
         holder.itemView.setOnClickListener(mClickListener);
-
         holder.itemView.setFocusable(isSelectable());
         holder.itemView.setClickable(isSelectable());
 
         FrameLayout layout = (FrameLayout) holder.itemView;
         layout.removeAllViews();
+
         ViewGroup parent = (ViewGroup) mRootView.getParent();
         if (parent != null) {
             parent.removeView(mRootView);
@@ -135,9 +138,10 @@ public class GlyphAnimationPreference extends Preference {
 
         animationSlugs = ResourceUtils.getStringArray("glyph_settings_animations_slugs");
         animationImgs = new ImageView[animationSlugs.length];
+
         for (int i = 0; i < animationSlugs.length; i++) {
             animationImgs[i] = (ImageView) mRootView.findViewById(
-                ResourceUtils.getIdentifier("preview_device_" + animationSlugs[i], "id"));
+                    ResourceUtils.getIdentifier("preview_device_" + animationSlugs[i], "id"));
         }
 
         animationTerminated = false;
@@ -164,6 +168,7 @@ public class GlyphAnimationPreference extends Preference {
         animationTimeBetween = time;
         animationName = name;
         animationPaused = !play;
+
         if (animationThread != null) {
             animationThread.interrupt();
         }
@@ -186,53 +191,31 @@ public class GlyphAnimationPreference extends Preference {
                     if (animationPaused) continue;
 
                     if (DEBUG) Log.d(TAG, "Displaying animation | name: " + animationName);
+
                     try (BufferedReader reader = new BufferedReader(new InputStreamReader(
                             ResourceUtils.getAnimation(animationName)))) {
+
                         String line;
                         while ((line = reader.readLine()) != null && !animationTerminated && !animationPaused) {
                             long start = System.currentTimeMillis();
+
                             line = line.replace(" ", "");
                             line = line.endsWith(",") ? line.substring(0, line.length() - 1) : line;
+
                             String[] split = line.split(",");
+
                             if (Constants.getDevice().equals("phone1") && split.length == 5) {
                                 mActivity.runOnUiThread(() -> {
                                     for (int i = 0; i < animationSlugs.length; i++) {
                                         setGlyphsDrawable(animationImgs[i], Integer.parseInt(split[i]));
                                     }
                                 });
-                            } else if (Constants.getDevice().equals("phone2") && split.length == 5) {
-                                mActivity.runOnUiThread(() -> {
-                                    setGlyphsDrawable(animationImgs[0], Integer.parseInt(split[0]));
-                                    setGlyphsDrawable(animationImgs[1], Integer.parseInt(split[0]));
-                                    setGlyphsDrawable(animationImgs[2], Integer.parseInt(split[1]));
-                                    setGlyphsDrawable(animationImgs[3], Integer.parseInt(split[2]));
-                                    setGlyphsDrawable(animationImgs[4], Integer.parseInt(split[2]));
-                                    setGlyphsDrawable(animationImgs[5], Integer.parseInt(split[2]));
-                                    setGlyphsDrawable(animationImgs[6], Integer.parseInt(split[2]));
-                                    setGlyphsDrawable(animationImgs[7], Integer.parseInt(split[2]));
-                                    setGlyphsDrawable(animationImgs[8], Integer.parseInt(split[2]));
-                                    setGlyphsDrawable(animationImgs[9], Integer.parseInt(split[3]));
-                                    setGlyphsDrawable(animationImgs[10], Integer.parseInt(split[4]));
-                                });
-                            } else if (Constants.getDevice().equals("phone2") && split.length == 33) {
-                                mActivity.runOnUiThread(() -> {
-                                    setGlyphsDrawable(animationImgs[0], Integer.parseInt(split[0]));
-                                    setGlyphsDrawable(animationImgs[1], Integer.parseInt(split[1]));
-                                    setGlyphsDrawable(animationImgs[2], Integer.parseInt(split[2]));
-                                    setGlyphsDrawable(animationImgs[3], Integer.parseInt(split[3]));
-                                    setGlyphsDrawable(animationImgs[4], Integer.parseInt(split[19]));
-                                    setGlyphsDrawable(animationImgs[5], Integer.parseInt(split[20]));
-                                    setGlyphsDrawable(animationImgs[6], Integer.parseInt(split[21]));
-                                    setGlyphsDrawable(animationImgs[7], Integer.parseInt(split[22]));
-                                    setGlyphsDrawable(animationImgs[8], Integer.parseInt(split[23]));
-                                    setGlyphsDrawable(animationImgs[9], Integer.parseInt(split[25]));
-                                    setGlyphsDrawable(animationImgs[10], Integer.parseInt(split[24]));
-                                });
                             } else {
                                 if (DEBUG) Log.d(TAG, "Animation line length mismatch | name: " + animationName + " | line: " + line);
                                 updateAnimation(false);
                                 break;
                             }
+
                             long delay = 16666L - (System.currentTimeMillis() - start);
                             if (delay > 0) {
                                 try {
@@ -242,12 +225,14 @@ public class GlyphAnimationPreference extends Preference {
                                 }
                             }
                         }
+
                         if (!animationTerminated && !animationPaused) {
                             try {
                                 Thread.sleep(animationTimeBetween);
                             } catch (InterruptedException e) {
                             }
                         }
+
                     } catch (Exception e) {
                         if (DEBUG) Log.d(TAG, "Exception while displaying animation | name: " + animationName + " | exception: " + e);
                     } finally {
