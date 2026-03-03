@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package co.aospa.glyph.Preference;
 
 import android.app.Activity;
@@ -175,7 +176,7 @@ public class GlyphAnimationPreference extends Preference {
                 while (!animationTerminated) {
                     while (animationPaused && !animationTerminated) {
                         try {
-                            Thread.sleep(100);
+                            Thread.sleep(30);
                         } catch (InterruptedException e) {
                             break;
                         }
@@ -185,7 +186,7 @@ public class GlyphAnimationPreference extends Preference {
 
                     animationReset = false;
 
-                    if (DEBUG) Log.d(TAG, "Displaying animation | name: " + animationName);
+                    if (DEBUG) Log.d(TAG, "Starting animation loop | name: " + animationName);
 
                     try (BufferedReader reader = new BufferedReader(new InputStreamReader(
                             ResourceUtils.getAnimation(animationName)))) {
@@ -202,18 +203,20 @@ public class GlyphAnimationPreference extends Preference {
                                 if (mActivity != null) {
                                     mActivity.runOnUiThread(() -> {
                                         if (animationImgs == null) return;
-                                        for (int i = 0; i < Math.min(split.length, animationImgs.length); i++) {
+                                        int minLen = Math.min(split.length, animationImgs.length);
+                                        for (int i = 0; i < minLen; i++) {
                                             setGlyphsDrawable(animationImgs[i], Integer.parseInt(split[i]));
                                         }
                                     });
                                 }
                             } else {
-                                if (DEBUG) Log.d(TAG, "Animation line length mismatch | name: " + animationName + " | line: " + line);
+                                if (DEBUG) Log.d(TAG, "Line length mismatch: " + animationName);
                                 updateAnimation(false, animationName);
                                 break;
                             }
 
-                            long delay = 16L - (System.currentTimeMillis() - start);
+                            long elapsed = System.currentTimeMillis() - start;
+                            long delay = 16L - elapsed;
                             if (delay > 0) {
                                 try {
                                     Thread.sleep(delay);
@@ -229,9 +232,9 @@ public class GlyphAnimationPreference extends Preference {
                         }
 
                     } catch (Exception e) {
-                        Log.e(TAG, "Animation error: " + e.getMessage());
+                        Log.e(TAG, "Animation error", e);
                     } finally {
-                        if (mActivity != null) {
+                        if (mActivity != null && (animationPaused || animationReset)) {
                             mActivity.runOnUiThread(() -> {
                                 if (animationImgs == null) return;
                                 for (ImageView img : animationImgs) {
