@@ -1,0 +1,17 @@
+### How to use?
+
+1. Clone this repo to packages/apps/DolbyUI
+
+2. To build add `device.mk` in device tree:
+
+```
+# LunarisDolby
+PRODUCT_PACKAGES += \
+    LunarisDolby
+```
+
+example :- https://github.com/Spanish-or-Vanish/android_device_xiaomi_sm8350-common/commit/aed140439899dbe562cf407327e4ec8bc0b5a2a7
+
+# Credits:
+ * [**LunarisDolby Manager**](https://github.com/Pong-Development/hardware_dolby)
+
