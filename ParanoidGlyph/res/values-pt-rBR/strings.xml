@@ -32,7 +32,7 @@
     <string name="glyph_settings_call_title">Chamadas</string>
     <string name="glyph_settings_call_toggle_title">Animação de chamadas</string>
     <string name="glyph_settings_call_toggle_summary">Ativar luzes Glyph ao receber chamadas</string>
-    <string name="glyph_settings_call_sub_toggle_title">Ativar animação de chamadas</string>
+    <string name="glyph_settings_call_sounds_title">Sons de chamadas</string>
     <string name="glyph_settings_call_sub_animations_title">Padrão</string>
     <string name="glyph_settings_call_sub_custom_ringtone_title">Adicionar toque</string>
     <string name="glyph_settings_call_sub_custom_ringtone_set">Personalizado</string>
@@ -40,7 +40,7 @@
     <string name="glyph_settings_notifs_toggle_title">Animação de notificação</string>
     <string name="glyph_settings_notifs_toggle_summary">Ativar luzes Glyph ao receber notificações</string>
     <string name="glyph_settings_notifs_sub_title">Apps permitidos</string>
-    <string name="glyph_settings_notifs_sub_toggle_title">Ativar animação de notificação</string>
+    <string name="glyph_settings_notifs_sounds_title">Sons de notificações</string>
     <string name="glyph_settings_notifs_sub_animations_title">Padrão</string>
     <string name="glyph_settings_notifs_sub_essential_title">Notificações essenciais</string>
     <string name="glyph_settings_notifs_sub_essential_summary">As luzes Glyph serão exibidas até que as notificações essenciais sejam lidas ou descartadas.</string>
