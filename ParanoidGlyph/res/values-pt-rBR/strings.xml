@@ -61,4 +61,7 @@
     <string name="glyph_settings_shake_torch_toggle_summary">Agite o dispositivo para ligar ou desligar a lanterna Glyph</string>
     <string name="glyph_settings_shake_sensitivity_title">Sensibilidade ao agitar</string>
     <string name="glyph_settings_shake_sensitivity_summary">Ajuste a força necessária para agitar (menor = mais sensível)</string>
+    <string name="glyph_settings_haptic_title">Vibração</string>
+    <string name="glyph_settings_haptic_toggle_title">Vibração Glyph</string>
+    <string name="glyph_settings_haptic_toggle_summary">Vibrar em sincronia com as luzes Glyph</string>
 </resources>
