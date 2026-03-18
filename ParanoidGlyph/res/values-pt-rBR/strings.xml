@@ -64,4 +64,8 @@
     <string name="glyph_settings_haptic_title">Vibração</string>
     <string name="glyph_settings_haptic_toggle_title">Vibração Glyph</string>
     <string name="glyph_settings_haptic_toggle_summary">Vibrar em sincronia com as luzes Glyph</string>
+    <string name="glyph_settings_schedule_title">Programação</string>
+    <string name="glyph_settings_schedule_mode_title">Desativar o Glyph automaticamente</string>
+    <string name="glyph_settings_schedule_start_title">Hora de início</string>
+    <string name="glyph_settings_schedule_end_title">Hora de término</string>
 </resources>
