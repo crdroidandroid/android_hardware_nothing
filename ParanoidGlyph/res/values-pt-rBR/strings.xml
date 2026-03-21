@@ -68,4 +68,8 @@
     <string name="glyph_settings_schedule_mode_title">Desativar o Glyph automaticamente</string>
     <string name="glyph_settings_schedule_start_title">Hora de início</string>
     <string name="glyph_settings_schedule_end_title">Hora de término</string>
+    <string name="glyph_settings_thermal_title">Temperatura</string>
+    <string name="glyph_settings_thermal_cpu_enable_title">Alerta de temperatura da CPU</string>
+    <string name="glyph_settings_thermal_cpu_enable_summary">Ativa o Dot Glyph quando a temperatura da CPU atingir o limite definido</string>
+    <string name="glyph_settings_thermal_cpu_threshold_title">Limite de temperatura</string>
 </resources>
