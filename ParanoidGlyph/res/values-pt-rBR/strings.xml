@@ -72,4 +72,7 @@
     <string name="glyph_settings_thermal_cpu_enable_title">Alerta de temperatura da CPU</string>
     <string name="glyph_settings_thermal_cpu_enable_summary">Ativa o Dot Glyph quando a temperatura da CPU atingir o limite definido</string>
     <string name="glyph_settings_thermal_cpu_threshold_title">Limite de temperatura</string>
+    <string name="glyph_settings_camera_title">Câmera</string>
+    <string name="glyph_settings_camera_recording_led_title">LED de gravação</string>
+    <string name="glyph_settings_camera_recording_led_summary">Ativa o LED vermelho durante a gravação de vídeo</string>
 </resources>
