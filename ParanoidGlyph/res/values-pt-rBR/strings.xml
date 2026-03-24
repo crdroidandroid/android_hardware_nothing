@@ -50,8 +50,9 @@
     <string name="glyph_settings_volume_level_toggle_title">Indicador de volume</string>
     <string name="glyph_settings_volume_level_toggle_summary">Mostrar o nível de volume ao ajustá-lo</string>
     <string name="glyph_settings_misc_title">Diversos</string>
-    <string name="glyph_settings_music_visualizer_toggle_title">Visualizador de Música</string>
-    <string name="glyph_settings_music_visualizer_toggle_summary">Isto fará com que as luzes Glyph reajam ao reprodutor de áudio no dispositivo.\nTodas as outras funções Glyph serão desativadas quando isso for usado.</string>
+    <string name="glyph_settings_music_visualizer_toggle_title">Visualizador de Músicas</string>
+    <string name="glyph_settings_music_visualizer_toggle_summary_short">As luzes Glyph reagem ao áudio</string>
+    <string name="glyph_settings_music_visualizer_long_description">Faz com que as luzes Glyph reajam à reprodução de áudio no seu dispositivo. Todos os outros recursos do Glyph serão desativados enquanto esta função estiver ativa.</string>
     <string name="glyph_accessibility_quick_settings">Glyph</string>
     <string name="glyph_accessibility_quick_settings_torch">Lanterna Glyph</string>
     <string name="glyph_accessibility_quick_settings_off">Desativado</string>
