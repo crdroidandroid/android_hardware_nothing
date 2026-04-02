@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2023-25 Paranoid Android
+     SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+
+    <!-- Dolby Atmos -->
+    <string name="dolby_title">Dolby Atmos</string>
+    <string name="dolby_enable">Dolby Atmos kullan</string>
+    <string name="dolby_profile_title">Profil seç</string>
+    <string name="dolby_preset">Ekolayzır</string>
+    <string name="dolby_off">Kapalı</string>
+    <string name="dolby_on">Açık</string>
+    <string name="dolby_low">Düşük</string>
+    <string name="dolby_medium">Orta</string>
+    <string name="dolby_high">Yüksek</string>
+    <string name="dolby_max">Maksimum</string>
+    <string name="dolby_unknown">Bilinmiyor</string>
+    <string name="dolby_on_with_profile">Açık (%1$s)</string>
+    <string name="dolby_category_settings">Ses ayarı</string>
+    <string name="dolby_category_adv_settings">Gelişmiş ayarlar</string>
+    <string name="dolby_adv_settings_footer">Gelişmiş ayarları görmek için farklı bir profil seçin.</string>
+    <string name="dolby_bass_enhancer">Bas güçlendirici</string>
+    <string name="dolby_bass_level">Bas seviyesi</string>
+    <string name="dolby_bass_curve">Bas eğrisi</string>
+    <string name="dolby_bass_curve_balanced">Dengeli</string>
+    <string name="dolby_bass_curve_sub_boost">Sub güçlendirme</string>
+    <string name="dolby_bass_curve_punch">Vuruş</string>
+    <string name="dolby_treble_enhancer">Tiz güçlendirici</string>
+    <string name="dolby_treble_level">Tiz seviyesi</string>
+    <string name="dolby_dialogue_enhancer">Diyalog güçlendirici</string>
+    <string name="dolby_spk_virtualizer">Hoparlör surround sanallaştırıcı</string>
+    <string name="dolby_hp_virtualizer">Kulaklık surround sanallaştırıcı</string>
+    <string name="dolby_volume_leveler">Ses dengeleyici</string>
+    <string name="dolby_bass_enhancer_summary">Daha derin bas için düşük frekansları güçlendirir</string>  
+    <string name="dolby_treble_enhancer_summary">Daha net tizler için yüksek frekansları güçlendirir</string>
+    <string name="dolby_dialogue_enhancer_summary">Konuşma ve ses netliğini artırır</string>  
+    <string name="dolby_spk_virtualizer_summary">Hoparlörlerde sanal surround ses oluşturur</string>  
+    <string name="dolby_hp_virtualizer_summary">Kulaklıklarda sanal surround ses oluşturur</string>  
+    <string name="dolby_volume_leveler_summary">Tutarlı bir dinleme deneyimi için sesi dengeler</string>  
+    <string name="dolby_connect_headphones">Kulaklık bağla</string>
+    <string name="dolby_reset_all">Profilleri sıfırla</string>
+    <string name="dolby_reset_all_message">Bu işlem tüm profilleri fabrika ayarlarına sıfırlar.</string>
+    <string name="dolby_reset_all_toast">Tüm profiller başarıyla sıfırlandı</string>
+    <string name="dolby_hp_virtualizer_dolby_strength">Surround gücü</string>
+    <string name="dolby_dialogue_enhancer_dolby_strength">Diyalog gücü</string>
+    <string name="dolby_notification_listener_label">Dolby Atmos Servisi</string>
+    <string name="loading">Yükleniyor...</string>
+
+    <!-- Dolby profiles -->
+    <string name="dolby_profile_dynamic">Dinamik</string>
+    <string name="dolby_profile_video">Film/Video</string>
+    <string name="dolby_profile_music">Müzik</string>
+    <string name="dolby_profile_game">Oyun</string>
+    <string name="dolby_profile_work">Çalışma</string>
+    <string name="dolby_profile_casual">Günlük</string>
+    <string name="dolby_profile_mood">Ruh hali</string>
+
+    <!-- Dolby equalizer presets -->
+    <string name="dolby_preset_default">Düz (kapalı)</string>
+    <string name="dolby_preset_rock">Rock</string>
+    <string name="dolby_preset_jazz">Jazz</string>
+    <string name="dolby_preset_pop">Pop</string>
+    <string name="dolby_preset_classical">Klasik</string>
+    <string name="dolby_preset_hiphop">Hip Hop</string>
+    <string name="dolby_preset_blues">Blues</string>
+    <string name="dolby_preset_electronic">Elektronik</string>
+    <string name="dolby_preset_country">Country</string>
+    <string name="dolby_preset_dance">Dance</string>
+    <string name="dolby_preset_metal">Metal</string>
+    <string name="dolby_preset_acoustic">Akustik</string>
+    <string name="dolby_preset_bass">Bas artırma</string>
+    <string name="dolby_preset_beats">Beats</string>
+    <string name="dolby_preset_clear">Kristal netlik</string>
+    <string name="dolby_preset_deep">Derin</string>
+    <string name="dolby_preset_dubstep">Dubstep</string>
+    <string name="dolby_preset_hardstyle">Hardstyle</string>
+    <string name="dolby_preset_movie">Film</string>
+    <string name="dolby_preset_rb">R&amp;B</string>
+    <string name="dolby_preset_vocal">Vokal güçlendirici</string>
+    <string name="dolby_preset_custom">Özel</string>
+    <string name="equalizer">Ekolayzır</string>
+    <string name="advanced">Gelişmiş</string>
+    <string name="home">Ana sayfa</string>
+
+    <!-- Dolby equalizer UI -->
+    <string name="dolby_geq_slider_label_gain">Kazanç</string>
+    <string name="dolby_geq_preset">Ön ayar</string>
+    <string name="dolby_geq_preset_name">Ön ayar adı</string>
+    <string name="dolby_geq_new_preset">Yeni ön ayar</string>
+    <string name="dolby_geq_rename_preset">Ön ayarı yeniden adlandır</string>
+    <string name="dolby_geq_delete_preset">Ön ayarı sil</string>
+    <string name="dolby_geq_delete_preset_prompt">Bu ön ayarı silmek istiyor musunuz?</string>
+    <string name="dolby_geq_reset_gains">Kazançları sıfırla</string>
+    <string name="dolby_geq_reset_gains_prompt">Bu ön ayarı varsayılana sıfırlamak istiyor musunuz?</string>
+    <string name="dolby_geq_preset_name_exists">Bu isim zaten kullanılıyor!</string>
+    <string name="dolby_geq_preset_name_too_long">İsim çok uzun!</string>
+    <string name="band_mode_mismatch">Bant modu uyuşmazlığı</string>
+    <string name="frequency_response">Frekans tepkisi</string>
+    <string name="locked">Kilitli</string>
+    <string name="band_configuration">Bant yapılandırması</string>
+    <string name="choose_equalizer_precision">Ekolayzır hassasiyetini seçin: daha fazla bant = daha ince kontrol</string>
+
+    <!-- Dolby intelligent EQ -->
+    <string name="dolby_ieq">Akıllı ekolayzır</string>
+    <string name="dolby_balanced">Dengeli</string>
+    <string name="dolby_warm">Sıcak</string>
+    <string name="dolby_detailed">Detaylı</string>
+
+    <!-- Per-App Audio Profiles -->
+    <string name="app_profiles_title">Uygulamaya özel ses profilleri</string>
+    <string name="app_profiles_desc">İçeriğe göre optimize edilmiş ses için uygulamalara farklı profiller atayın</string>
+    <string name="app_profiles_search_hint">Uygulama ara...</string>
+    <string name="app_profiles_no_apps">Uygulama bulunamadı</string>
+    <string name="app_profiles_loading">Uygulamalar yükleniyor...</string>
+    <string name="app_profiles_clear_all">Tüm uygulama profillerini temizle</string>
+    <string name="app_profiles_clear_all_message">Tüm uygulama atamaları kaldırılacak. Varsayılan profil kullanılacak.</string>
+    <string name="app_profiles_manage">Uygulama profillerini yönet</string>
+    <string name="app_profiles_default">Varsayılan</string>
+    <string name="app_profiles_assigned">Atanan: %1$s</string>
+    <string name="app_profiles_headphone_only">Sadece kulaklık/BT modu</string>
+    <string name="app_profiles_headphone_only_description">Profiller sadece kulaklık veya Bluetooth bağlıyken değişir</string>
+    <string name="app_profiles_permission_required">İzin gerekli</string>
+    <string name="app_profiles_permission_required_details">Aktif uygulamaya göre otomatik geçiş için kullanım erişimi izni verin.</string>
+    <string name="app_profiles_grant_permission">İzin ver</string>
+    <string name="app_profiles_search_placeholder">Uygulama ara...</string>
+    <string name="app_profiles_no_apps_found">Uygulama bulunamadı</string>
+    <string name="app_profiles_retry">Tekrar dene</string>
+    <string name="app_profiles_change">Değiştir</string>
+    <string name="app_profiles_auto_switch">Otomatik geçiş</string>
+    <string name="app_profiles_show_toasts">Bildirim göster</string>
+
+    <!-- Preset Import/Export -->
+    <string name="preset_import_export">Ön ayar içe/dışa aktar</string>
+    <string name="preset_export_single">Ön ayarı dışa aktar</string>
+    <string name="preset_import_single">Ön ayarı içe aktar</string>
+    <string name="preset_export_batch">Tüm ön ayarları dışa aktar</string>
+    <string name="preset_import_batch">Birden fazla ön ayar içe aktar</string>
+    <string name="preset_copy_clipboard">Panoya kopyala</string>
+    <string name="preset_paste_clipboard">Panodan yapıştır</string>
+    <string name="preset_share">Paylaş</string>
+    <string name="preset_export_success">Başarıyla dışa aktarıldı</string>
+    <string name="preset_import_success">Başarıyla içe aktarıldı</string>
+    <string name="preset_export_failed">Dışa aktarma başarısız</string>
+    <string name="preset_import_failed">İçe aktarma başarısız</string>
+
+    <!-- Notification Access -->
+    <string name="notification_access_required">Bildirim erişimi gerekli</string>
+    <string name="notification_access_required_desc">Arka planda çalışması için bildirim erişimini açın</string>
+    <string name="enable_notification_access">Bildirim erişimini etkinleştir</string>
+    <string name="enable_notification_access_desc">Arka planda çalışması ve otomatik geçiş için gerekli</string>
+    <string name="notification_access_permission_details">Bu izin şunları sağlar:\n\n• Arka planda çalışma\n• Otomatik profil değiştirme\n• Ön plandaki uygulamayı izleme\n\nBildirimleriniz okunmaz.</string>
+    <string name="open_settings">Ayarları aç</string>
+    <string name="cancel">İptal</string>
+
+    <!-- import export -->
+    <string name="import_export_presets">Ön ayar içe/dışa aktar</string>
+    <string name="import_presets">Ön ayarları içe aktar</string>
+    <string name="import_presets_description">Dosyadan veya panodan içe aktar</string>
+    <string name="import_single_file">Tek dosya</string>
+    <string name="import_batch">Toplu</string>
+    <string name="import_from_clipboard">Panodan</string>
+    <string name="your_custom_presets">Özel ön ayarlarınız</string>
+    <string name="processing">İşleniyor...</string>
+    <string name="batch_export">Toplu dışa aktar</string>
+    <string name="batch_export_description">Tüm %1$s ön ayar dışa aktarılsın mı?</string>
+    <string name="export_all">Tümünü dışa aktar</string>
+
+    <!-- Dolby mid enhancer -->
+    <string name="dolby_mid_enhancer">Mid güçlendirici</string>
+    <string name="dolby_mid_level">Mid seviyesi</string>
+    <string name="dolby_mid_enhancer_summary">Orta frekansları güçlendirerek vokal ve enstrümanları netleştirir</string>
+</resources>
