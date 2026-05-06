@@ -2,6 +2,8 @@ package org.aspends.nglyphs.core;
 
 import android.content.Context;
 import android.os.PowerManager;
+import android.os.Handler;
+import android.os.Looper;
 import org.aspends.nglyphs.R;
 import org.aspends.nglyphs.util.ShellUtils;
 
@@ -181,7 +183,13 @@ public class GlyphManagerV2 {
     }
 
     public void setNativeEffect(NativeEffect effect, int value) {
-        writeSysfs(effect.path, String.valueOf(value));
+        if (effect == NativeEffect.NF_EFFECT || effect == NativeEffect.RINGTONE) {
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                writeSysfs(effect.path, String.valueOf(value));
+           }, 1000);
+        } else {
+            writeSysfs(effect.path, String.valueOf(value));
+        }
     }
 
     public void resetAll() { toggleAll(false); }
