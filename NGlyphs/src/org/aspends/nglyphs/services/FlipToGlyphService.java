@@ -131,27 +131,25 @@ public class FlipToGlyphService extends Service implements SensorEventListener {
 
             boolean isLegacyOrNative = style.startsWith("native_") || isLegacyStyle(style);
             java.io.File customOgg = CustomRingtoneManager.getCustomRingtoneFile(this, style);
+            java.io.File customCsv = CustomRingtoneManager.getCustomPatternFile(this, style);
 
             if (customOgg != null || isLegacyOrNative) {
-                // GlyphEffects.run() internally checks for customOgg first, then legacy
-                // switches
                 GlyphEffects.run(
                         style, prefs.getInt("brightness", 2048), vibrator, this, streamType, true);
-                if (customOgg == null) {
-                    // run() does not broadcast when running legacy switches (though it should now
-                    // for native).
-                    // Safest to send here, wait, native sends it internally. Legacy run() does not.
-                    // But actually wait, we already added broadcast to native_ and run() finally
-                    // blocks in GlyphEffects.
-                    // We can just keep sendBroadcast here for legacy ones to be safe.
-                    sendBroadcast(
-                            new Intent(ACTION_REFRESH_ESSENTIAL).setPackage(getPackageName()));
-                }
+            if (customOgg == null) {
+                sendBroadcast(
+                        new Intent(ACTION_REFRESH_ESSENTIAL).setPackage(getPackageName()));
+            }
+            } else if (customCsv != null) {
+                // Imported CSV pattern from internal storage
+            GlyphEffects.play(
+                        this, "custom_ringtones", style, vibrator, prefs.getInt("brightness", 2048));
+            sendBroadcast(new Intent(ACTION_REFRESH_ESSENTIAL).setPackage(getPackageName()));
             } else {
-                // It's a built-in CSV pattern from assets/notification
-                GlyphEffects.play(
+                // Built-in CSV pattern from assets/notification
+            GlyphEffects.play(
                         this, "notification", style, vibrator, prefs.getInt("brightness", 2048));
-                sendBroadcast(new Intent(ACTION_REFRESH_ESSENTIAL).setPackage(getPackageName()));
+            sendBroadcast(new Intent(ACTION_REFRESH_ESSENTIAL).setPackage(getPackageName()));
             }
         });
     }

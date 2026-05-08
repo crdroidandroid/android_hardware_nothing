@@ -216,7 +216,8 @@ public class StyleAdapter extends RecyclerView.Adapter<StyleAdapter.ViewHolder> 
             }
 
             // Preview the effect
-            boolean isCustomStyle = value.endsWith(".ogg") || name.startsWith("🎵 ");
+	    boolean isCustomStyle = value.endsWith(".ogg") || value.endsWith(".csv")
+            || name.startsWith("🎵 ") || name.startsWith("🧩 ");
             if (isCustomStyle) {
                 GlyphEffects.run(value, prefsProvider.getBrightness(), vibrator, context,
                         audioStreamType, true);

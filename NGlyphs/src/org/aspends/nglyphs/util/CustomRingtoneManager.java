@@ -87,6 +87,17 @@ public class CustomRingtoneManager {
         }
         return null; // Not a custom ringtone
     }
+    public static File getCustomPatternFile(Context context, String styleName) {
+    File dir = new File(context.getFilesDir(), RINGTONE_DIR);
+    if (!dir.exists() || !dir.isDirectory())
+        return null;
+
+    File candidate = new File(dir, styleName);
+    if (candidate.exists() && candidate.isFile() && candidate.getName().endsWith(".csv")) {
+        return candidate;
+    }
+    return null;
+}
     public static String loadCSV(File file) {
         StringBuilder sb = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
