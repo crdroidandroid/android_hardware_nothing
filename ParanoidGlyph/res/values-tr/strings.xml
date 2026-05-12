@@ -17,60 +17,91 @@
      limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- DO NOT TRANSLATE Empty summary for dynamic preferences -->
     <string name="summary_empty" translatable="false"></string>
-    <string name="glyph_settings_app_name">Glif arayüzü</string>
-    <string name="glyph_settings_enable">Glif ışıkları</string>
-    <string name="glyph_settings_title">Glif arayüzü</string>
-    <string name="glyph_settings_summary">Glif ışıkları için ayarlar</string>
-    <string name="glyph_settings_flip_toggle_title">Glif için ters çevir</string>
-    <string name="glyph_settings_flip_toggle_summary">Telefon yüzüstü bırakıldığında sessize al ve Glif ışıklarını göster</string>
+
+    <!-- App Name -->
+    <string name="glyph_settings_app_name">Glyph arayüzü</string>
+
+    <!-- Ambient Display -->
+    <string name="glyph_settings_enable">Glyph ışıkları</string>
+    <string name="glyph_settings_title">Glyph arayüzü</string>
+    <string name="glyph_settings_summary">Glyph ışıkları için seçenekler</string>
+
+    <string name="glyph_settings_flip_toggle_title">Ters çevirerek Glyph\'i aç</string>
+    <string name="glyph_settings_flip_toggle_summary">Telefon ekranı alta gelecek şekildeyken sessize alır ve Glyph\'leri gösterir</string>
+
     <string name="glyph_settings_brightness">Parlaklık</string>
+
     <string name="glyph_settings_charging_title">Şarj</string>
     <string name="glyph_settings_charging_level_title">Pil seviyesi</string>
-    <string name="glyph_settings_charging_level_summary">Şarja takıldığında pil seviyesini göster</string>
+    <string name="glyph_settings_charging_level_summary">Fişe takıldığında pil seviyesini göster</string>
     <string name="glyph_settings_charging_powershare_title">Ters kablosuz şarj</string>
-    <string name="glyph_settings_charging_powershare_summary">Ters kablosuz şarj algılandığında animasyon göster</string>
+    <string name="glyph_settings_charging_powershare_summary">Ters kablosuz şarj algılandığında bir animasyon göster</string>
+
     <string name="glyph_settings_call_title">Aramalar</string>
     <string name="glyph_settings_call_toggle_title">Arama animasyonu</string>
-    <string name="glyph_settings_call_toggle_summary">Arama geldiğinde Glif ışıklarını etkinleştir</string>
+    <string name="glyph_settings_call_toggle_summary">Arama geldiğinde Glyph ışıklarını etkinleştir</string>
     <string name="glyph_settings_call_sounds_title">Arama sesleri</string>
     <string name="glyph_settings_call_sub_animations_title">Desen</string>
     <string name="glyph_settings_call_sub_custom_ringtone_title">Zil sesi ekle</string>
     <string name="glyph_settings_call_sub_custom_ringtone_set">Özel</string>
+
     <string name="glyph_settings_notifs_title">Bildirimler</string>
     <string name="glyph_settings_notifs_toggle_title">Bildirim animasyonu</string>
-    <string name="glyph_settings_notifs_toggle_summary">Bildirim geldiğinde Glif ışıklarını etkinleştir</string>
-    <string name="glyph_settings_notifs_sub_title">İzin verilen uygulamalar</string>
+    <string name="glyph_settings_notifs_toggle_summary">Bildirim geldiğinde Glyph ışıklarını etkinleştir</string>
+    <string name="glyph_settings_notifs_sub_title">İzin verilecek uygulamalar</string>
     <string name="glyph_settings_notifs_sounds_title">Bildirim sesleri</string>
     <string name="glyph_settings_notifs_sub_animations_title">Desen</string>
     <string name="glyph_settings_notifs_sub_essential_title">Önemli bildirimler</string>
-    <string name="glyph_settings_notifs_sub_essential_summary">Bildirimler okunana veya silinene kadar gösterilecektir</string>
+    <string name="glyph_settings_notifs_sub_essential_summary">Önemli bildirimler okunana veya kapatılana kadar Önemli Glyph gösterilir</string>
     <string name="glyph_settings_notifs_sub_custom_sound_title">Bildirim ekle</string>
     <string name="glyph_settings_notifs_sub_custom_sound_set">Özel</string>
-    <string name="glyph_settings_volume_title">Ses</string>
-    <string name="glyph_settings_volume_level_toggle_title">Ses göstergesi</string>
-    <string name="glyph_settings_volume_level_toggle_summary">Ses ayarlanırken seviyeyi göster</string>
-    <string name="glyph_settings_misc_title">Diğer</string>
-    <string name="glyph_settings_music_visualizer_toggle_title">Müzik görselleştirici</string>
-    <string name="glyph_settings_music_visualizer_toggle_summary">Glif ışıkları, cihazdaki müzik çalara tepki verir.\nBu özellik etkinleştirildiğinde diğer tüm Glif işlevleri devre dışı bırakılır.</string>
-    <string name="glyph_accessibility_quick_settings">Glif</string>
-    <string name="glyph_accessibility_quick_settings_torch">Glif el feneri</string>
+
+    <string name="glyph_settings_volume_title">Ses seviyesi</string>
+    <string name="glyph_settings_volume_level_toggle_title">Ses seviyesi göstergesi</string>
+    <string name="glyph_settings_volume_level_toggle_summary">Ayar yapılırken ses seviyesini göster</string>
+
+    <string name="glyph_settings_misc_title">Çeşitli</string>
+    <string name="glyph_settings_music_visualizer_toggle_title">Müzik Görselleştirici</string>
+    <string name="glyph_settings_music_visualizer_toggle_summary_short">Glyph ışıkları sese tepki verir</string>
+    <string name="glyph_settings_music_visualizer_long_description">Glyph ışıklarının cihazınızdaki ses oynatımına tepki vermesini sağlar. Bu etkin durumdayken diğer tüm Glyph özellikleri devre dışı kalır.</string>
+
+    <!-- QS tile -->
+    <string name="glyph_accessibility_quick_settings">Glyph</string>
+    <string name="glyph_accessibility_quick_settings_torch">Glyph el feneri</string>
+
     <string name="glyph_accessibility_quick_settings_off">Kapalı</string>
     <string name="glyph_accessibility_quick_settings_on">Açık</string>
+
+    <!-- Gesture Settings -->
     <string name="glyph_settings_gesture_title">Hareket</string>
-    <string name="glyph_settings_shake_torch_toggle_title">Sallayarak el fenerini aç/kapat</string>
-    <string name="glyph_settings_shake_torch_toggle_summary">Glif el fenerini açmak veya kapatmak için cihazı sallayın</string>
-    <string name="glyph_settings_shake_sensitivity_title">Sallama hassasiyeti</string>
-    <string name="glyph_settings_shake_sensitivity_summary">Sallama gücünü ayarlayın (düşük = daha hassas)</string>
+    <string name="glyph_settings_shake_torch_toggle_title">Feneri aç/kapatmak için salla</string>
+    <string name="glyph_settings_shake_torch_toggle_summary">Glyph el fenerini açıp kapatmak için cihazınızı sallayın</string>
+    <string name="glyph_settings_shake_sensitivity_title">Sarsma hassasiyeti</string>
+    <string name="glyph_settings_shake_sensitivity_summary">Ne kadar sert sallamanız gerektiğini ayarlayın (daha düşük = daha hassas)</string>
+
+    <!-- Haptic -->
     <string name="glyph_settings_haptic_title">Titreşim</string>
-    <string name="glyph_settings_haptic_toggle_title">Glif titreşimi</string>
-    <string name="glyph_settings_haptic_toggle_summary">Glif ışıklarıyla senkronize titreşim</string>
+    <string name="glyph_settings_haptic_toggle_title">Glyph Titreşimi</string>
+    <string name="glyph_settings_haptic_toggle_summary">Glyph ışıklarıyla senkronize titreşim sağlar</string>
+
+    <!-- Schedule -->
     <string name="glyph_settings_schedule_title">Zamanlama</string>
-    <string name="glyph_settings_schedule_mode_title">Glyph\'u otomatik kapat</string>
-    <string name="glyph_settings_schedule_start_title">Başlangıç zamanı</string>
-    <string name="glyph_settings_schedule_end_title">Bitiş zamanı</string>
+    <string name="glyph_settings_schedule_mode_title">Glyph\'i otomatik kapat</string>
+    <string name="glyph_settings_schedule_start_title">Başlangıç saati</string>
+    <string name="glyph_settings_schedule_end_title">Bitiş saati</string>
+    
+    <!-- Thermal -->
     <string name="glyph_settings_thermal_title">Sıcaklık</string>
     <string name="glyph_settings_thermal_cpu_enable_title">CPU sıcaklık uyarısı</string>
     <string name="glyph_settings_thermal_cpu_enable_summary">CPU sıcaklığı belirlenen sınıra ulaştığında Dot Glyph\'i etkinleştir</string>
     <string name="glyph_settings_thermal_cpu_threshold_title">Sıcaklık sınırı</string>
+
+    <!-- Recording LED -->
+    <string name="glyph_settings_camera_title">Kamera</string>
+    <string name="glyph_settings_camera_recording_led_title">Kayıt LED\'i</string>
+    <string name="glyph_settings_camera_recording_led_summary">Video kaydı sırasında kırmızı LED\'i etkinleştir</string>
+
 </resources>
