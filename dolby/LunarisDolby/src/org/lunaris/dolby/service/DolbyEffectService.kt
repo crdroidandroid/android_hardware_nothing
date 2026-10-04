@@ -22,7 +22,6 @@ import android.util.Log
 import org.lunaris.dolby.DolbyConstants
 import org.lunaris.dolby.R
 import org.lunaris.dolby.data.DeviceStateManager
-import org.lunaris.dolby.data.DolbyDiagRecorder
 import org.lunaris.dolby.data.DolbyRepository
 import org.lunaris.dolby.data.DolbyAutomationCoordinator
 
@@ -131,29 +130,14 @@ class DolbyEffectService : Service() {
                 startFg(emergency)
             }
         )
-        var lastError: Exception? = null
         for ((index, attempt) in attempts.withIndex()) {
             try {
                 attempt()
-                if (index > 0) {
-                    DolbyDiagRecorder.record(
-                        this,
-                        "fgs",
-                        "promoteForeground succeeded via fallback #$index"
-                    )
-                }
                 return
             } catch (e: Exception) {
-                lastError = e
                 Log.e(TAG, "promoteForeground attempt #$index failed", e)
             }
         }
-        DolbyDiagRecorder.record(
-            this,
-            "fgs",
-            "promoteForeground exhausted all fallbacks",
-            lastError
-        )
     }
 
     override fun onCreate() {
@@ -186,7 +170,6 @@ class DolbyEffectService : Service() {
             Log.d(TAG, "Dolby effect service created")
         } catch (e: Exception) {
             Log.e(TAG, "Dolby effect service init failed after foreground promote", e)
-            DolbyDiagRecorder.record(this, "effect-service", "onCreate init failed", e)
         }
     }
 
@@ -252,7 +235,6 @@ class DolbyEffectService : Service() {
             repository.applySavedState()
         } catch (e: Exception) {
             Log.e(TAG, "applySavedState in onStartCommand failed", e)
-            DolbyDiagRecorder.record(this, "effect-service", "onStartCommand applySavedState failed", e)
         }
         return START_STICKY
     }
@@ -295,12 +277,10 @@ class DolbyEffectService : Service() {
                 context.startForegroundService(intent)
             } catch (e: Exception) {
                 Log.e(TAG, "startForegroundService failed, falling back to startService", e)
-                DolbyDiagRecorder.record(context, "fgs", "startForegroundService failed", e)
                 try {
                     context.startService(intent)
                 } catch (fatal: Exception) {
                     Log.e(TAG, "startService fallback failed", fatal)
-                    DolbyDiagRecorder.record(context, "fgs", "startService fallback failed", fatal)
                 }
             }
         }

@@ -30,7 +30,6 @@ sealed class Screen(val route: String) {
     object AutomationSettings : Screen("automation_settings")
     object BluetoothRules : Screen("bluetooth_rules")
     object ProfileHistory : Screen("profile_history")
-    object Diagnostics : Screen("diagnostics")
     object PowerUserAudio : Screen("power_user_audio")
 
     companion object {
@@ -50,7 +49,6 @@ sealed class Screen(val route: String) {
                 AutomationSettings.route,
                 BluetoothRules.route,
                 ProfileHistory.route,
-                Diagnostics.route,
                 PowerUserAudio.route
             )
         }
@@ -144,9 +142,6 @@ fun DolbyNavHost(
             ProfileHistoryScreen(navController = navController)
         }
 
-        composable(Screen.Diagnostics.route) {
-            DiagnosticsScreen(navController = navController)
-        }
 
         composable(Screen.PowerUserAudio.route) {
             PowerUserAudioScreen(

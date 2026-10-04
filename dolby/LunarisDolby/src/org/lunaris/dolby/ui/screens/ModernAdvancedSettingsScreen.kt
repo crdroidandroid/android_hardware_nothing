@@ -181,23 +181,8 @@ private fun ModernAdvancedSettingsContent(
                 val headroom = viewModel.getHeadroomInfo()
                 val engine = remember { org.lunaris.dolby.data.AudioEnginePreferences(context) }
                 val repository = remember { org.lunaris.dolby.data.DolbyRepository(context) }
-                var perDeviceGain by remember {
-                    mutableStateOf(engine.isPerDeviceGainEnabled())
-                }
-                var deviceGain by remember { mutableFloatStateOf(0f) }
-                var softClip by remember { mutableStateOf(engine.isSoftClipEnabled()) }
                 var highPassOn by remember { mutableStateOf(engine.isHighPassEnabled()) }
                 var highPassHz by remember { mutableIntStateOf(engine.getHighPassHz()) }
-                LaunchedEffect(perDeviceGain) {
-                    if (perDeviceGain) {
-                        val am = context.getSystemService(android.media.AudioManager::class.java)
-                        val device = am.getDevices(android.media.AudioManager.GET_DEVICES_OUTPUTS).firstOrNull()
-                        if (device != null) {
-                            val key = org.lunaris.dolby.data.DeviceStateManager(context).deviceKey(device)
-                            deviceGain = engine.getDeviceGainOffsetTenths(key).toFloat()
-                        }
-                    }
-                }
                 DisposableEffect(Unit) {
                     onDispose { repository.close() }
                 }
@@ -209,18 +194,6 @@ private fun ModernAdvancedSettingsContent(
                         title = stringResource(R.string.processing_section),
                         icon = Icons.Default.Tune
                     ) {
-                        ModernSettingSwitch(
-                            title = stringResource(R.string.soft_clip_enabled),
-                            subtitle = stringResource(R.string.processing_section),
-                            checked = softClip,
-                            onCheckedChange = {
-                                softClip = it
-                                engine.setSoftClipEnabled(it)
-                                repository.refreshSpatialAndGeq(state.settings.currentProfile)
-                            },
-                            icon = Icons.Default.Compress
-                        )
-                        Spacer(modifier = Modifier.height(12.dp))
                         ModernSettingSwitch(
                             title = stringResource(R.string.high_pass_enabled),
                             subtitle = stringResource(R.string.high_pass_hz_label, highPassHz),
@@ -249,44 +222,6 @@ private fun ModernAdvancedSettingsContent(
                                     valueRange = 20f..120f,
                                     steps = 10,
                                     valueLabel = { "${it} Hz" }
-                                )
-                            }
-                        }
-                    }
-                    ModernSettingsCard(
-                        title = stringResource(R.string.per_device_gain_section),
-                        icon = Icons.Default.Speaker
-                    ) {
-                        ModernSettingSwitch(
-                            title = stringResource(R.string.per_device_gain_enabled),
-                            subtitle = stringResource(R.string.per_device_gain_section),
-                            checked = perDeviceGain,
-                            onCheckedChange = {
-                                perDeviceGain = it
-                                engine.setBoolean(org.lunaris.dolby.DolbyConstants.PREF_PER_DEVICE_GAIN_ENABLED, it)
-                                repository.refreshSpatialAndGeq(state.settings.currentProfile)
-                            },
-                            icon = Icons.Default.Speaker
-                        )
-                        AnimatedVisibility(visible = perDeviceGain) {
-                            Column {
-                                Spacer(modifier = Modifier.height(8.dp))
-                                Text(stringResource(R.string.per_device_gain_slider, deviceGain / 10f))
-                                Slider(
-                                    value = deviceGain,
-                                    onValueChange = {
-                                        deviceGain = it
-                                        val am = context.getSystemService(android.media.AudioManager::class.java)
-                                        val device = am.getDevices(android.media.AudioManager.GET_DEVICES_OUTPUTS).firstOrNull()
-                                        if (device != null) {
-                                            engine.setDeviceGainOffsetTenths(
-                                                org.lunaris.dolby.data.DeviceStateManager(context).deviceKey(device),
-                                                it.toInt()
-                                            )
-                                            repository.refreshSpatialAndGeq(state.settings.currentProfile)
-                                        }
-                                    },
-                                    valueRange = -60f..60f
                                 )
                             }
                         }
@@ -420,66 +355,10 @@ private fun ModernAdvancedSettingsContent(
             item {
                 AudioTuningSettingsCard(
                     profileSettings = state.profileSettings,
-                    volumeLevelerEnabled = state.settings.volumeLevelerEnabled,
                     isOnBluetooth = state.activeAudioDevice.category == AudioDeviceCategory.BLUETOOTH,
                     viewModel = viewModel
                 )
             }
-            
-            item {
-                ModernSettingsCard(
-                    title = stringResource(R.string.dolby_volume_leveler),
-                    icon = Icons.Default.VolumeDown
-                ) {
-                    ModernSettingSwitch(
-                        title = stringResource(R.string.dolby_volume_leveler),
-                        subtitle = stringResource(R.string.dolby_volume_leveler_summary),
-                        checked = state.settings.volumeLevelerEnabled,
-                        onCheckedChange = { viewModel.setVolumeLeveler(it) },
-                        icon = Icons.Default.BarChart
-                    )
-                    AnimatedVisibility(visible = state.settings.volumeLevelerEnabled) {
-                        Column {
-                            Spacer(modifier = Modifier.height(12.dp))
-                            ModernSettingSlider(
-                                title = stringResource(R.string.volume_leveler_amount_title),
-                                value = state.profileSettings.volumeLevelerAmount,
-                                onValueChange = { viewModel.setVolumeLevelerAmount(it.toInt()) },
-                                valueRange = 0f..10f,
-                                steps = 9,
-                                valueLabel = { "$it" }
-                            )
-                            Spacer(modifier = Modifier.height(12.dp))
-                            ModernSettingSwitch(
-                                title = stringResource(R.string.leveler_target_title),
-                                subtitle = stringResource(R.string.leveler_target_summary),
-                                checked = state.profileSettings.levelerTargetEnabled,
-                                onCheckedChange = { enabled ->
-                                    viewModel.setLevelerTarget(
-                                        enabled,
-                                        state.profileSettings.levelerTargetDb
-                                    )
-                                },
-                                icon = Icons.Default.Tune
-                            )
-                            AnimatedVisibility(visible = state.profileSettings.levelerTargetEnabled) {
-                                Column {
-                                    Spacer(modifier = Modifier.height(8.dp))
-                                    ModernSettingSlider(
-                                        title = stringResource(R.string.leveler_target_slider_title),
-                                        value = state.profileSettings.levelerTargetDb,
-                                        onValueChange = { viewModel.setLevelerTarget(true, it.toInt()) },
-                                        valueRange = -40f..0f,
-                                        steps = 39,
-                                        valueLabel = { "$it dB" }
-                                    )
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            
             if (state.settings.currentProfile != 0) {
                 item {
                     ModernSettingsCard(
@@ -674,28 +553,6 @@ private fun ModernAdvancedSettingsContent(
         }
         
         item {
-            ModernSettingsCard(
-                title = stringResource(R.string.diagnostics_title),
-                icon = Icons.Default.MedicalServices
-            ) {
-                Text(
-                    text = stringResource(R.string.diagnostics_desc),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
-                OutlinedButton(
-                    onClick = { navController.navigate(Screen.Diagnostics.route) },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Icon(Icons.Default.MedicalServices, contentDescription = null, modifier = Modifier.size(20.dp))
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(stringResource(R.string.diagnostics_title))
-                }
-            }
-        }
-        
-        item {
             Spacer(modifier = Modifier.height(70.dp))
         }
     }
@@ -704,7 +561,6 @@ private fun ModernAdvancedSettingsContent(
 @Composable
 private fun AudioTuningSettingsCard(
     profileSettings: org.lunaris.dolby.domain.models.ProfileSettings,
-    volumeLevelerEnabled: Boolean,
     isOnBluetooth: Boolean,
     viewModel: DolbyViewModel
 ) {
@@ -743,58 +599,6 @@ private fun AudioTuningSettingsCard(
                 )
             }
         }
-
-        Spacer(modifier = Modifier.height(12.dp))
-        ModernSettingSwitch(
-            title = stringResource(R.string.surround_boost_title),
-            subtitle = stringResource(R.string.surround_boost_summary),
-            checked = profileSettings.surroundBoostEnabled,
-            onCheckedChange = { enabled ->
-                if (enabled) {
-                    val value = if (profileSettings.surroundBoost == 0) 16 else profileSettings.surroundBoost
-                    viewModel.setSurroundBoost(true, value)
-                } else {
-                    viewModel.setSurroundBoost(false, profileSettings.surroundBoost)
-                }
-            },
-            icon = Icons.Default.SurroundSound
-        )
-        AnimatedVisibility(visible = profileSettings.surroundBoostEnabled) {
-            Column {
-                Spacer(modifier = Modifier.height(8.dp))
-                ModernSettingSlider(
-                    title = stringResource(R.string.surround_boost_title),
-                    value = profileSettings.surroundBoost,
-                    onValueChange = { viewModel.setSurroundBoost(true, it.toInt()) },
-                    valueRange = 0f..64f,
-                    steps = 63,
-                    valueLabel = { "$it" }
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(12.dp))
-        ModernSettingSwitch(
-            title = stringResource(R.string.surround_decoder_title),
-            subtitle = stringResource(R.string.surround_decoder_summary),
-            checked = profileSettings.surroundDecoderEnabled,
-            onCheckedChange = { viewModel.setSurroundDecoder(it) },
-            icon = Icons.Default.SurroundSound
-        )
-        AnimatedVisibility(visible = profileSettings.surroundDecoderEnabled) {
-            Column {
-                Spacer(modifier = Modifier.height(8.dp))
-                ModernSettingSlider(
-                    title = stringResource(R.string.surround_diffuse_title),
-                    value = profileSettings.surroundDiffuseFront,
-                    onValueChange = { viewModel.setSurroundDiffuseFront(it.toInt()) },
-                    valueRange = 0f..100f,
-                    steps = 19,
-                    valueLabel = { "$it" }
-                )
-            }
-        }
-
         Spacer(modifier = Modifier.height(12.dp))
         if (isOnBluetooth) {
             ModernSettingSwitch(
@@ -936,132 +740,5 @@ private fun AudioTuningSettingsCard(
                 )
             }
         }
-
-        Spacer(modifier = Modifier.height(12.dp))
-        ModernSettingSwitch(
-            title = stringResource(R.string.regulator_title),
-            subtitle = stringResource(R.string.regulator_summary),
-            checked = profileSettings.regulatorEnabled,
-            onCheckedChange = { enabled ->
-                viewModel.setRegulator(enabled, profileSettings.regulatorOverdriveDb)
-            },
-            icon = Icons.Default.Shield
-        )
-        AnimatedVisibility(visible = profileSettings.regulatorEnabled) {
-            Column {
-                Spacer(modifier = Modifier.height(8.dp))
-                ModernSettingSlider(
-                    title = stringResource(R.string.regulator_overdrive_title),
-                    value = profileSettings.regulatorOverdriveDb,
-                    onValueChange = { viewModel.setRegulator(true, it.toInt()) },
-                    valueRange = 0f..12f,
-                    steps = 11,
-                    valueLabel = { "+$it dB" }
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                ModernSettingSwitch(
-                    title = stringResource(R.string.regulator_timbre_title),
-                    subtitle = stringResource(R.string.regulator_timbre_summary),
-                    checked = profileSettings.regulatorTimbre,
-                    onCheckedChange = {
-                        viewModel.setRegulatorExtras(
-                            it,
-                            profileSettings.regulatorSibilance,
-                            profileSettings.regulatorStress
-                        )
-                    },
-                    icon = Icons.Default.Shield
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                ModernSettingSlider(
-                    title = stringResource(R.string.regulator_sibilance_title),
-                    value = profileSettings.regulatorSibilance,
-                    onValueChange = {
-                        viewModel.setRegulatorExtras(
-                            profileSettings.regulatorTimbre,
-                            it.toInt(),
-                            profileSettings.regulatorStress
-                        )
-                    },
-                    valueRange = 0f..100f,
-                    steps = 19,
-                    valueLabel = { "$it%" }
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                ModernSettingSlider(
-                    title = stringResource(R.string.regulator_stress_title),
-                    value = profileSettings.regulatorStress,
-                    onValueChange = {
-                        viewModel.setRegulatorExtras(
-                            profileSettings.regulatorTimbre,
-                            profileSettings.regulatorSibilance,
-                            it.toInt()
-                        )
-                    },
-                    valueRange = 0f..100f,
-                    steps = 19,
-                    valueLabel = { "$it%" }
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(12.dp))
-        ModernSettingSwitch(
-            title = stringResource(R.string.hearing_protection_title),
-            subtitle = stringResource(R.string.hearing_protection_summary),
-            checked = profileSettings.hearingProtectionEnabled,
-            onCheckedChange = { viewModel.setHearingProtection(it) },
-            icon = Icons.Default.HealthAndSafety
-        )
-        AnimatedVisibility(visible = profileSettings.hearingProtectionEnabled) {
-            Column {
-                Spacer(modifier = Modifier.height(8.dp))
-                ModernSettingSlider(
-                    title = stringResource(R.string.hp_rms_target_title),
-                    value = profileSettings.hpRmsTargetRaw,
-                    onValueChange = {
-                        viewModel.setHearingProtectionDynamics(
-                            it.toInt(),
-                            profileSettings.hpAttackMs,
-                            profileSettings.hpReleaseMs
-                        )
-                    },
-                    valueRange = -640f..0f,
-                    steps = 39,
-                    valueLabel = { "${it / 16f} dB" }
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                ModernSettingSlider(
-                    title = stringResource(R.string.hp_attack_title),
-                    value = profileSettings.hpAttackMs,
-                    onValueChange = {
-                        viewModel.setHearingProtectionDynamics(
-                            profileSettings.hpRmsTargetRaw,
-                            it.toInt(),
-                            profileSettings.hpReleaseMs
-                        )
-                    },
-                    valueRange = 50f..4000f,
-                    steps = 39,
-                    valueLabel = { "${it} ms" }
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                ModernSettingSlider(
-                    title = stringResource(R.string.hp_release_title),
-                    value = profileSettings.hpReleaseMs,
-                    onValueChange = {
-                        viewModel.setHearingProtectionDynamics(
-                            profileSettings.hpRmsTargetRaw,
-                            profileSettings.hpAttackMs,
-                            it.toInt()
-                        )
-                    },
-                    valueRange = 100f..8000f,
-                    steps = 39,
-                    valueLabel = { "${it} ms" }
-                )
-            }
-        }
-
     }
 }

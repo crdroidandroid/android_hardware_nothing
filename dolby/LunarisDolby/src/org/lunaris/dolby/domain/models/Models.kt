@@ -26,7 +26,6 @@ data class DolbySettings(
     val enabled: Boolean = true,
     val currentProfile: Int = 0,
     val bassEnhancerEnabled: Boolean = false,
-    val volumeLevelerEnabled: Boolean = false,
     val bandMode: BandMode = BandMode.TEN_BAND
 )
 
@@ -47,13 +46,6 @@ data class ProfileSettings(
     val bassCurve: Int = 0,
     val outputBoostEnabled: Boolean = false,
     val outputBoostTenthsDb: Int = 0,
-    val surroundBoostEnabled: Boolean = false,
-    val surroundBoost: Int = 0,
-    val surroundDecoderEnabled: Boolean = true,
-    val surroundDiffuseFront: Int = 0,
-    val volumeLevelerAmount: Int = 0,
-    val levelerTargetEnabled: Boolean = false,
-    val levelerTargetDb: Int = -16,
     val virtualBassSpeakerEnabled: Boolean = false,
     val virtualBassBluetoothEnabled: Boolean = false,
     val virtualBassMode: Int = 0,
@@ -63,15 +55,6 @@ data class ProfileSettings(
     val advancedBassBoost: Int = 40,
     val advancedBassCutoff: Int = 303,
     val advancedBassWidth: Int = 8,
-    val regulatorEnabled: Boolean = true,
-    val regulatorOverdriveDb: Int = 0,
-    val regulatorTimbre: Boolean = true,
-    val regulatorSibilance: Int = 50,
-    val regulatorStress: Int = 50,
-    val hearingProtectionEnabled: Boolean = false,
-    val hpRmsTargetRaw: Int = -256,
-    val hpAttackMs: Int = 900,
-    val hpReleaseMs: Int = 1600,
     val hpVirtMode: Int = 0,
     val hpVirtLrAngle: Int = 45,
     val hpVirtStartBand: Int = 0
@@ -221,18 +204,6 @@ data class AutomationStatus(
     val atmosContentActive: Boolean,
     val dolbyEffectHealthy: Boolean,
     val spatialAudioEnabled: Boolean
-)
-
-data class DolbyDiagnostics(
-    val dolbyEnabled: Boolean,
-    val currentProfile: Int,
-    val effectHasControl: Boolean,
-    val effectCreateError: String?,
-    val activeDevice: ActiveAudioDevice,
-    val automationStatus: AutomationStatus,
-    val recentHistory: List<ProfileHistoryEntry>,
-    val lastCrash: String?,
-    val recentEvents: List<String>
 )
 
 sealed class ScheduledProfileUiState {

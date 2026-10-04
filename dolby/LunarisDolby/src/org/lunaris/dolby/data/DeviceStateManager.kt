@@ -92,18 +92,12 @@ class DeviceStateManager(private val context: Context) {
         editor.putBoolean(KEY_MID_ENABLED, repository.getMidEnhancerEnabled(profile))
         editor.putInt(KEY_MID_LEVEL, repository.getMidLevel(profile))
 
-        if (repository.volumeLevelerSupported) {
-            editor.putBoolean(KEY_VOLUME, repository.getVolumeLevelerEnabled(profile))
-        }
         if (repository.stereoWideningSupported) {
             editor.putInt(KEY_STEREO, repository.getStereoWideningAmount(profile))
         }
 
         editor.putBoolean(KEY_OUTPUT_BOOST, repository.isOutputBoostEnabled(profile))
         editor.putInt(KEY_OUTPUT_BOOST_TENTHS, repository.getOutputBoostTenths(profile))
-        editor.putBoolean(KEY_SURROUND_BOOST, repository.isSurroundBoostEnabled(profile))
-        editor.putInt(KEY_SURROUND_VALUE, repository.getSurroundBoost(profile))
-        editor.putInt(KEY_LEVELER_AMOUNT, repository.getVolumeLevelerAmount(profile))
         when {
             deviceKey == "builtin_speaker" ->
                 editor.putBoolean(
@@ -116,23 +110,13 @@ class DeviceStateManager(private val context: Context) {
                     repository.isVirtualBassBluetoothEnabled(profile)
                 )
         }
-        editor.putBoolean(KEY_HEARING, repository.isHearingProtectionEnabled(profile))
 
         editor.putBoolean(KEY_ADV_BASS, repository.isAdvancedBassEnabled(profile))
         editor.putInt(KEY_ADV_BASS_BOOST, repository.getAdvancedBassBoost(profile))
         editor.putInt(KEY_ADV_BASS_CUTOFF, repository.getAdvancedBassCutoff(profile))
         editor.putInt(KEY_ADV_BASS_WIDTH, repository.getAdvancedBassWidth(profile))
-        editor.putBoolean(KEY_REGULATOR, repository.isRegulatorEnabled(profile))
-        editor.putInt(KEY_REGULATOR_OVERDRIVE, repository.getRegulatorOverdriveDb(profile))
-        editor.putBoolean(KEY_REGULATOR_TIMBRE, repository.isRegulatorTimbreEnabled(profile))
-        editor.putInt(KEY_REGULATOR_SIBILANCE, repository.getRegulatorSibilance(profile))
-        editor.putInt(KEY_REGULATOR_STRESS, repository.getRegulatorStress(profile))
-        editor.putBoolean(KEY_SURROUND_DECODER, repository.isSurroundDecoderEnabled(profile))
-        editor.putInt(KEY_SURROUND_DIFFUSE, repository.getSurroundDiffuseFront(profile))
         editor.putBoolean(KEY_DIALOGUE_DUCKING, repository.isDialogueDuckingEnabled(profile))
         editor.putInt(KEY_DIALOGUE_DUCKING_AMT, repository.getDialogueDuckingAmount(profile))
-        editor.putBoolean(KEY_LEVELER_TARGET, repository.isLevelerTargetEnabled(profile))
-        editor.putInt(KEY_LEVELER_TARGET_DB, repository.getLevelerTargetDb(profile))
         editor.putBoolean(KEY_GRAPHIC_EQ, repository.isGraphicEqEnabled(profile))
         editor.putInt(KEY_VB_MODE, repository.getVirtualBassMode(profile))
         editor.putInt(KEY_VB_OVERALL, repository.getVirtualBassOverallGain(profile))
@@ -140,9 +124,6 @@ class DeviceStateManager(private val context: Context) {
         editor.putInt(KEY_HP_VIRT_MODE, repository.getHpVirtMode(profile))
         editor.putInt(KEY_HP_VIRT_ANGLE, repository.getHpVirtLrAngle(profile))
         editor.putInt(KEY_HP_VIRT_BAND, repository.getHpVirtStartBand(profile))
-        editor.putInt(KEY_HP_RMS, repository.getHpRmsTargetRaw(profile))
-        editor.putInt(KEY_HP_ATTACK, repository.getHpAttackMs(profile))
-        editor.putInt(KEY_HP_RELEASE, repository.getHpReleaseMs(profile))
         editor.putBoolean(KEY_SPATIAL, repository.isSpatialAudioEnabled())
         editor.putInt(KEY_CAL_SPEAKER, repository.getCalibrationBoostSpeaker())
         editor.putInt(KEY_CAL_HEADPHONE, repository.getCalibrationBoostHeadphone())
@@ -221,9 +202,6 @@ class DeviceStateManager(private val context: Context) {
             repository.setMidEnhancerEnabled(profile, prefs.getBoolean(KEY_MID_ENABLED, false))
             repository.setMidLevel(profile, prefs.getInt(KEY_MID_LEVEL, 0))
 
-            if (repository.volumeLevelerSupported) {
-                repository.setVolumeLevelerEnabled(profile, prefs.getBoolean(KEY_VOLUME, false))
-            }
             if (repository.stereoWideningSupported) {
                 repository.setStereoWideningAmount(profile, prefs.getInt(KEY_STEREO, 32))
             }
@@ -234,16 +212,6 @@ class DeviceStateManager(private val context: Context) {
                     prefs.getBoolean(KEY_OUTPUT_BOOST, false),
                     prefs.getInt(KEY_OUTPUT_BOOST_TENTHS, 0)
                 )
-            }
-            if (prefs.contains(KEY_SURROUND_BOOST)) {
-                repository.setSurroundBoost(
-                    profile,
-                    prefs.getBoolean(KEY_SURROUND_BOOST, false),
-                    prefs.getInt(KEY_SURROUND_VALUE, 0)
-                )
-            }
-            if (prefs.contains(KEY_LEVELER_AMOUNT)) {
-                repository.setVolumeLevelerAmount(profile, prefs.getInt(KEY_LEVELER_AMOUNT, 0))
             }
             if (prefs.contains(KEY_VIRTUAL_BASS_SPEAKER)) {
                 repository.setVirtualBassSpeakerEnabled(
@@ -257,9 +225,6 @@ class DeviceStateManager(private val context: Context) {
                     prefs.getBoolean(KEY_VIRTUAL_BASS_BLUETOOTH, false)
                 )
             }
-            if (prefs.contains(KEY_HEARING)) {
-                repository.setHearingProtectionEnabled(profile, prefs.getBoolean(KEY_HEARING, false))
-            }
             if (prefs.contains(KEY_ADV_BASS)) {
                 repository.setAdvancedBass(
                     profile,
@@ -269,39 +234,11 @@ class DeviceStateManager(private val context: Context) {
                     prefs.getInt(KEY_ADV_BASS_WIDTH, DolbyConstants.ADV_BASS_WIDTH_STOCK)
                 )
             }
-            if (prefs.contains(KEY_REGULATOR)) {
-                repository.setRegulator(
-                    profile,
-                    prefs.getBoolean(KEY_REGULATOR, true),
-                    prefs.getInt(KEY_REGULATOR_OVERDRIVE, 0)
-                )
-            }
-            if (prefs.contains(KEY_REGULATOR_TIMBRE)) {
-                repository.setRegulatorExtras(
-                    profile,
-                    prefs.getBoolean(KEY_REGULATOR_TIMBRE, true),
-                    prefs.getInt(KEY_REGULATOR_SIBILANCE, 50),
-                    prefs.getInt(KEY_REGULATOR_STRESS, 50)
-                )
-            }
-            if (prefs.contains(KEY_SURROUND_DECODER)) {
-                repository.setSurroundDecoderEnabled(profile, prefs.getBoolean(KEY_SURROUND_DECODER, true))
-            }
-            if (prefs.contains(KEY_SURROUND_DIFFUSE)) {
-                repository.setSurroundDiffuseFront(profile, prefs.getInt(KEY_SURROUND_DIFFUSE, 0))
-            }
             if (prefs.contains(KEY_DIALOGUE_DUCKING)) {
                 repository.setDialogueDucking(
                     profile,
                     prefs.getBoolean(KEY_DIALOGUE_DUCKING, false),
                     prefs.getInt(KEY_DIALOGUE_DUCKING_AMT, 8)
-                )
-            }
-            if (prefs.contains(KEY_LEVELER_TARGET)) {
-                repository.setLevelerTarget(
-                    profile,
-                    prefs.getBoolean(KEY_LEVELER_TARGET, false),
-                    prefs.getInt(KEY_LEVELER_TARGET_DB, DolbyConstants.LEVELER_TARGET_STOCK_DB)
                 )
             }
             if (prefs.contains(KEY_GRAPHIC_EQ)) {
@@ -321,14 +258,6 @@ class DeviceStateManager(private val context: Context) {
                     prefs.getInt(KEY_HP_VIRT_MODE, 0),
                     prefs.getInt(KEY_HP_VIRT_ANGLE, 45),
                     prefs.getInt(KEY_HP_VIRT_BAND, 0)
-                )
-            }
-            if (prefs.contains(KEY_HP_RMS)) {
-                repository.setHearingProtectionDynamics(
-                    profile,
-                    prefs.getInt(KEY_HP_RMS, DolbyConstants.HP_RMS_TARGET_STOCK_RAW),
-                    prefs.getInt(KEY_HP_ATTACK, DolbyConstants.HP_ATTACK_STOCK_MS),
-                    prefs.getInt(KEY_HP_RELEASE, DolbyConstants.HP_RELEASE_STOCK_MS)
                 )
             }
             if (prefs.contains(KEY_SPATIAL)) {
@@ -478,31 +407,17 @@ class DeviceStateManager(private val context: Context) {
         private const val KEY_TREBLE_LEVEL = "treble_level"
         private const val KEY_MID_ENABLED = "mid_enabled"
         private const val KEY_MID_LEVEL = "mid_level"
-        private const val KEY_VOLUME = "volume"
         private const val KEY_STEREO = "stereo"
         private const val KEY_OUTPUT_BOOST = "output_boost"
         private const val KEY_OUTPUT_BOOST_TENTHS = "output_boost_tenths"
-        private const val KEY_SURROUND_BOOST = "surround_boost"
-        private const val KEY_SURROUND_VALUE = "surround_value"
-        private const val KEY_LEVELER_AMOUNT = "leveler_amount"
         private const val KEY_VIRTUAL_BASS_SPEAKER = "virtual_bass_speaker"
         private const val KEY_VIRTUAL_BASS_BLUETOOTH = "virtual_bass_bluetooth"
-        private const val KEY_HEARING = "hearing_protection"
         private const val KEY_ADV_BASS = "adv_bass"
         private const val KEY_ADV_BASS_BOOST = "adv_bass_boost"
         private const val KEY_ADV_BASS_CUTOFF = "adv_bass_cutoff"
         private const val KEY_ADV_BASS_WIDTH = "adv_bass_width"
-        private const val KEY_REGULATOR = "regulator"
-        private const val KEY_REGULATOR_OVERDRIVE = "regulator_overdrive"
-        private const val KEY_REGULATOR_TIMBRE = "regulator_timbre"
-        private const val KEY_REGULATOR_SIBILANCE = "regulator_sibilance"
-        private const val KEY_REGULATOR_STRESS = "regulator_stress"
-        private const val KEY_SURROUND_DECODER = "surround_decoder"
-        private const val KEY_SURROUND_DIFFUSE = "surround_diffuse"
         private const val KEY_DIALOGUE_DUCKING = "dialogue_ducking"
         private const val KEY_DIALOGUE_DUCKING_AMT = "dialogue_ducking_amt"
-        private const val KEY_LEVELER_TARGET = "leveler_target"
-        private const val KEY_LEVELER_TARGET_DB = "leveler_target_db"
         private const val KEY_GRAPHIC_EQ = "graphic_eq"
         private const val KEY_VB_MODE = "vb_mode"
         private const val KEY_VB_OVERALL = "vb_overall"
@@ -510,9 +425,6 @@ class DeviceStateManager(private val context: Context) {
         private const val KEY_HP_VIRT_MODE = "hp_virt_mode"
         private const val KEY_HP_VIRT_ANGLE = "hp_virt_angle"
         private const val KEY_HP_VIRT_BAND = "hp_virt_band"
-        private const val KEY_HP_RMS = "hp_rms"
-        private const val KEY_HP_ATTACK = "hp_attack"
-        private const val KEY_HP_RELEASE = "hp_release"
         private const val KEY_SPATIAL = "spatial"
         private const val KEY_CAL_SPEAKER = "cal_speaker"
         private const val KEY_CAL_HEADPHONE = "cal_headphone"

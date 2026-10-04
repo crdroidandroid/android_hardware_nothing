@@ -75,7 +75,6 @@ class DolbyRepository(private val context: Context) : AutoCloseable {
     val currentProfile: StateFlow<Int> = _currentProfile.asStateFlow()
 
     val stereoWideningSupported = context.resources.getBoolean(R.bool.dolby_stereo_widening_supported)
-    val volumeLevelerSupported = context.resources.getBoolean(R.bool.dolby_volume_leveler_supported)
     
     private var isReleased = false
     
@@ -110,7 +109,6 @@ class DolbyRepository(private val context: Context) : AutoCloseable {
         return try {
             synchronized(EFFECT_LOCK) { getOrCreateDolbyEffect().hasControl() }
         } catch (e: Exception) {
-            DolbyDiagRecorder.record(context, "effect", "hasEffectControl failed", e)
             false
         }
     }
@@ -156,11 +154,6 @@ class DolbyRepository(private val context: Context) : AutoCloseable {
             val bassEnabled = prefs.getBoolean(DolbyConstants.PREF_BASS, false)
             dolbyEffect.setDapParameter(DsParam.BASS_ENHANCER_ENABLE, bassEnabled, profile)
             
-            if (volumeLevelerSupported) {
-                val volumeLeveler = prefs.getBoolean(DolbyConstants.PREF_VOLUME, false)
-                dolbyEffect.setDapParameter(DsParam.VOLUME_LEVELER_ENABLE, volumeLeveler, profile)
-            }
-
             audioTuning.applyAll(profile)
             
             DolbyConstants.dlog(TAG, "Successfully restored all settings for profile $profile")
@@ -182,7 +175,6 @@ class DolbyRepository(private val context: Context) : AutoCloseable {
             // startForegroundService() kills the whole process and DolbyActivity cannot stay open
             // while widget/QS (which catch effect errors) still appear to work.
             DolbyConstants.elog(TAG, "Failed to apply saved state: ${e.message}", e)
-            DolbyDiagRecorder.record(context, "effect", "applySavedState failed", e)
         }
     }
 
@@ -227,7 +219,6 @@ class DolbyRepository(private val context: Context) : AutoCloseable {
             dolbyEffect.dsOn
         } catch (e: Exception) {
             DolbyConstants.elog(TAG, "Error getting Dolby enabled state: ${e.message}", e)
-            DolbyDiagRecorder.record(context, "effect", "getDolbyEnabled failed", e)
             false
         }
     }
@@ -243,7 +234,6 @@ class DolbyRepository(private val context: Context) : AutoCloseable {
             DolbyStatusNotifier.notifyChanged(context)
         } catch (e: Exception) {
             DolbyConstants.elog(TAG, "Error setting Dolby enabled: ${e.message}", e)
-            DolbyDiagRecorder.record(context, "effect", "setDolbyEnabled failed", e)
         }
     }
 
@@ -527,28 +517,6 @@ class DolbyRepository(private val context: Context) : AutoCloseable {
         } catch (e: Exception) {
             DolbyConstants.dlog(TAG, "setTrebleLevel: unexpected error - ${e.message}")
             throw e
-        }
-    }
-
-    fun getVolumeLevelerEnabled(profile: Int): Boolean {
-        if (!volumeLevelerSupported) return false
-        return try {
-            dolbyEffect.getDapParameterBool(DsParam.VOLUME_LEVELER_ENABLE, profile)
-        } catch (e: Exception) {
-            DolbyConstants.dlog(TAG, "Error getting volume leveler: ${e.message}")
-            false
-        }
-    }
-
-    fun setVolumeLevelerEnabled(profile: Int, enabled: Boolean) {
-        if (!volumeLevelerSupported || isReleased) return
-        
-        try {
-            checkEffect()
-            dolbyEffect.setDapParameter(DsParam.VOLUME_LEVELER_ENABLE, enabled, profile)
-            getProfilePrefs(profile).edit().putBoolean(DolbyConstants.PREF_VOLUME, enabled).apply()
-        } catch (e: Exception) {
-            DolbyConstants.dlog(TAG, "Error setting volume leveler: ${e.message}")
         }
     }
 
@@ -929,15 +897,10 @@ class DolbyRepository(private val context: Context) : AutoCloseable {
 
     fun getHeadroomInfo(profile: Int): HeadroomInfo {
         val raw = audioTuning.getRawGeqArray(profile) ?: IntArray(20)
-        val outputDevice = audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS).firstOrNull()
-        val deviceOffset = if (outputDevice != null) {
-            audioEnginePrefs.getDeviceGainOffsetTenths(deviceStateManager.deviceKey(outputDevice))
-        } else 0
         return HeadroomCalculator.calculate(
             raw,
             getOutputBoostTenths(profile),
             isOutputBoostEnabled(profile),
-            deviceOffset,
             audioEnginePrefs
         )
     }
@@ -954,15 +917,6 @@ class DolbyRepository(private val context: Context) : AutoCloseable {
     fun getOutputBoostTenths(profile: Int) = audioTuning.getOutputBoostTenths(profile)
     fun setOutputBoost(profile: Int, enabled: Boolean, tenthsDb: Int) =
         audioTuning.setOutputBoost(profile, enabled, tenthsDb)
-
-    fun isSurroundBoostEnabled(profile: Int) = audioTuning.isSurroundBoostEnabled(profile)
-    fun getSurroundBoost(profile: Int) = audioTuning.getSurroundBoost(profile)
-    fun setSurroundBoost(profile: Int, enabled: Boolean, value: Int) =
-        audioTuning.setSurroundBoost(profile, enabled, value)
-
-    fun getVolumeLevelerAmount(profile: Int) = audioTuning.getVolumeLevelerAmount(profile)
-    fun setVolumeLevelerAmount(profile: Int, amount: Int) =
-        audioTuning.setVolumeLevelerAmount(profile, amount)
 
     fun isVirtualBassEnabled(profile: Int) = audioTuning.isVirtualBassEnabled(profile)
     fun setVirtualBassEnabled(profile: Int, enabled: Boolean) =
@@ -986,16 +940,6 @@ class DolbyRepository(private val context: Context) : AutoCloseable {
     fun getDialogueDuckingAmount(profile: Int) = audioTuning.getDialogueDuckingAmount(profile)
     fun setDialogueDucking(profile: Int, enabled: Boolean, amount: Int) =
         audioTuning.setDialogueDucking(profile, enabled, amount)
-
-    fun isSurroundDecoderEnabled(profile: Int) = audioTuning.isSurroundDecoderEnabled(profile)
-    fun setSurroundDecoderEnabled(profile: Int, enabled: Boolean) =
-        audioTuning.setSurroundDecoderEnabled(profile, enabled)
-
-    fun isLevelerTargetEnabled(profile: Int) = audioTuning.isLevelerTargetEnabled(profile)
-    fun getLevelerTargetDb(profile: Int) = audioTuning.getLevelerTargetDb(profile)
-    fun setLevelerTarget(profile: Int, enabled: Boolean, targetDb: Int) =
-        audioTuning.setLevelerTarget(profile, enabled, targetDb)
-
     fun isAdvancedBassEnabled(profile: Int) = audioTuning.isAdvancedBassEnabled(profile)
     fun getAdvancedBassBoost(profile: Int) = audioTuning.getAdvancedBassBoost(profile)
     fun getAdvancedBassCutoff(profile: Int) = audioTuning.getAdvancedBassCutoff(profile)
@@ -1007,26 +951,6 @@ class DolbyRepository(private val context: Context) : AutoCloseable {
         cutoffHz: Int,
         width: Int = getAdvancedBassWidth(profile)
     ) = audioTuning.setAdvancedBass(profile, enabled, boostPercent, cutoffHz, width)
-
-    fun isRegulatorEnabled(profile: Int) = audioTuning.isRegulatorEnabled(profile)
-    fun getRegulatorOverdriveDb(profile: Int) = audioTuning.getRegulatorOverdriveDb(profile)
-    fun isRegulatorTimbreEnabled(profile: Int) = audioTuning.isRegulatorTimbreEnabled(profile)
-    fun getRegulatorSibilance(profile: Int) = audioTuning.getRegulatorSibilance(profile)
-    fun getRegulatorStress(profile: Int) = audioTuning.getRegulatorStress(profile)
-    fun setRegulator(profile: Int, enabled: Boolean, overdriveDb: Int) =
-        audioTuning.setRegulator(profile, enabled, overdriveDb)
-    fun setRegulatorExtras(profile: Int, timbre: Boolean, sibilance: Int, stress: Int) =
-        audioTuning.setRegulatorExtras(profile, timbre, sibilance, stress)
-
-    fun isHearingProtectionEnabled(profile: Int) = audioTuning.isHearingProtectionEnabled(profile)
-    fun setHearingProtectionEnabled(profile: Int, enabled: Boolean) =
-        audioTuning.setHearingProtectionEnabled(profile, enabled)
-    fun getHpRmsTargetRaw(profile: Int) = audioTuning.getHpRmsTargetRaw(profile)
-    fun getHpAttackMs(profile: Int) = audioTuning.getHpAttackMs(profile)
-    fun getHpReleaseMs(profile: Int) = audioTuning.getHpReleaseMs(profile)
-    fun setHearingProtectionDynamics(profile: Int, rmsTargetRaw: Int, attackMs: Int, releaseMs: Int) =
-        audioTuning.setHearingProtectionDynamics(profile, rmsTargetRaw, attackMs, releaseMs)
-
     fun getHpVirtMode(profile: Int) = audioTuning.getHpVirtMode(profile)
     fun getHpVirtLrAngle(profile: Int) = audioTuning.getHpVirtLrAngle(profile)
     fun getHpVirtStartBand(profile: Int) = audioTuning.getHpVirtStartBand(profile)
@@ -1038,11 +962,6 @@ class DolbyRepository(private val context: Context) : AutoCloseable {
     fun getVirtualBassSlopeGain(profile: Int) = audioTuning.getVirtualBassSlopeGain(profile)
     fun setVirtualBassDetails(profile: Int, mode: Int, overallGain: Int, slopeGain: Int) =
         audioTuning.setVirtualBassDetails(profile, mode, overallGain, slopeGain)
-
-    fun getSurroundDiffuseFront(profile: Int) = audioTuning.getSurroundDiffuseFront(profile)
-    fun setSurroundDiffuseFront(profile: Int, amount: Int) =
-        audioTuning.setSurroundDiffuseFront(profile, amount)
-
     fun isSpatialAudioEnabled() = audioTuning.isSpatialAudioEnabled()
     fun setSpatialAudioEnabled(enabled: Boolean) = audioTuning.setSpatialAudioEnabled(enabled)
 

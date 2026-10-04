@@ -182,22 +182,14 @@ class AppProfileMonitorService : Service() {
                 startFg(emergency)
             }
         )
-        var lastError: Exception? = null
         for ((index, attempt) in attempts.withIndex()) {
             try {
                 attempt()
                 return
             } catch (e: Exception) {
-                lastError = e
                 Log.e(TAG, "promoteForeground attempt #$index failed", e)
             }
         }
-        org.lunaris.dolby.data.DolbyDiagRecorder.record(
-            this,
-            "fgs-monitor",
-            "promoteForeground exhausted all fallbacks",
-            lastError
-        )
     }
 
     private fun startMonitoring() {

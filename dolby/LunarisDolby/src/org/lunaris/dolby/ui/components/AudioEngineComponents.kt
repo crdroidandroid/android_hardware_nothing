@@ -49,7 +49,6 @@ fun HeadroomWarningCard(
             Spacer(Modifier.height(8.dp))
             HeadroomRow(stringResource(R.string.headroom_peak_eq), headroom.peakEqDb)
             HeadroomRow(stringResource(R.string.headroom_output_boost), headroom.outputBoostDb)
-            HeadroomRow(stringResource(R.string.headroom_device_offset), headroom.deviceOffsetDb)
             HorizontalDivider(modifier.padding(vertical = 6.dp))
             HeadroomRow(
                 stringResource(R.string.headroom_remaining),

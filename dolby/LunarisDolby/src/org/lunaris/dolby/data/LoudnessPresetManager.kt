@@ -23,8 +23,7 @@ object LoudnessPresetManager {
         val outputBoostTenths: Int,
         val virtualBassEnabled: Boolean,
         val bassLevel: Int,
-        val bassCurve: Int,
-        val volumeLevelerEnabled: Boolean
+        val bassCurve: Int
     )
 
     fun buildForPreset(preset: LoudnessPreset, engine: AudioEnginePreferences): LoudnessApplyResult {
@@ -39,32 +38,28 @@ object LoudnessPresetManager {
                 outputBoostTenths = 0,
                 virtualBassEnabled = false,
                 bassLevel = 0,
-                bassCurve = 0,
-                volumeLevelerEnabled = false
+                bassCurve = 0
             )
             LoudnessPreset.PUNCH -> LoudnessApplyResult(
                 outputBoostEnabled = true,
                 outputBoostTenths = (maxBoost * 0.5f).toInt().coerceAtMost(80),
                 virtualBassEnabled = true,
                 bassLevel = 55,
-                bassCurve = 2,
-                volumeLevelerEnabled = false
+                bassCurve = 2
             )
             LoudnessPreset.WARM -> LoudnessApplyResult(
                 outputBoostEnabled = true,
                 outputBoostTenths = (maxBoost * 0.35f).toInt().coerceAtMost(50),
                 virtualBassEnabled = true,
                 bassLevel = 45,
-                bassCurve = 0,
-                volumeLevelerEnabled = true
+                bassCurve = 0
             )
             LoudnessPreset.MAX -> LoudnessApplyResult(
                 outputBoostEnabled = true,
                 outputBoostTenths = maxBoost,
                 virtualBassEnabled = true,
                 bassLevel = 70,
-                bassCurve = 2,
-                volumeLevelerEnabled = false
+                bassCurve = 2
             )
         }
     }
@@ -81,6 +76,5 @@ object LoudnessPresetManager {
         repository.setVirtualBassSpeakerEnabled(profile, config.virtualBassEnabled)
         repository.setBassLevel(profile, config.bassLevel)
         repository.setBassCurve(profile, config.bassCurve)
-        repository.setVolumeLevelerEnabled(profile, config.volumeLevelerEnabled)
     }
 }

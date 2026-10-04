@@ -27,14 +27,11 @@ object DolbyConstants {
     const val PREF_MID_LEVEL = "dolby_mid_level"
     const val PREF_TREBLE = "dolby_treble"
     const val PREF_TREBLE_LEVEL = "dolby_treble_level"
-    const val PREF_VOLUME = "dolby_volume"
-    const val PREF_VOLUME_LEVELER_AMOUNT = "dolby_volume_leveler_amount"
     const val PREF_OUTPUT_BOOST_ENABLED = "dolby_output_boost_enabled"
     const val PREF_OUTPUT_BOOST_TENTHS = "dolby_output_boost_tenths"
     const val PREF_VIRTUAL_BASS = "dolby_virtual_bass"
     const val PREF_VIRTUAL_BASS_SPEAKER = "dolby_virtual_bass_speaker"
     const val PREF_VIRTUAL_BASS_BLUETOOTH = "dolby_virtual_bass_bluetooth"
-    const val PREF_HEARING_PROTECTION = "dolby_hearing_protection"
     const val PREF_DIALOGUE_DUCKING_ENABLED = "dolby_dialogue_ducking_enabled"
     const val PREF_DIALOGUE_DUCKING_AMOUNT = "dolby_dialogue_ducking_amount"
     const val PREF_GRAPHIC_EQ_ENABLED = "dolby_graphic_eq_enabled"
@@ -42,23 +39,9 @@ object DolbyConstants {
     const val PREF_ADV_BASS_BOOST = "dolby_adv_bass_boost"
     const val PREF_ADV_BASS_CUTOFF = "dolby_adv_bass_cutoff"
     const val PREF_ADV_BASS_WIDTH = "dolby_adv_bass_width"
-    const val PREF_LEVELER_TARGET_ENABLED = "dolby_leveler_target_enabled"
-    const val PREF_LEVELER_TARGET_DB = "dolby_leveler_target_db"
-    const val PREF_SURROUND_BOOST_ENABLED = "dolby_surround_boost_enabled"
-    const val PREF_SURROUND_BOOST = "dolby_surround_boost"
-    const val PREF_SURROUND_DECODER_ENABLED = "dolby_surround_decoder_enabled"
-    const val PREF_SURROUND_DIFFUSE_FRONT = "dolby_surround_diffuse_front"
-    const val PREF_REGULATOR_ENABLED = "dolby_regulator_enabled"
-    const val PREF_REGULATOR_OVERDRIVE_DB = "dolby_regulator_overdrive_db"
-    const val PREF_REGULATOR_TIMBRE = "dolby_regulator_timbre"
-    const val PREF_REGULATOR_SIBILANCE = "dolby_regulator_sibilance"
-    const val PREF_REGULATOR_STRESS = "dolby_regulator_stress"
     const val PREF_VB_MODE = "dolby_vb_mode"
     const val PREF_VB_OVERALL_GAIN = "dolby_vb_overall_gain"
     const val PREF_VB_SLOPE_GAIN = "dolby_vb_slope_gain"
-    const val PREF_HP_RMS_TARGET = "dolby_hp_rms_target"
-    const val PREF_HP_ATTACK_MS = "dolby_hp_attack_ms"
-    const val PREF_HP_RELEASE_MS = "dolby_hp_release_ms"
     const val PREF_HP_VIRT_MODE = "dolby_hp_virt_mode"
     const val PREF_HP_VIRT_LR_ANGLE = "dolby_hp_virt_lr_angle"
     const val PREF_HP_VIRT_START_BAND = "dolby_hp_virt_start_band"
@@ -110,10 +93,7 @@ object DolbyConstants {
     const val PREF_EXTENDED_OUTPUT_BOOST_ENABLED = "extended_output_boost_enabled"
     const val PREF_OUTPUT_BOOST_MAX_TENTHS_USER = "output_boost_max_tenths_user"
     const val PREF_HEADROOM_WARNING_ENABLED = "headroom_warning_enabled"
-    const val PREF_SOFT_CLIP_ENABLED = "soft_clip_enabled"
     const val PREF_LOUDNESS_PRESETS_ENABLED = "loudness_presets_enabled"
-    const val PREF_PER_DEVICE_GAIN_ENABLED = "per_device_gain_enabled"
-    const val PREF_DEVICE_GAIN_OFFSETS = "device_gain_offsets"
     const val PREF_STEREO_BALANCE_ENABLED = "stereo_balance_enabled"
     const val PREF_STEREO_BALANCE_VALUE = "stereo_balance_value"
     const val PREF_MONO_MIX_ENABLED = "mono_mix_enabled"
@@ -152,7 +132,6 @@ object DolbyConstants {
     enum class DsParam(val id: Int, val length: Int = 1) {
         HEADPHONE_VIRTUALIZER(101),
         SPEAKER_VIRTUALIZER(102),
-        VOLUME_LEVELER_ENABLE(103),
         IEQ_PRESET(104),
         DIALOGUE_ENHANCER_ENABLE(105),
         DIALOGUE_ENHANCER_AMOUNT(108),
@@ -161,10 +140,7 @@ object DolbyConstants {
         STEREO_WIDENING_AMOUNT(113),
         GRAPHIC_EQ_ENABLE(106),
         DIALOGUE_DUCKING(109),
-        VIRTUAL_BASS_ENABLE(112),
-        VOLUME_LEVELER_AMOUNT(116),
-        HEARING_PROTECTION_ENABLE(118);
-
+        VIRTUAL_BASS_ENABLE(112);
         override fun toString(): String = "${name}(${id})"
     }
 
@@ -176,7 +152,6 @@ object DolbyConstants {
     const val EQ_GAIN_EXTENDED = 240
     const val EQ_GAIN_EXTREME = 300
     const val DIALOGUE_DUCKING_MAX = 16
-    const val SURROUND_BOOST_MAX = 64
     // Raw DAX units for the vendor bass-enhancer stage (see configs/dax-default.xml)
     const val ADV_BASS_BOOST_RAW_MAX = 480
     const val ADV_BASS_BOOST_RAW_STOCK = 36
@@ -186,14 +161,6 @@ object DolbyConstants {
     const val ADV_BASS_WIDTH_MIN = 1
     const val ADV_BASS_WIDTH_MAX = 16
     const val ADV_BASS_WIDTH_STOCK = 8
-    // Leveler target in whole dB; vendor raw units are 1/16 dB (stock -256 = -16 dB)
-    const val LEVELER_TARGET_MIN_DB = -40
-    const val LEVELER_TARGET_MAX_DB = 0
-    const val LEVELER_TARGET_STOCK_DB = -16
-    // Regulator overdrive in whole dB; vendor raw units are 1/16 dB (stock 0)
-    const val REGULATOR_OVERDRIVE_MAX_DB = 12
-    const val REGULATOR_TIMBRE_STOCK = 12
-    const val SURROUND_DIFFUSE_MAX = 100
     // Virtual bass (dax-default: mode 3 / overall -187 / slope -2; UI mode clamped 0-2)
     const val VB_MODE_MAX = 2
     const val VB_MODE_STOCK = 0
@@ -203,20 +170,9 @@ object DolbyConstants {
     const val VB_SLOPE_GAIN_STOCK = -2
     const val VB_SLOPE_GAIN_MIN = -32
     const val VB_SLOPE_GAIN_MAX = 32
-    // Hearing protection dynamics (raw 1/16 dB for RMS target)
-    const val HP_RMS_TARGET_STOCK_RAW = -256
-    const val HP_RMS_TARGET_MIN_RAW = -640
-    const val HP_RMS_TARGET_MAX_RAW = 0
-    const val HP_ATTACK_STOCK_MS = 900
-    const val HP_ATTACK_MIN_MS = 50
-    const val HP_ATTACK_MAX_MS = 4000
-    const val HP_RELEASE_STOCK_MS = 1600
-    const val HP_RELEASE_MIN_MS = 100
-    const val HP_RELEASE_MAX_MS = 8000
     const val HP_VIRT_LR_ANGLE_MAX = 90
     const val HP_VIRT_START_BAND_MAX = 19
     const val CALIBRATION_BOOST_MAX = 192
-    const val VOLUME_LEVELER_AMOUNT_MAX = 10
 
     fun dlog(tag: String, msg: String) {
         if (Log.isLoggable(TAG, Log.DEBUG) || Log.isLoggable(tag, Log.DEBUG)) {

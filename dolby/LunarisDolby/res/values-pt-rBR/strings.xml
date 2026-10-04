@@ -32,13 +32,11 @@
     <string name="dolby_dialogue_enhancer">Realçador de diálogo</string>
     <string name="dolby_spk_virtualizer">Virtualizador surround para alto-falantes</string>
     <string name="dolby_hp_virtualizer">Virtualizador surround para fones</string>
-    <string name="dolby_volume_leveler">Nivelador de volume</string>
     <string name="dolby_bass_enhancer_summary">Realça sons de baixa frequência para graves mais profundos</string>  
     <string name="dolby_treble_enhancer_summary">Realça sons de alta frequência para agudos mais claros</string>
     <string name="dolby_dialogue_enhancer_summary">Melhora a clareza de vozes e diálogos</string>  
     <string name="dolby_spk_virtualizer_summary">Cria som surround virtual nos alto-falantes</string>  
     <string name="dolby_hp_virtualizer_summary">Cria som surround virtual nos fones de ouvido</string>  
-    <string name="dolby_volume_leveler_summary">Equilibra o volume para uma experiência auditiva consistente</string>  
     <string name="dolby_connect_headphones">Conecte fones de ouvido</string>
     <string name="dolby_reset_all">Redefinir perfis</string>
     <string name="dolby_reset_all_message">Isso redefinirá todos os perfis para os padrões de fábrica.</string>
@@ -265,9 +263,6 @@
     <string name="profile_history_title">Profile history</string>
     <string name="profile_history_desc">Recent automatic and manual profile changes</string>
     <string name="profile_history_empty">No history yet</string>
-    <string name="diagnostics_title">Diagnostics</string>
-    <string name="diagnostics_desc">Dolby effect status and automation state</string>
-    <string name="diagnostics_effect">Effect status</string>
     <string name="scheduled_profiles_days_label">Days (empty = every day)</string>
     <string name="scheduled_profiles_days">Days: %1$s</string>
     <string name="scheduled_profiles_priority">Priority: %1$d</string>
@@ -284,14 +279,10 @@
     <string name="loudness_punch">Punch</string>
     <string name="loudness_warm">Warm</string>
     <string name="loudness_max">Max</string>
-    <string name="per_device_gain_section">Per-device gain</string>
-    <string name="per_device_gain_enabled">Per-device gain offset</string>
-    <string name="per_device_gain_slider">Device gain: %1$.1f dB</string>
     <string name="loudness_stack_visual">Loudness stack visualization</string>
     <string name="headroom_title">Audio headroom</string>
     <string name="headroom_peak_eq">EQ peak</string>
     <string name="headroom_output_boost">Output boost</string>
-    <string name="headroom_device_offset">Device offset</string>
     <string name="headroom_remaining">Remaining</string>
     <string name="headroom_over_limit">Total gain exceeds safe headroom — distortion possible</string>
     <string name="loudness_stack_title">Loudness stack</string>
@@ -307,8 +298,6 @@
     <string name="bt_rules_device_label">Device</string>
     <string name="bt_rules_connected_device">Connected Bluetooth device</string>
     <string name="bt_rules_pick_profile">Choose profile for this device</string>
-    <string name="diagnostics_copy">Copy report</string>
-    <string name="diagnostics_copied">Diagnostics copied</string>
     <string name="calibration_title">Audio calibration</string>
     <string name="calibration_desc">Live spectrum view while tuning your listening environment</string>
     <string name="calibration_hint">Play reference audio and watch the spectrum. Adjust EQ on the Equalizer tab.</string>
@@ -330,7 +319,6 @@
     <string name="extended_output_boost_enabled">Extended output boost (up to +15 dB)</string>
     <string name="output_boost_max_label">Max output boost: %1$.1f dB</string>
     <string name="processing_section">Processing</string>
-    <string name="soft_clip_enabled">Soft clip (reduce peaks instead of hard cut)</string>
     <string name="high_pass_enabled">High-pass filter</string>
     <string name="high_pass_hz_label">Cut below %1$d Hz</string>
     <string name="spatial_section">Spatial</string>

@@ -12,22 +12,10 @@ import org.lunaris.dolby.audio.DolbyHalBridge
 internal class AudioEngineProcessor(private val context: Context) {
 
     private val engine = AudioEnginePreferences(context)
-    private val deviceStateManager = DeviceStateManager(context)
-
-    fun currentDeviceKey(): String? {
-        val device = deviceStateManager.getCurrentOutputDevice() ?: return null
-        return deviceStateManager.deviceKey(device)
-    }
 
     fun processGeqForHardware(raw: IntArray, profile: Int, outputBoostOffset: Int): IntArray {
-        var gains = engine.applyHighPassIfNeeded(raw.copyOf())
-        val deviceOffset = engine.getDeviceGainOffsetTenths(currentDeviceKey() ?: "")
-        val combined = gains.map { it + outputBoostOffset + deviceOffset }.toIntArray()
-        return if (engine.isSoftClipEnabled()) {
-            engine.applySoftClipIfNeeded(combined)
-        } else {
-            combined.map { engine.clampEqGain(it) }.toIntArray()
-        }
+        val gains = engine.applyHighPassIfNeeded(raw.copyOf())
+        return gains.map { engine.clampEqGain(it + outputBoostOffset) }.toIntArray()
     }
 
     fun applySpatialProcessing(forceCrossfeed: Boolean = false) {

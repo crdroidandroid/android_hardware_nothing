@@ -173,9 +173,6 @@ fun ModernDolbySettingsScreen(
                         ) {
                             Text(stringResource(R.string.app_profiles_retry))
                         }
-                        TextButton(onClick = { navController.navigate(Screen.Diagnostics.route) }) {
-                            Text(stringResource(R.string.diagnostics_title))
-                        }
                     }
                 }
             }
@@ -275,8 +272,8 @@ private fun FeatureSearchDialog(
             title = stringResource(R.string.dolby_category_adv_settings),
             route = Screen.Advanced.route,
             keywords = listOf(
-                "volume leveler", "dialogue", "atmos", "spatial", "virtualizer",
-                "bass", "ieq", "surround", "stereo"
+                "dialogue", "atmos", "spatial", "virtualizer",
+                "bass", "ieq", "stereo"
             )
         ),
         FeatureDestination(
@@ -313,11 +310,6 @@ private fun FeatureSearchDialog(
             title = stringResource(R.string.profile_history_title),
             route = Screen.ProfileHistory.route,
             keywords = listOf("history", "undo", "log")
-        ),
-        FeatureDestination(
-            title = stringResource(R.string.diagnostics_title),
-            route = Screen.Diagnostics.route,
-            keywords = listOf("diagnostics", "status", "debug", "effect")
         ),
         FeatureDestination(
             title = stringResource(R.string.power_user_audio_title),

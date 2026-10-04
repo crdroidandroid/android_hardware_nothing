@@ -82,18 +82,8 @@ class AudioEnginePreferences(context: Context) {
         prefs.edit().putBoolean(DolbyConstants.PREF_HEADROOM_WARNING_ENABLED, enabled).apply()
     }
 
-    fun isSoftClipEnabled(): Boolean =
-        prefs.getBoolean(DolbyConstants.PREF_SOFT_CLIP_ENABLED, false)
-
-    fun setSoftClipEnabled(enabled: Boolean) {
-        prefs.edit().putBoolean(DolbyConstants.PREF_SOFT_CLIP_ENABLED, enabled).apply()
-    }
-
     fun isLoudnessPresetsEnabled(): Boolean =
         prefs.getBoolean(DolbyConstants.PREF_LOUDNESS_PRESETS_ENABLED, true)
-
-    fun isPerDeviceGainEnabled(): Boolean =
-        prefs.getBoolean(DolbyConstants.PREF_PER_DEVICE_GAIN_ENABLED, false)
 
     fun isStereoBalanceEnabled(): Boolean =
         prefs.getBoolean(DolbyConstants.PREF_STEREO_BALANCE_ENABLED, false)
@@ -124,38 +114,6 @@ class AudioEnginePreferences(context: Context) {
 
     fun setBoolean(key: String, value: Boolean) {
         prefs.edit().putBoolean(key, value).apply()
-    }
-
-    fun getDeviceGainOffsetTenths(deviceKey: String): Int {
-        if (!isPerDeviceGainEnabled()) return 0
-        val raw = prefs.getString(DolbyConstants.PREF_DEVICE_GAIN_OFFSETS, null) ?: return 0
-        return try {
-            JSONObject(raw).optInt(deviceKey, 0)
-        } catch (_: Exception) {
-            0
-        }
-    }
-
-    fun setDeviceGainOffsetTenths(deviceKey: String, tenths: Int) {
-        val json = try {
-            JSONObject(prefs.getString(DolbyConstants.PREF_DEVICE_GAIN_OFFSETS, "{}") ?: "{}")
-        } catch (_: Exception) {
-            JSONObject()
-        }
-        if (tenths == 0) json.remove(deviceKey) else json.put(deviceKey, tenths)
-        prefs.edit().putString(DolbyConstants.PREF_DEVICE_GAIN_OFFSETS, json.toString()).apply()
-    }
-
-    /** Apply soft clip: scale all gains down if peak would exceed max. */
-    fun applySoftClipIfNeeded(gains: IntArray): IntArray {
-        if (!isSoftClipEnabled()) {
-            return gains.map { clampEqGain(it) }.toIntArray()
-        }
-        val max = getEqGainMax()
-        val peak = gains.maxOfOrNull { abs(it) } ?: 0
-        if (peak <= max) return gains.map { clampEqGain(it) }.toIntArray()
-        val scale = max.toFloat() / peak.toFloat()
-        return gains.map { clampEqGain((it * scale).roundToInt()) }.toIntArray()
     }
 
     /** Attenuate low bands for high-pass effect (bands 0-3 of 20-band GEQ). */
@@ -190,7 +148,6 @@ class AudioEnginePreferences(context: Context) {
 data class HeadroomInfo(
     val peakEqDb: Float,
     val outputBoostDb: Float,
-    val deviceOffsetDb: Float,
     val totalUsedDb: Float,
     val maxAllowedDb: Float,
     val remainingDb: Float,
@@ -203,19 +160,16 @@ object HeadroomCalculator {
         eqGains: IntArray,
         outputBoostTenths: Int,
         outputBoostEnabled: Boolean,
-        deviceOffsetTenths: Int,
         engine: AudioEnginePreferences
     ): HeadroomInfo {
         val peakRaw = eqGains.maxOfOrNull { abs(it) } ?: 0
         val peakEqDb = peakRaw / 10f
         val boostDb = if (outputBoostEnabled) outputBoostTenths / 10f else 0f
-        val deviceDb = deviceOffsetTenths / 10f
-        val total = peakEqDb + abs(boostDb) + abs(deviceDb)
+        val total = peakEqDb + abs(boostDb)
         val maxAllowed = engine.maxGainDb() + engine.getOutputBoostMaxTenths() / 10f
         return HeadroomInfo(
             peakEqDb = peakEqDb,
             outputBoostDb = boostDb,
-            deviceOffsetDb = deviceDb,
             totalUsedDb = total,
             maxAllowedDb = maxAllowed,
             remainingDb = maxAllowed - total,

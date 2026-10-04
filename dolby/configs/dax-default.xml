@@ -365,7 +365,7 @@
         <dialog-enhancer-ducking value="0"/>
         <mi-virtualizer-binaural-steering-enable value="false"/>
         <peak-value value="240"/>
-        <surround-decoder-enable value="true"/>
+        <surround-decoder-enable value="false"/>
         <surround-boost value="0"/>
         <volmax-boost value="70"/>
         <hearing-protection-enable value="false"/>
@@ -373,7 +373,7 @@
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
@@ -395,7 +395,7 @@
         <dialog-enhancer-ducking value="0"/>
         <mi-virtualizer-binaural-steering-enable value="false"/>
         <peak-value value="256"/>
-        <surround-decoder-enable value="true"/>
+        <surround-decoder-enable value="false"/>
         <surround-boost value="0"/>
         <volmax-boost value="82"/>
         <hearing-protection-enable value="false"/>
@@ -403,7 +403,7 @@
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
@@ -425,7 +425,7 @@
         <dialog-enhancer-ducking value="0"/>
         <mi-virtualizer-binaural-steering-enable value="false"/>
         <peak-value value="256"/>
-        <surround-decoder-enable value="true"/>
+        <surround-decoder-enable value="false"/>
         <surround-boost value="0"/>
         <volmax-boost value="32"/>
         <hearing-protection-enable value="false"/>
@@ -433,7 +433,7 @@
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
@@ -471,15 +471,15 @@
         <dialog-enhancer-ducking value="0"/>
         <mi-virtualizer-binaural-steering-enable value="false"/>
         <peak-value value="256"/>
-        <surround-decoder-enable value="true"/>
-        <surround-boost value="21"/>
+        <surround-decoder-enable value="false"/>
+        <surround-boost value="0"/>
         <volmax-boost value="64"/>
         <hearing-protection-enable value="false"/>
         <hearing-protection-rms-averaging-time-win-len value="6"/>
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
@@ -501,7 +501,7 @@
         <dialog-enhancer-ducking value="0"/>
         <mi-virtualizer-binaural-steering-enable value="false"/>
         <peak-value value="256"/>
-        <surround-decoder-enable value="true"/>
+        <surround-decoder-enable value="false"/>
         <surround-boost value="0"/>
         <volmax-boost value="64"/>
         <hearing-protection-enable value="false"/>
@@ -509,7 +509,7 @@
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
@@ -531,7 +531,7 @@
         <dialog-enhancer-ducking value="0"/>
         <mi-virtualizer-binaural-steering-enable value="false"/>
         <peak-value value="256"/>
-        <surround-decoder-enable value="true"/>
+        <surround-decoder-enable value="false"/>
         <surround-boost value="0"/>
         <volmax-boost value="32"/>
         <hearing-protection-enable value="false"/>
@@ -539,7 +539,7 @@
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
@@ -577,7 +577,7 @@
         <dialog-enhancer-ducking value="0"/>
         <mi-virtualizer-binaural-steering-enable value="false"/>
         <peak-value value="256"/>
-        <surround-decoder-enable value="true"/>
+        <surround-decoder-enable value="false"/>
         <surround-boost value="0"/>
         <volmax-boost value="48"/>
         <hearing-protection-enable value="false"/>
@@ -585,7 +585,7 @@
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
@@ -607,7 +607,7 @@
         <dialog-enhancer-ducking value="0"/>
         <mi-virtualizer-binaural-steering-enable value="false"/>
         <peak-value value="256"/>
-        <surround-decoder-enable value="true"/>
+        <surround-decoder-enable value="false"/>
         <surround-boost value="0"/>
         <volmax-boost value="32"/>
         <hearing-protection-enable value="false"/>
@@ -615,7 +615,7 @@
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
@@ -637,7 +637,7 @@
         <dialog-enhancer-ducking value="0"/>
         <mi-virtualizer-binaural-steering-enable value="false"/>
         <peak-value value="256"/>
-        <surround-decoder-enable value="true"/>
+        <surround-decoder-enable value="false"/>
         <surround-boost value="0"/>
         <volmax-boost value="32"/>
         <hearing-protection-enable value="false"/>
@@ -645,7 +645,7 @@
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
@@ -683,7 +683,7 @@
         <dialog-enhancer-ducking value="0"/>
         <mi-virtualizer-binaural-steering-enable value="false"/>
         <peak-value value="256"/>
-        <surround-decoder-enable value="true"/>
+        <surround-decoder-enable value="false"/>
         <surround-boost value="0"/>
         <volmax-boost value="48"/>
         <hearing-protection-enable value="false"/>
@@ -691,7 +691,7 @@
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
@@ -713,7 +713,7 @@
         <dialog-enhancer-ducking value="0"/>
         <mi-virtualizer-binaural-steering-enable value="false"/>
         <peak-value value="256"/>
-        <surround-decoder-enable value="true"/>
+        <surround-decoder-enable value="false"/>
         <surround-boost value="0"/>
         <volmax-boost value="64"/>
         <hearing-protection-enable value="false"/>
@@ -721,7 +721,7 @@
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
@@ -743,7 +743,7 @@
         <dialog-enhancer-ducking value="0"/>
         <mi-virtualizer-binaural-steering-enable value="false"/>
         <peak-value value="256"/>
-        <surround-decoder-enable value="true"/>
+        <surround-decoder-enable value="false"/>
         <surround-boost value="0"/>
         <volmax-boost value="32"/>
         <hearing-protection-enable value="false"/>
@@ -751,7 +751,7 @@
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
@@ -789,7 +789,7 @@
         <dialog-enhancer-ducking value="0"/>
         <mi-virtualizer-binaural-steering-enable value="false"/>
         <peak-value value="256"/>
-        <surround-decoder-enable value="true"/>
+        <surround-decoder-enable value="false"/>
         <surround-boost value="0"/>
         <volmax-boost value="32"/>
         <hearing-protection-enable value="false"/>
@@ -797,7 +797,7 @@
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
@@ -819,7 +819,7 @@
         <dialog-enhancer-ducking value="0"/>
         <mi-virtualizer-binaural-steering-enable value="false"/>
         <peak-value value="256"/>
-        <surround-decoder-enable value="true"/>
+        <surround-decoder-enable value="false"/>
         <surround-boost value="0"/>
         <volmax-boost value="32"/>
         <hearing-protection-enable value="false"/>
@@ -827,7 +827,7 @@
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
@@ -849,7 +849,7 @@
         <dialog-enhancer-ducking value="0"/>
         <mi-virtualizer-binaural-steering-enable value="false"/>
         <peak-value value="256"/>
-        <surround-decoder-enable value="true"/>
+        <surround-decoder-enable value="false"/>
         <surround-boost value="0"/>
         <volmax-boost value="32"/>
         <hearing-protection-enable value="false"/>
@@ -857,7 +857,7 @@
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
@@ -895,7 +895,7 @@
         <dialog-enhancer-ducking value="0"/>
         <mi-virtualizer-binaural-steering-enable value="false"/>
         <peak-value value="256"/>
-        <surround-decoder-enable value="true"/>
+        <surround-decoder-enable value="false"/>
         <surround-boost value="0"/>
         <volmax-boost value="32"/>
         <hearing-protection-enable value="false"/>
@@ -903,7 +903,7 @@
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
@@ -925,7 +925,7 @@
         <dialog-enhancer-ducking value="0"/>
         <mi-virtualizer-binaural-steering-enable value="false"/>
         <peak-value value="256"/>
-        <surround-decoder-enable value="true"/>
+        <surround-decoder-enable value="false"/>
         <surround-boost value="0"/>
         <volmax-boost value="32"/>
         <hearing-protection-enable value="false"/>
@@ -933,7 +933,7 @@
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
@@ -955,7 +955,7 @@
         <dialog-enhancer-ducking value="0"/>
         <mi-virtualizer-binaural-steering-enable value="false"/>
         <peak-value value="256"/>
-        <surround-decoder-enable value="true"/>
+        <surround-decoder-enable value="false"/>
         <surround-boost value="0"/>
         <volmax-boost value="32"/>
         <hearing-protection-enable value="false"/>
@@ -963,7 +963,7 @@
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
@@ -1001,7 +1001,7 @@
         <dialog-enhancer-ducking value="0"/>
         <mi-virtualizer-binaural-steering-enable value="false"/>
         <peak-value value="256"/>
-        <surround-decoder-enable value="true"/>
+        <surround-decoder-enable value="false"/>
         <surround-boost value="0"/>
         <volmax-boost value="32"/>
         <hearing-protection-enable value="false"/>
@@ -1009,7 +1009,7 @@
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
@@ -1031,7 +1031,7 @@
         <dialog-enhancer-ducking value="0"/>
         <mi-virtualizer-binaural-steering-enable value="false"/>
         <peak-value value="256"/>
-        <surround-decoder-enable value="true"/>
+        <surround-decoder-enable value="false"/>
         <surround-boost value="0"/>
         <volmax-boost value="32"/>
         <hearing-protection-enable value="false"/>
@@ -1039,7 +1039,7 @@
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
@@ -1061,7 +1061,7 @@
         <dialog-enhancer-ducking value="0"/>
         <mi-virtualizer-binaural-steering-enable value="false"/>
         <peak-value value="256"/>
-        <surround-decoder-enable value="true"/>
+        <surround-decoder-enable value="false"/>
         <surround-boost value="0"/>
         <volmax-boost value="32"/>
         <hearing-protection-enable value="false"/>
@@ -1069,7 +1069,7 @@
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
@@ -1107,7 +1107,7 @@
         <dialog-enhancer-ducking value="0"/>
         <mi-virtualizer-binaural-steering-enable value="false"/>
         <peak-value value="256"/>
-        <surround-decoder-enable value="true"/>
+        <surround-decoder-enable value="false"/>
         <surround-boost value="0"/>
         <volmax-boost value="32"/>
         <hearing-protection-enable value="false"/>
@@ -1115,7 +1115,7 @@
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
@@ -1137,7 +1137,7 @@
         <dialog-enhancer-ducking value="0"/>
         <mi-virtualizer-binaural-steering-enable value="false"/>
         <peak-value value="256"/>
-        <surround-decoder-enable value="true"/>
+        <surround-decoder-enable value="false"/>
         <surround-boost value="0"/>
         <volmax-boost value="32"/>
         <hearing-protection-enable value="false"/>
@@ -1145,7 +1145,7 @@
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
@@ -1167,7 +1167,7 @@
         <dialog-enhancer-ducking value="0"/>
         <mi-virtualizer-binaural-steering-enable value="false"/>
         <peak-value value="256"/>
-        <surround-decoder-enable value="true"/>
+        <surround-decoder-enable value="false"/>
         <surround-boost value="0"/>
         <volmax-boost value="32"/>
         <hearing-protection-enable value="false"/>
@@ -1175,7 +1175,7 @@
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
@@ -1213,7 +1213,7 @@
         <dialog-enhancer-ducking value="0"/>
         <mi-virtualizer-binaural-steering-enable value="false"/>
         <peak-value value="240"/>
-        <surround-decoder-enable value="true"/>
+        <surround-decoder-enable value="false"/>
         <surround-boost value="0"/>
         <volmax-boost value="18"/>
         <hearing-protection-enable value="false"/>
@@ -1221,7 +1221,7 @@
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
@@ -1243,15 +1243,15 @@
         <dialog-enhancer-ducking value="0"/>
         <mi-virtualizer-binaural-steering-enable value="false"/>
         <peak-value value="256"/>
-        <surround-decoder-enable value="true"/>
-        <surround-boost value="16"/>
+        <surround-decoder-enable value="false"/>
+        <surround-boost value="0"/>
         <volmax-boost value="38"/>
         <hearing-protection-enable value="false"/>
         <hearing-protection-rms-averaging-time-win-len value="6"/>
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
@@ -1273,7 +1273,7 @@
         <dialog-enhancer-ducking value="0"/>
         <mi-virtualizer-binaural-steering-enable value="false"/>
         <peak-value value="256"/>
-        <surround-decoder-enable value="true"/>
+        <surround-decoder-enable value="false"/>
         <surround-boost value="0"/>
         <volmax-boost value="32"/>
         <hearing-protection-enable value="false"/>
@@ -1281,7 +1281,7 @@
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
@@ -1319,7 +1319,7 @@
         <dialog-enhancer-ducking value="0"/>
         <mi-virtualizer-binaural-steering-enable value="false"/>
         <peak-value value="240"/>
-        <surround-decoder-enable value="true"/>
+        <surround-decoder-enable value="false"/>
         <surround-boost value="0"/>
         <volmax-boost value="66"/>
         <hearing-protection-enable value="false"/>
@@ -1327,7 +1327,7 @@
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
@@ -1349,15 +1349,15 @@
         <dialog-enhancer-ducking value="0"/>
         <mi-virtualizer-binaural-steering-enable value="false"/>
         <peak-value value="256"/>
-        <surround-decoder-enable value="true"/>
-        <surround-boost value="64"/>
+        <surround-decoder-enable value="false"/>
+        <surround-boost value="0"/>
         <volmax-boost value="64"/>
         <hearing-protection-enable value="false"/>
         <hearing-protection-rms-averaging-time-win-len value="6"/>
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
@@ -1379,7 +1379,7 @@
         <dialog-enhancer-ducking value="0"/>
         <mi-virtualizer-binaural-steering-enable value="false"/>
         <peak-value value="256"/>
-        <surround-decoder-enable value="true"/>
+        <surround-decoder-enable value="false"/>
         <surround-boost value="0"/>
         <volmax-boost value="32"/>
         <hearing-protection-enable value="false"/>
@@ -1387,7 +1387,7 @@
         <hearing-protection-rms-attenuation-target value="-256"/>
         <hearing-protection-attenuation-attack-time value="900"/>
         <hearing-protection-attenuation-release-time value="1600"/>
-        <volume-leveler-enable value="true"/>
+        <volume-leveler-enable value="false"/>
         <volume-leveler-amount value="0"/>
         <volume-leveler-in-target value="-256"/>
         <volume-leveler-out-target value="-256"/>
@@ -1494,7 +1494,7 @@
       <volume-leveler-compressor-enable value="false"/>
       <bass-extraction-enable value="false"/>
       <complex-equalizer-enable value="false"/>
-      <regulator-enable value="true"/>
+      <regulator-enable value="false"/>
       <regulator-speaker-dist-enable value="true"/>
       <regulator-sibilance-suppress-enable value="true"/>
       <bass-mbdrc-enable value="true"/>
@@ -1594,7 +1594,7 @@
       <volume-leveler-compressor-enable value="false"/>
       <bass-extraction-enable value="false"/>
       <complex-equalizer-enable value="true"/>
-      <regulator-enable value="true"/>
+      <regulator-enable value="false"/>
       <regulator-speaker-dist-enable value="true"/>
       <regulator-sibilance-suppress-enable value="true"/>
       <bass-mbdrc-enable value="true"/>
@@ -1693,7 +1693,7 @@
       <volume-leveler-compressor-enable value="false"/>
       <bass-extraction-enable value="false"/>
       <complex-equalizer-enable value="false"/>
-      <regulator-enable value="true"/>
+      <regulator-enable value="false"/>
       <regulator-speaker-dist-enable value="true"/>
       <regulator-sibilance-suppress-enable value="true"/>
       <bass-mbdrc-enable value="true"/>
@@ -1792,7 +1792,7 @@
       <volume-leveler-compressor-enable value="false"/>
       <bass-extraction-enable value="false"/>
       <complex-equalizer-enable value="false"/>
-      <regulator-enable value="true"/>
+      <regulator-enable value="false"/>
       <regulator-speaker-dist-enable value="true"/>
       <regulator-sibilance-suppress-enable value="true"/>
       <bass-mbdrc-enable value="true"/>
@@ -1891,7 +1891,7 @@
       <volume-leveler-compressor-enable value="false"/>
       <bass-extraction-enable value="false"/>
       <complex-equalizer-enable value="false"/>
-      <regulator-enable value="true"/>
+      <regulator-enable value="false"/>
       <regulator-speaker-dist-enable value="true"/>
       <regulator-sibilance-suppress-enable value="false"/>
       <bass-mbdrc-enable value="true"/>
@@ -1987,7 +1987,7 @@
       <volume-leveler-compressor-enable value="false"/>
       <bass-extraction-enable value="false"/>
       <complex-equalizer-enable value="false"/>
-      <regulator-enable value="true"/>
+      <regulator-enable value="false"/>
       <regulator-speaker-dist-enable value="false"/>
       <regulator-sibilance-suppress-enable value="false"/>
       <bass-mbdrc-enable value="false"/>
@@ -2081,7 +2081,7 @@
       <volume-leveler-compressor-enable value="false"/>
       <bass-extraction-enable value="false"/>
       <complex-equalizer-enable value="false"/>
-      <regulator-enable value="true"/>
+      <regulator-enable value="false"/>
       <regulator-speaker-dist-enable value="false"/>
       <regulator-sibilance-suppress-enable value="false"/>
       <bass-mbdrc-enable value="false"/>
