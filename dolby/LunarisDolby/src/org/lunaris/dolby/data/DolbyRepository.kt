@@ -151,8 +151,9 @@ class DolbyRepository(private val context: Context) : AutoCloseable {
             val dialogueAmount = prefs.getInt(DolbyConstants.PREF_DIALOGUE_AMOUNT, 6)
             dolbyEffect.setDapParameter(DsParam.DIALOGUE_ENHANCER_AMOUNT, dialogueAmount, profile)
             
-            val bassEnabled = prefs.getBoolean(DolbyConstants.PREF_BASS, false)
-            dolbyEffect.setDapParameter(DsParam.BASS_ENHANCER_ENABLE, bassEnabled, profile)
+            // BASS_ENHANCER_ENABLE is owned by AudioTuningController.applyAdvancedBass,
+            // which ORs in the Bass slider state. Writing it here as well made the two
+            // writers fight over the one flag.
             
             audioTuning.applyAll(profile)
             
@@ -351,9 +352,10 @@ class DolbyRepository(private val context: Context) : AutoCloseable {
         if (isReleased) return
         
         try {
-            checkEffect()
-            dolbyEffect.setDapParameter(DsParam.BASS_ENHANCER_ENABLE, enabled, profile)
             getProfilePrefs(profile).edit().putBoolean(DolbyConstants.PREF_BASS, enabled).apply()
+            // The flag is shared with the advanced bass engine, so recompute it there
+            // instead of writing it here and clobbering that engine's enable.
+            audioTuning.reapplyBassEnhancer(profile)
         } catch (e: Exception) {
             DolbyConstants.dlog(TAG, "Error setting bass enhancer: ${e.message}")
         }

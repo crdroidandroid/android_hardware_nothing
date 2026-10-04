@@ -255,6 +255,10 @@ internal class AudioTuningController(
     fun isAdvancedBassEnabled(profile: Int): Boolean =
         profilePrefs(profile).getBoolean(DolbyConstants.PREF_ADV_BASS_ENABLED, false)
 
+    /** The Bass slider's own enable (see setBassLevel -> setBassEnhancerEnabled). */
+    private fun isBassEnhancerOn(profile: Int): Boolean =
+        profilePrefs(profile).getBoolean(DolbyConstants.PREF_BASS, false)
+
     fun getAdvancedBassBoost(profile: Int): Int =
         profilePrefs(profile).getInt(DolbyConstants.PREF_ADV_BASS_BOOST, 40)
             .coerceIn(0, 100)
@@ -294,11 +298,19 @@ internal class AudioTuningController(
         applyAdvancedBass(profile)
     }
 
+    /** Recomputes the shared bass-enhancer enable flag (Bass slider OR this engine). */
+    fun reapplyBassEnhancer(profile: Int) = applyAdvancedBass(profile)
+
     private fun applyAdvancedBass(profile: Int) {
         val enabled = isAdvancedBassEnabled(profile)
-        if (enabled) {
-            setDapInt(DsParam.BASS_ENHANCER_ENABLE, profile, 1)
-        }
+        // The bass-enhancer stage has a single enable flag, shared with the Bass
+        // slider (setBassLevel -> setBassEnhancerEnabled). This engine only tunes
+        // that stage, so it must not switch it off while the slider still wants
+        // bass -- and it must clear the flag when it turns off, which the old
+        // `if (enabled)` guard never did despite the "off restores stock tuning"
+        // summary.
+        val stageEnabled = enabled || isBassEnhancerOn(profile)
+        setDapInt(DsParam.BASS_ENHANCER_ENABLE, profile, if (stageEnabled) 1 else 0)
         DolbyHalBridge.applyAdvancedBass(
             context,
             enabled,
