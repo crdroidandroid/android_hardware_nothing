@@ -173,7 +173,15 @@ class DolbyEffectService : Service() {
         }
     }
 
+    private fun isInCall(): Boolean =
+        audioManager.mode == AudioManager.MODE_IN_CALL ||
+            audioManager.mode == AudioManager.MODE_IN_COMMUNICATION
+
     private fun handleDeviceChange() {
+        if (isInCall()) {
+            Log.d(TAG, "Device change during call, deferring to call end")
+            return
+        }
         val appMonitoring = dolbyPrefs.getBoolean("app_profile_monitoring_enabled", false)
         val priority = dolbyPrefs.getString(
             DolbyConstants.PREF_PROFILE_PRIORITY,
@@ -240,13 +248,14 @@ class DolbyEffectService : Service() {
     }
 
     private fun checkCallState() {
-        val inCall = audioManager.mode == AudioManager.MODE_IN_CALL ||
-            audioManager.mode == AudioManager.MODE_IN_COMMUNICATION
+        val inCall = isInCall()
         if (inCall != wasInCall) {
             wasInCall = inCall
             DolbyAutomationCoordinator.handleCallState(this, inCall)
+            if (!inCall) {
+                handleDeviceChange()
+            }
         }
-        DolbyAutomationCoordinator.enforceSafeListeningLimit(this)
     }
 
     override fun onDestroy() {
