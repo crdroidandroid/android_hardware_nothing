@@ -246,6 +246,8 @@ public class AnimationManager {
             updates.put(GlyphManagerV2.Glyph.MAIN, frame[2]);
             updates.put(GlyphManagerV2.Glyph.DOT, frame[6]);
             updates.put(GlyphManagerV2.Glyph.LINE, frame[7]);
+            updates.put(GlyphManagerV2.Glyph.SINGLE_LED,
+                    backgroundState.getOrDefault(GlyphManagerV2.Glyph.SINGLE_LED, 0));
 
             GlyphManagerV2.getInstance().setGlyphBrightness(updates);
         }
