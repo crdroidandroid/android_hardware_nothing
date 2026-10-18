@@ -21,7 +21,12 @@ import org.aspends.nglyphs.util.OggMetadataParser;
 
 public class GlyphEffects {
     private static Future<?> activeEffectFuture;
-    private static final ExecutorService effectExecutor = Executors.newSingleThreadExecutor();
+    private static ExecutorService effectExecutor = Executors.newSingleThreadExecutor();
+    private static volatile Thread effectThread;
+    private static volatile long activeTaskSession = -1;
+    private static volatile long highPrioritySession = -1;
+    private static volatile long ringtoneStartedAt;
+    private static final long RINGTONE_MAX_MS = 120000L;
     private static final AtomicLong sessionCounter = new AtomicLong(0);
     private static volatile int activeStreamType = -1;
     private static volatile boolean activeIsRingtone = false;
@@ -39,6 +44,27 @@ public class GlyphEffects {
             Thread.sleep(ms);
         } catch (InterruptedException e) {
             throw new EffectInterruptedException();
+        }
+    }
+
+    private static Future<?> submitEffect(Runnable task) {
+        try {
+            return effectExecutor.submit(task);
+        } catch (java.util.concurrent.RejectedExecutionException e) {
+            effectExecutor = Executors.newSingleThreadExecutor();
+            return effectExecutor.submit(task);
+        }
+    }
+
+    private static void acquireHighPriority(long sessionId) {
+        highPrioritySession = sessionId;
+        AnimationManager.setHighPriorityActive(true);
+    }
+
+    private static void releaseHighPriority(long sessionId) {
+        if (highPrioritySession == sessionId) {
+            highPrioritySession = -1;
+            AnimationManager.setHighPriorityActive(false);
         }
     }
 
@@ -62,7 +88,7 @@ public class GlyphEffects {
         run(style, brightness, vibrator, context, audioStreamType, false);
     }
 
-    public static void run(String style, int brightness, Vibrator vibrator,
+    public static synchronized void run(String style, int brightness, Vibrator vibrator,
             android.content.Context context, int audioStreamType, boolean forceAudio) {
         if (context != null) {
             android.content.SharedPreferences prefs = context.getSharedPreferences(
@@ -90,27 +116,33 @@ public class GlyphEffects {
         // Strict Priority: Never allow any non-ringtone to stop a ringtone
         boolean isNewRequestRingtone = (audioStreamType == android.media.AudioManager.STREAM_RING);
         if (activeIsRingtone && !isNewRequestRingtone && activeEffectFuture != null
-                && !activeEffectFuture.isDone()) {
+                && !activeEffectFuture.isDone()
+                && android.os.SystemClock.elapsedRealtime() - ringtoneStartedAt < RINGTONE_MAX_MS) {
             return;
         }
 
         stopCustomRingtone(); // Stop any currently playing effect
         activeStreamType = audioStreamType;
         activeIsRingtone = isNewRequestRingtone;
+        if (isNewRequestRingtone) {
+            ringtoneStartedAt = android.os.SystemClock.elapsedRealtime();
+        }
         final long sessionId = sessionCounter.incrementAndGet();
 
-        activeEffectFuture = effectExecutor.submit(() -> {
+        activeEffectFuture = submitEffect(() -> {
+            activeTaskSession = sessionId;
+            effectThread = Thread.currentThread();
             try {
                 java.io.File customOgg =
                         CustomRingtoneManager.getCustomRingtoneFile(context, style);
                 if (customOgg != null) {
-                    AnimationManager.setHighPriorityActive(true);
+                    acquireHighPriority(sessionId);
                     executeCustomRingtone(customOgg, brightness, vibrator, context, audioStreamType,
                             sessionId, forceAudio);
                     return;
                 }
 
-                AnimationManager.setHighPriorityActive(true);
+                acquireHighPriority(sessionId);
 
                 if (style.startsWith("native_")) {
                     GlyphManagerV2 nativeManager = GlyphManagerV2.getInstance();
@@ -874,8 +906,14 @@ public class GlyphEffects {
                 // Abort the effect and turn off LEDs
                 updateAll(0, context, audioStreamType);
             } finally {
+                if (activeTaskSession == sessionId) {
+                    activeTaskSession = -1;
+                }
+                if (effectThread == Thread.currentThread()) {
+                    effectThread = null;
+                }
+                releaseHighPriority(sessionId);
                 if (sessionCounter.get() == sessionId) {
-                    AnimationManager.setHighPriorityActive(false);
                     updateAll(0, context, audioStreamType);
                     if (finalCtx != null) {
                         finalCtx.sendBroadcast(new android.content
@@ -973,12 +1011,33 @@ public class GlyphEffects {
         // Audio now handled by system RingtoneManager
     }
 
-    public static void stopCustomRingtone() {
+    public static synchronized void stopCustomRingtone() {
+        sessionCounter.incrementAndGet();
         activeStreamType = -1;
         activeIsRingtone = false;
         if (activeEffectFuture != null) {
             activeEffectFuture.cancel(true);
             activeEffectFuture = null;
+        }
+        final Thread running = effectThread;
+        final long stoppedTask = activeTaskSession;
+        if (running != null) {
+            Thread watchdog = new Thread(() -> {
+                try {
+                    running.join(3000);
+                } catch (InterruptedException ignored) {
+                }
+                if (running.isAlive() && activeTaskSession == stoppedTask) {
+                    effectExecutor.shutdownNow();
+                    effectExecutor = Executors.newSingleThreadExecutor();
+                    if (effectThread == running) {
+                        effectThread = null;
+                    }
+                    activeTaskSession = -1;
+                }
+            });
+            watchdog.setDaemon(true);
+            watchdog.start();
         }
         if (previewPlayer != null) {
             try {
@@ -989,6 +1048,7 @@ public class GlyphEffects {
             }
             previewPlayer = null;
         }
+        highPrioritySession = -1;
         AnimationManager.setHighPriorityActive(false);
         GlyphManagerV2.getInstance().toggleAll(false);
         AnimationManager.refreshBackgroundState();
@@ -1122,7 +1182,8 @@ public class GlyphEffects {
 
                 do {
                     for (int frameIdx = 0; frameIdx < frames.length; frameIdx++) {
-                        if (Thread.currentThread().isInterrupted())
+                        if (Thread.currentThread().isInterrupted()
+                                || sessionCounter.get() != sessionId)
                             break;
 
                         String line = frames[frameIdx].trim();
@@ -1209,7 +1270,8 @@ public class GlyphEffects {
                         }
                     }
                     totalFrameOffset += frames.length;
-                } while (isRingtoneLoop && !Thread.currentThread().isInterrupted());
+                } while (isRingtoneLoop && !Thread.currentThread().isInterrupted()
+                        && sessionCounter.get() == sessionId);
             }
 
             // sync loop finishes
@@ -1276,8 +1338,8 @@ public class GlyphEffects {
         play(context, folder, fileName, vibrator, brightness, false);
     }
 
-    public static void play(android.content.Context context, String folder, String fileName,
-            Vibrator vibrator, int brightness, boolean loop) {
+    public static synchronized void play(android.content.Context context, String folder,
+            String fileName, Vibrator vibrator, int brightness, boolean loop) {
         if (context != null) {
             android.content.SharedPreferences prefs = context.getSharedPreferences(
                     context.getString(R.string.pref_file), android.content.Context.MODE_PRIVATE);
@@ -1290,7 +1352,8 @@ public class GlyphEffects {
 
         // Notifications (which use play) cannot interrupt a ringtone
         if (activeStreamType == android.media.AudioManager.STREAM_RING && activeEffectFuture != null
-                && !activeEffectFuture.isDone()) {
+                && !activeEffectFuture.isDone()
+                && android.os.SystemClock.elapsedRealtime() - ringtoneStartedAt < RINGTONE_MAX_MS) {
             return;
         }
 
@@ -1298,11 +1361,19 @@ public class GlyphEffects {
         final android.content.Context appCtx =
                 context != null ? context.getApplicationContext() : null;
         float scale = (float) brightness / 4095f;
+        activeStreamType = loop ? android.media.AudioManager.STREAM_RING
+                                : android.media.AudioManager.STREAM_NOTIFICATION;
+        activeIsRingtone = loop;
+        if (loop) {
+            ringtoneStartedAt = android.os.SystemClock.elapsedRealtime();
+        }
 
         final long sessionId = sessionCounter.incrementAndGet();
 
-        activeEffectFuture = effectExecutor.submit(() -> {
-            AnimationManager.setHighPriorityActive(true);
+        activeEffectFuture = submitEffect(() -> {
+            activeTaskSession = sessionId;
+            effectThread = Thread.currentThread();
+            acquireHighPriority(sessionId);
             try {
                 String csvPath = folder + "/" + fileName + ".csv";
                 if (!assetExists(appCtx, csvPath)) {
@@ -1333,7 +1404,8 @@ public class GlyphEffects {
                         boolean vibratedThisCycle = false;
                         String line;
                         while ((line = reader.readLine()) != null
-                                && !Thread.currentThread().isInterrupted()) {
+                                && !Thread.currentThread().isInterrupted()
+                                && sessionCounter.get() == sessionId) {
                             String trimmed = line.trim();
                             if (trimmed.isEmpty())
                                 continue;
@@ -1385,12 +1457,19 @@ public class GlyphEffects {
                             }
                         }
                     }
-                } while (loop && !Thread.currentThread().isInterrupted());
+                } while (loop && !Thread.currentThread().isInterrupted()
+                        && sessionCounter.get() == sessionId);
             } catch (Exception ignored) {
             } finally {
+                if (activeTaskSession == sessionId) {
+                    activeTaskSession = -1;
+                }
+                if (effectThread == Thread.currentThread()) {
+                    effectThread = null;
+                }
+                releaseHighPriority(sessionId);
                 if (sessionCounter.get() == sessionId) {
                     GlyphManagerV2.getInstance().toggleAll(false);
-                    AnimationManager.setHighPriorityActive(false);
                     AnimationManager.refreshBackgroundState();
                     if (appCtx != null) {
                         appCtx.sendBroadcast(new android.content
