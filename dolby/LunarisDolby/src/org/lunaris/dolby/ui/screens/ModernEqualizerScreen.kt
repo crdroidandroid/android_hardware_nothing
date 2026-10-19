@@ -457,8 +457,10 @@ private fun ModernEqualizerContent(
         }
 
         ExtendedEqRangeCard(
+            graphicEqEnabled = state.graphicEqEnabled,
             extendedEq = extendedEq,
             eqPreset = eqPreset,
+            onGraphicEqChange = { viewModel.setGraphicEqEnabled(it) },
             onExtendedEqChange = {
                 extendedEq = it
                 enginePrefs.setExtendedEqEnabled(it)
@@ -506,8 +508,10 @@ private fun ModernEqualizerContent(
 
 @Composable
 private fun ExtendedEqRangeCard(
+    graphicEqEnabled: Boolean,
     extendedEq: Boolean,
     eqPreset: AudioEnginePreferences.EqRangePreset,
+    onGraphicEqChange: (Boolean) -> Unit,
     onExtendedEqChange: (Boolean) -> Unit,
     onEqPresetChange: (AudioEnginePreferences.EqRangePreset) -> Unit
 ) {
@@ -522,6 +526,13 @@ private fun ExtendedEqRangeCard(
             modifier = Modifier.padding(20.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
+            ModernSettingSwitch(
+                title = stringResource(R.string.graphic_eq_enable_title),
+                subtitle = stringResource(R.string.graphic_eq_enable_summary),
+                checked = graphicEqEnabled,
+                onCheckedChange = onGraphicEqChange,
+                icon = Icons.Default.Equalizer
+            )
             ModernSettingSwitch(
                 title = stringResource(R.string.extended_eq_enabled),
                 subtitle = stringResource(R.string.eq_range_label),

@@ -46,15 +46,10 @@ data class ProfileSettings(
     val bassCurve: Int = 0,
     val outputBoostEnabled: Boolean = false,
     val outputBoostTenthsDb: Int = 0,
-    val virtualBassSpeakerEnabled: Boolean = false,
     val virtualBassBluetoothEnabled: Boolean = false,
     val virtualBassMode: Int = 0,
     val virtualBassOverallGain: Int = -187,
     val virtualBassSlopeGain: Int = -2,
-    val advancedBassEnabled: Boolean = false,
-    val advancedBassBoost: Int = 40,
-    val advancedBassCutoff: Int = 303,
-    val advancedBassWidth: Int = 8,
     val hpVirtMode: Int = 0,
     val hpVirtLrAngle: Int = 45,
     val hpVirtStartBand: Int = 0
@@ -233,7 +228,8 @@ sealed class EqualizerUiState {
         val presets: List<EqualizerPreset>,
         val currentPreset: EqualizerPreset,
         val bandGains: List<BandGain>,
-        val bandMode: BandMode
+        val bandMode: BandMode,
+        val graphicEqEnabled: Boolean = true
     ) : EqualizerUiState()
     data class Error(val message: String) : EqualizerUiState()
 }

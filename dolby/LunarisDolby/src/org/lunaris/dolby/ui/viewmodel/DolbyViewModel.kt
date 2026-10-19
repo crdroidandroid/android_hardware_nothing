@@ -116,15 +116,10 @@ class DolbyViewModel(application: Application) : AndroidViewModel(application) {
                     bassCurve = repository.getBassCurve(profile),
                     outputBoostEnabled = repository.isOutputBoostEnabled(profile),
                     outputBoostTenthsDb = repository.getOutputBoostTenths(profile),
-                    virtualBassSpeakerEnabled = repository.isVirtualBassSpeakerEnabled(profile),
                     virtualBassBluetoothEnabled = repository.isVirtualBassBluetoothEnabled(profile),
                     virtualBassMode = repository.getVirtualBassMode(profile),
                     virtualBassOverallGain = repository.getVirtualBassOverallGain(profile),
                     virtualBassSlopeGain = repository.getVirtualBassSlopeGain(profile),
-                    advancedBassEnabled = repository.isAdvancedBassEnabled(profile),
-                    advancedBassBoost = repository.getAdvancedBassBoost(profile),
-                    advancedBassCutoff = repository.getAdvancedBassCutoff(profile),
-                    advancedBassWidth = repository.getAdvancedBassWidth(profile),
                     hpVirtMode = repository.getHpVirtMode(profile),
                     hpVirtLrAngle = repository.getHpVirtLrAngle(profile),
                     hpVirtStartBand = repository.getHpVirtStartBand(profile)
@@ -343,30 +338,6 @@ class DolbyViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun setVirtualBass(enabled: Boolean) {
-        viewModelScope.launch {
-            try {
-                val profile = repository.getCurrentProfile()
-                repository.setVirtualBassEnabled(profile, enabled)
-                loadSettings()
-            } catch (e: Exception) {
-                reportSettingFailure("setting virtual bass", e)
-            }
-        }
-    }
-
-    fun setVirtualBassSpeaker(enabled: Boolean) {
-        viewModelScope.launch {
-            try {
-                val profile = repository.getCurrentProfile()
-                repository.setVirtualBassSpeakerEnabled(profile, enabled)
-                loadSettings()
-            } catch (e: Exception) {
-                reportSettingFailure("setting speaker virtual bass", e)
-            }
-        }
-    }
-
     fun setVirtualBassBluetooth(enabled: Boolean) {
         viewModelScope.launch {
             try {
@@ -399,19 +370,6 @@ class DolbyViewModel(application: Application) : AndroidViewModel(application) {
                 loadSettings()
             } catch (e: Exception) {
                 reportSettingFailure("setting dialogue ducking", e)
-            }
-        }
-    }
-
-    fun setAdvancedBass(enabled: Boolean, boostPercent: Int, cutoffHz: Int, width: Int? = null) {
-        viewModelScope.launch {
-            try {
-                val profile = repository.getCurrentProfile()
-                val w = width ?: repository.getAdvancedBassWidth(profile)
-                repository.setAdvancedBass(profile, enabled, boostPercent, cutoffHz, w)
-                loadSettings()
-            } catch (e: Exception) {
-                reportSettingFailure("setting advanced bass", e)
             }
         }
     }

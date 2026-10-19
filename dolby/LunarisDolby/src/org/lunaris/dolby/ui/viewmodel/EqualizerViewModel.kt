@@ -82,7 +82,8 @@ class EqualizerViewModel(application: Application) : AndroidViewModel(applicatio
                         presets = allPresets,
                         currentPreset = currentPreset,
                         bandGains = bandGains,
-                        bandMode = currentBandMode
+                        bandMode = currentBandMode,
+                        graphicEqEnabled = repository.isGraphicEqEnabled(currentProfile)
                     )
                 }
             } catch (e: Exception) {
@@ -140,6 +141,19 @@ class EqualizerViewModel(application: Application) : AndroidViewModel(applicatio
                 },
                 bandMode = bandMode
             )
+        }
+    }
+
+    fun setGraphicEqEnabled(enabled: Boolean) {
+        if (isCleared) return
+        try {
+            repository.setGraphicEqEnabled(currentProfile, enabled)
+            val current = _uiState.value
+            if (current is EqualizerUiState.Success) {
+                _uiState.value = current.copy(graphicEqEnabled = enabled)
+            }
+        } catch (e: Exception) {
+            DolbyConstants.dlog(TAG, "Error setting graphic EQ enable: ${e.message}")
         }
     }
 

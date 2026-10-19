@@ -23,8 +23,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import org.lunaris.dolby.DolbyConstants
 import org.lunaris.dolby.R
-import org.lunaris.dolby.domain.models.AudioDeviceCategory
+import org.lunaris.dolby.data.AudioEnginePreferences
 import org.lunaris.dolby.domain.models.DolbyUiState
 import org.lunaris.dolby.ui.components.*
 import org.lunaris.dolby.ui.viewmodel.DolbyViewModel
@@ -83,7 +84,6 @@ fun ModernAdvancedSettingsScreen(
                 ModernAdvancedSettingsContent(
                     state = state,
                     viewModel = viewModel,
-                    navController = navController,
                     modifier = Modifier.padding(paddingValues)
                 )
             }
@@ -167,7 +167,6 @@ fun ModernAdvancedSettingsScreen(
 private fun ModernAdvancedSettingsContent(
     state: DolbyUiState.Success,
     viewModel: DolbyViewModel,
-    navController: NavController,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -226,14 +225,6 @@ private fun ModernAdvancedSettingsContent(
                             }
                         }
                     }
-                    OutlinedButton(
-                        onClick = { navController.navigate(Screen.PowerUserAudio.route) },
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Icon(Icons.Default.Tune, contentDescription = null, modifier = Modifier.size(20.dp))
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(stringResource(R.string.power_user_audio_title))
-                    }
                 }
             }
             item {
@@ -241,14 +232,6 @@ private fun ModernAdvancedSettingsContent(
                     title = stringResource(R.string.dolby_category_settings),
                     icon = Icons.Default.Tune
                 ) {
-                    ModernSettingSwitch(
-                        title = stringResource(R.string.graphic_eq_enable_title),
-                        subtitle = stringResource(R.string.graphic_eq_enable_summary),
-                        checked = state.profileSettings.graphicEqEnabled,
-                        onCheckedChange = { viewModel.setGraphicEqEnabled(it) },
-                        icon = Icons.Default.Equalizer
-                    )
-                    Spacer(modifier = Modifier.height(12.dp))
                     Column {
                         ModernSettingSwitch(
                             title = stringResource(R.string.dolby_bass_enhancer),
@@ -355,7 +338,6 @@ private fun ModernAdvancedSettingsContent(
             item {
                 AudioTuningSettingsCard(
                     profileSettings = state.profileSettings,
-                    isOnBluetooth = state.activeAudioDevice.category == AudioDeviceCategory.BLUETOOTH,
                     viewModel = viewModel
                 )
             }
@@ -469,32 +451,6 @@ private fun ModernAdvancedSettingsContent(
                             }
                         }
 
-                        Spacer(modifier = Modifier.height(12.dp))
-                        ModernSettingSwitch(
-                            title = stringResource(R.string.dialogue_ducking_title),
-                            subtitle = stringResource(R.string.dialogue_ducking_summary),
-                            checked = state.profileSettings.dialogueDuckingEnabled,
-                            onCheckedChange = { enabled ->
-                                viewModel.setDialogueDucking(
-                                    enabled,
-                                    state.profileSettings.dialogueDuckingAmount
-                                )
-                            },
-                            icon = Icons.Default.VoiceOverOff
-                        )
-                        AnimatedVisibility(visible = state.profileSettings.dialogueDuckingEnabled) {
-                            Column {
-                                Spacer(modifier = Modifier.height(8.dp))
-                                ModernSettingSlider(
-                                    title = stringResource(R.string.dialogue_ducking_amount_title),
-                                    value = state.profileSettings.dialogueDuckingAmount,
-                                    onValueChange = { viewModel.setDialogueDucking(true, it.toInt()) },
-                                    valueRange = 0f..16f,
-                                    steps = 15,
-                                    valueLabel = { "$it" }
-                                )
-                            }
-                        }
                     }
                 }
             }
@@ -561,10 +517,10 @@ private fun ModernAdvancedSettingsContent(
 @Composable
 private fun AudioTuningSettingsCard(
     profileSettings: org.lunaris.dolby.domain.models.ProfileSettings,
-    isOnBluetooth: Boolean,
     viewModel: DolbyViewModel
 ) {
     val context = LocalContext.current
+    val enginePrefs = remember { AudioEnginePreferences(context) }
     ModernSettingsCard(
         title = stringResource(R.string.audio_tuning_title),
         icon = Icons.Default.VolumeUp
@@ -586,158 +542,24 @@ private fun AudioTuningSettingsCard(
         AnimatedVisibility(visible = profileSettings.outputBoostEnabled) {
             Column {
                 Spacer(modifier = Modifier.height(8.dp))
-                ModernSettingSlider(
-                    title = stringResource(R.string.output_boost_title),
-                    value = profileSettings.outputBoostTenthsDb,
-                    onValueChange = { viewModel.setOutputBoost(true, it.toInt()) },
-                    valueRange = viewModel.getOutputBoostMinTenths().toFloat()..
-                        viewModel.getOutputBoostMaxTenths().toFloat(),
-                    steps = (viewModel.getOutputBoostMaxTenths() - viewModel.getOutputBoostMinTenths() - 1).coerceAtLeast(0),
-                    valueLabel = { tenths ->
-                        context.getString(R.string.output_boost_value, tenths / 10f)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    listOf(30, 60, 90, 120).forEach { tenths ->
+                        FilterChip(
+                            selected = profileSettings.outputBoostTenthsDb == tenths,
+                            onClick = {
+                                if (tenths > DolbyConstants.OUTPUT_BOOST_STANDARD_MAX) {
+                                    enginePrefs.setExtendedOutputBoostEnabled(true)
+                                }
+                                viewModel.setOutputBoost(true, tenths)
+                            },
+                            label = { Text("${tenths / 10} dB") },
+                            modifier = Modifier.weight(1f)
+                        )
                     }
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(12.dp))
-        if (isOnBluetooth) {
-            ModernSettingSwitch(
-                title = stringResource(R.string.virtual_bass_bluetooth_title),
-                subtitle = stringResource(R.string.virtual_bass_bluetooth_summary),
-                checked = profileSettings.virtualBassBluetoothEnabled,
-                onCheckedChange = { viewModel.setVirtualBassBluetooth(it) },
-                icon = Icons.Default.Bluetooth
-            )
-        } else {
-            ModernSettingSwitch(
-                title = stringResource(R.string.virtual_bass_speaker_title),
-                subtitle = stringResource(R.string.virtual_bass_speaker_summary),
-                checked = profileSettings.virtualBassSpeakerEnabled,
-                onCheckedChange = { viewModel.setVirtualBassSpeaker(it) },
-                icon = Icons.Default.GraphicEq
-            )
-        }
-        AnimatedVisibility(
-            visible = if (isOnBluetooth) {
-                profileSettings.virtualBassBluetoothEnabled
-            } else {
-                profileSettings.virtualBassSpeakerEnabled
-            }
-        ) {
-            Column {
-                Spacer(modifier = Modifier.height(8.dp))
-                ModernSettingSlider(
-                    title = stringResource(R.string.vb_mode_title),
-                    value = profileSettings.virtualBassMode,
-                    onValueChange = {
-                        viewModel.setVirtualBassDetails(
-                            it.toInt(),
-                            profileSettings.virtualBassOverallGain,
-                            profileSettings.virtualBassSlopeGain
-                        )
-                    },
-                    valueRange = 0f..2f,
-                    steps = 1,
-                    valueLabel = { "$it" }
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                ModernSettingSlider(
-                    title = stringResource(R.string.vb_overall_gain_title),
-                    value = profileSettings.virtualBassOverallGain,
-                    onValueChange = {
-                        viewModel.setVirtualBassDetails(
-                            profileSettings.virtualBassMode,
-                            it.toInt(),
-                            profileSettings.virtualBassSlopeGain
-                        )
-                    },
-                    valueRange = -320f..0f,
-                    steps = 31,
-                    valueLabel = { "$it" }
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                ModernSettingSlider(
-                    title = stringResource(R.string.vb_slope_gain_title),
-                    value = profileSettings.virtualBassSlopeGain,
-                    onValueChange = {
-                        viewModel.setVirtualBassDetails(
-                            profileSettings.virtualBassMode,
-                            profileSettings.virtualBassOverallGain,
-                            it.toInt()
-                        )
-                    },
-                    valueRange = -32f..32f,
-                    steps = 31,
-                    valueLabel = { "$it" }
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(12.dp))
-        ModernSettingSwitch(
-            title = stringResource(R.string.adv_bass_title),
-            subtitle = stringResource(R.string.adv_bass_summary),
-            checked = profileSettings.advancedBassEnabled,
-            onCheckedChange = { enabled ->
-                viewModel.setAdvancedBass(
-                    enabled,
-                    profileSettings.advancedBassBoost,
-                    profileSettings.advancedBassCutoff,
-                    profileSettings.advancedBassWidth
-                )
-            },
-            icon = Icons.Default.Speaker
-        )
-        AnimatedVisibility(visible = profileSettings.advancedBassEnabled) {
-            Column {
-                Spacer(modifier = Modifier.height(8.dp))
-                ModernSettingSlider(
-                    title = stringResource(R.string.adv_bass_boost_title),
-                    value = profileSettings.advancedBassBoost,
-                    onValueChange = {
-                        viewModel.setAdvancedBass(
-                            true,
-                            it.toInt(),
-                            profileSettings.advancedBassCutoff,
-                            profileSettings.advancedBassWidth
-                        )
-                    },
-                    valueRange = 0f..100f,
-                    steps = 19,
-                    valueLabel = { "$it%" }
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                ModernSettingSlider(
-                    title = stringResource(R.string.adv_bass_cutoff_title),
-                    value = profileSettings.advancedBassCutoff,
-                    onValueChange = {
-                        viewModel.setAdvancedBass(
-                            true,
-                            profileSettings.advancedBassBoost,
-                            it.toInt(),
-                            profileSettings.advancedBassWidth
-                        )
-                    },
-                    valueRange = 50f..1000f,
-                    steps = 18,
-                    valueLabel = { "$it Hz" }
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                ModernSettingSlider(
-                    title = stringResource(R.string.adv_bass_width_title),
-                    value = profileSettings.advancedBassWidth,
-                    onValueChange = {
-                        viewModel.setAdvancedBass(
-                            true,
-                            profileSettings.advancedBassBoost,
-                            profileSettings.advancedBassCutoff,
-                            it.toInt()
-                        )
-                    },
-                    valueRange = 1f..16f,
-                    steps = 14,
-                    valueLabel = { "$it" }
-                )
+                }
             }
         }
     }

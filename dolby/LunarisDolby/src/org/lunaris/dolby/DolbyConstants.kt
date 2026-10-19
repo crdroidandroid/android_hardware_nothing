@@ -29,16 +29,10 @@ object DolbyConstants {
     const val PREF_TREBLE_LEVEL = "dolby_treble_level"
     const val PREF_OUTPUT_BOOST_ENABLED = "dolby_output_boost_enabled"
     const val PREF_OUTPUT_BOOST_TENTHS = "dolby_output_boost_tenths"
-    const val PREF_VIRTUAL_BASS = "dolby_virtual_bass"
-    const val PREF_VIRTUAL_BASS_SPEAKER = "dolby_virtual_bass_speaker"
     const val PREF_VIRTUAL_BASS_BLUETOOTH = "dolby_virtual_bass_bluetooth"
     const val PREF_DIALOGUE_DUCKING_ENABLED = "dolby_dialogue_ducking_enabled"
     const val PREF_DIALOGUE_DUCKING_AMOUNT = "dolby_dialogue_ducking_amount"
     const val PREF_GRAPHIC_EQ_ENABLED = "dolby_graphic_eq_enabled"
-    const val PREF_ADV_BASS_ENABLED = "dolby_adv_bass_enabled"
-    const val PREF_ADV_BASS_BOOST = "dolby_adv_bass_boost"
-    const val PREF_ADV_BASS_CUTOFF = "dolby_adv_bass_cutoff"
-    const val PREF_ADV_BASS_WIDTH = "dolby_adv_bass_width"
     const val PREF_VB_MODE = "dolby_vb_mode"
     const val PREF_VB_OVERALL_GAIN = "dolby_vb_overall_gain"
     const val PREF_VB_SLOPE_GAIN = "dolby_vb_slope_gain"
@@ -152,15 +146,6 @@ object DolbyConstants {
     const val EQ_GAIN_EXTENDED = 240
     const val EQ_GAIN_EXTREME = 300
     const val DIALOGUE_DUCKING_MAX = 16
-    // Raw DAX units for the vendor bass-enhancer stage (see configs/dax-default.xml)
-    const val ADV_BASS_BOOST_RAW_MAX = 480
-    const val ADV_BASS_BOOST_RAW_STOCK = 36
-    const val ADV_BASS_CUTOFF_MIN_HZ = 50
-    const val ADV_BASS_CUTOFF_MAX_HZ = 1000
-    const val ADV_BASS_CUTOFF_STOCK_HZ = 303
-    const val ADV_BASS_WIDTH_MIN = 1
-    const val ADV_BASS_WIDTH_MAX = 16
-    const val ADV_BASS_WIDTH_STOCK = 8
     // Virtual bass (dax-default: mode 3 / overall -187 / slope -2; UI mode clamped 0-2)
     const val VB_MODE_MAX = 2
     const val VB_MODE_STOCK = 0

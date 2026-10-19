@@ -31,7 +31,6 @@ internal class AudioTuningController(
         applyGraphicEqEnable(profile)
         applyDialogueDucking(profile)
         applyVirtualBass(profile)
-        applyAdvancedBass(profile)
         applyHeadphoneVirtualizerTuning(profile)
         applyCalibrationBoost()
         applySpatialMaster(profile)
@@ -103,45 +102,8 @@ internal class AudioTuningController(
     fun getAudioEnginePreferences(): AudioEnginePreferences = audioEngine.preferences()
     // --- Virtual bass ---
 
-    private fun migrateVirtualBassPreference(profile: Int) {
-        val prefs = profilePrefs(profile)
-        if (!prefs.contains(DolbyConstants.PREF_VIRTUAL_BASS_SPEAKER)) {
-            prefs.edit()
-                .putBoolean(
-                    DolbyConstants.PREF_VIRTUAL_BASS_SPEAKER,
-                    prefs.getBoolean(DolbyConstants.PREF_VIRTUAL_BASS, false)
-                )
-                .apply()
-        }
-    }
-
-    fun isVirtualBassSpeakerEnabled(profile: Int): Boolean {
-        migrateVirtualBassPreference(profile)
-        return profilePrefs(profile).getBoolean(DolbyConstants.PREF_VIRTUAL_BASS_SPEAKER, false)
-    }
-
     fun isVirtualBassBluetoothEnabled(profile: Int): Boolean =
         profilePrefs(profile).getBoolean(DolbyConstants.PREF_VIRTUAL_BASS_BLUETOOTH, false)
-
-    fun isVirtualBassEnabled(profile: Int): Boolean = when (activeDeviceCategory()) {
-        AudioDeviceCategory.BLUETOOTH -> isVirtualBassBluetoothEnabled(profile)
-        else -> isVirtualBassSpeakerEnabled(profile)
-    }
-
-    fun setVirtualBassEnabled(profile: Int, enabled: Boolean) {
-        when (activeDeviceCategory()) {
-            AudioDeviceCategory.BLUETOOTH -> setVirtualBassBluetoothEnabled(profile, enabled)
-            else -> setVirtualBassSpeakerEnabled(profile, enabled)
-        }
-    }
-
-    fun setVirtualBassSpeakerEnabled(profile: Int, enabled: Boolean) {
-        if (isReleased()) return
-        profilePrefs(profile).edit()
-            .putBoolean(DolbyConstants.PREF_VIRTUAL_BASS_SPEAKER, enabled)
-            .apply()
-        applyVirtualBass(profile)
-    }
 
     fun setVirtualBassBluetoothEnabled(profile: Int, enabled: Boolean) {
         if (isReleased()) return
@@ -187,25 +149,10 @@ internal class AudioTuningController(
         val mode = getVirtualBassMode(profile)
         val overall = getVirtualBassOverallGain(profile)
         val slope = getVirtualBassSlopeGain(profile)
-        when (activeDeviceCategory()) {
-            AudioDeviceCategory.SPEAKER -> {
-                val enabled = isVirtualBassSpeakerEnabled(profile)
-                setDapInt(DsParam.VIRTUAL_BASS_ENABLE, profile, if (enabled) 1 else 0)
-                DolbyHalBridge.applyVirtualBassHal(context, enabled, mode, overall, slope)
-            }
-            AudioDeviceCategory.BLUETOOTH -> {
-                // DAX rejects VIRTUAL_BASS_ENABLE on non-speaker endpoints. Keep an
-                // experimental HAL-only path for vendors that expose a BT-capable handler.
-                DolbyHalBridge.applyVirtualBassHal(
-                    context,
-                    isVirtualBassBluetoothEnabled(profile),
-                    mode,
-                    overall,
-                    slope
-                )
-            }
-            else -> DolbyHalBridge.applyVirtualBassHal(context, false, mode, overall, slope)
+        if (activeDeviceCategory() == AudioDeviceCategory.SPEAKER) {
+            setDapInt(DsParam.VIRTUAL_BASS_ENABLE, profile, 0)
         }
+        DolbyHalBridge.applyVirtualBassHal(context, false, mode, overall, slope)
     }
 
     // --- Graphic EQ processing enable ---
@@ -245,79 +192,7 @@ internal class AudioTuningController(
     }
 
     private fun applyDialogueDucking(profile: Int) {
-        val enabled = isDialogueDuckingEnabled(profile)
-        val amount = if (enabled) getDialogueDuckingAmount(profile) else 0
-        setDapInt(DsParam.DIALOGUE_DUCKING, profile, amount)
-    }
-
-    // --- Advanced bass engine (vendor HAL tuning) ---
-
-    fun isAdvancedBassEnabled(profile: Int): Boolean =
-        profilePrefs(profile).getBoolean(DolbyConstants.PREF_ADV_BASS_ENABLED, false)
-
-    /** The Bass slider's own enable (see setBassLevel -> setBassEnhancerEnabled). */
-    private fun isBassEnhancerOn(profile: Int): Boolean =
-        profilePrefs(profile).getBoolean(DolbyConstants.PREF_BASS, false)
-
-    fun getAdvancedBassBoost(profile: Int): Int =
-        profilePrefs(profile).getInt(DolbyConstants.PREF_ADV_BASS_BOOST, 40)
-            .coerceIn(0, 100)
-
-    fun getAdvancedBassCutoff(profile: Int): Int =
-        profilePrefs(profile).getInt(
-            DolbyConstants.PREF_ADV_BASS_CUTOFF, DolbyConstants.ADV_BASS_CUTOFF_STOCK_HZ
-        ).coerceIn(DolbyConstants.ADV_BASS_CUTOFF_MIN_HZ, DolbyConstants.ADV_BASS_CUTOFF_MAX_HZ)
-
-    fun getAdvancedBassWidth(profile: Int): Int =
-        profilePrefs(profile).getInt(
-            DolbyConstants.PREF_ADV_BASS_WIDTH, DolbyConstants.ADV_BASS_WIDTH_STOCK
-        ).coerceIn(DolbyConstants.ADV_BASS_WIDTH_MIN, DolbyConstants.ADV_BASS_WIDTH_MAX)
-
-    fun setAdvancedBass(
-        profile: Int,
-        enabled: Boolean,
-        boostPercent: Int,
-        cutoffHz: Int,
-        width: Int = getAdvancedBassWidth(profile)
-    ) {
-        if (isReleased()) return
-        profilePrefs(profile).edit()
-            .putBoolean(DolbyConstants.PREF_ADV_BASS_ENABLED, enabled)
-            .putInt(DolbyConstants.PREF_ADV_BASS_BOOST, boostPercent.coerceIn(0, 100))
-            .putInt(
-                DolbyConstants.PREF_ADV_BASS_CUTOFF,
-                cutoffHz.coerceIn(
-                    DolbyConstants.ADV_BASS_CUTOFF_MIN_HZ, DolbyConstants.ADV_BASS_CUTOFF_MAX_HZ
-                )
-            )
-            .putInt(
-                DolbyConstants.PREF_ADV_BASS_WIDTH,
-                width.coerceIn(DolbyConstants.ADV_BASS_WIDTH_MIN, DolbyConstants.ADV_BASS_WIDTH_MAX)
-            )
-            .apply()
-        applyAdvancedBass(profile)
-    }
-
-    /** Recomputes the shared bass-enhancer enable flag (Bass slider OR this engine). */
-    fun reapplyBassEnhancer(profile: Int) = applyAdvancedBass(profile)
-
-    private fun applyAdvancedBass(profile: Int) {
-        val enabled = isAdvancedBassEnabled(profile)
-        // The bass-enhancer stage has a single enable flag, shared with the Bass
-        // slider (setBassLevel -> setBassEnhancerEnabled). This engine only tunes
-        // that stage, so it must not switch it off while the slider still wants
-        // bass -- and it must clear the flag when it turns off, which the old
-        // `if (enabled)` guard never did despite the "off restores stock tuning"
-        // summary.
-        val stageEnabled = enabled || isBassEnhancerOn(profile)
-        setDapInt(DsParam.BASS_ENHANCER_ENABLE, profile, if (stageEnabled) 1 else 0)
-        DolbyHalBridge.applyAdvancedBass(
-            context,
-            enabled,
-            getAdvancedBassBoost(profile),
-            getAdvancedBassCutoff(profile),
-            getAdvancedBassWidth(profile)
-        )
+        setDapInt(DsParam.DIALOGUE_DUCKING, profile, 0)
     }
 
     // --- Headphone virtualizer tuning ---

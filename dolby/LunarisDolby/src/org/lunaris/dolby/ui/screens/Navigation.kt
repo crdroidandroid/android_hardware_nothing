@@ -30,7 +30,6 @@ sealed class Screen(val route: String) {
     object AutomationSettings : Screen("automation_settings")
     object BluetoothRules : Screen("bluetooth_rules")
     object ProfileHistory : Screen("profile_history")
-    object PowerUserAudio : Screen("power_user_audio")
 
     companion object {
         // Must be lazy: eager init of allRoutes during Screen.<clinit> reads nested
@@ -48,8 +47,7 @@ sealed class Screen(val route: String) {
                 ImportExport.route,
                 AutomationSettings.route,
                 BluetoothRules.route,
-                ProfileHistory.route,
-                PowerUserAudio.route
+                ProfileHistory.route
             )
         }
     }
@@ -140,14 +138,6 @@ fun DolbyNavHost(
 
         composable(Screen.ProfileHistory.route) {
             ProfileHistoryScreen(navController = navController)
-        }
-
-
-        composable(Screen.PowerUserAudio.route) {
-            PowerUserAudioScreen(
-                navController = navController,
-                dolbyViewModel = dolbyViewModel
-            )
         }
     }
 

@@ -25,8 +25,6 @@ import androidx.navigation.NavController
 import org.lunaris.dolby.R
 import android.content.Context
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringArrayResource
-import org.lunaris.dolby.data.AutomationStatusResolver
 import org.lunaris.dolby.data.ProfileChangeHistoryManager
 import org.lunaris.dolby.data.UndoOfferNotifier
 import org.lunaris.dolby.domain.models.DolbyUiState
@@ -312,11 +310,6 @@ private fun FeatureSearchDialog(
             keywords = listOf("history", "undo", "log")
         ),
         FeatureDestination(
-            title = stringResource(R.string.power_user_audio_title),
-            route = Screen.PowerUserAudio.route,
-            keywords = listOf("power user", "audio engine", "loudness", "spatial", "headroom")
-        ),
-        FeatureDestination(
             title = stringResource(R.string.preset_import_export),
             route = Screen.ImportExport.route,
             keywords = listOf("import", "export", "share", "backup")
@@ -381,19 +374,6 @@ private fun ModernDolbySettingsContent(
     navController: NavController,
     modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
-    val statusResolver = remember { AutomationStatusResolver(context) }
-    val historyManager = remember { ProfileChangeHistoryManager(context) }
-    val automationStatus = remember(state) { statusResolver.resolve() }
-    val profiles = stringArrayResource(R.array.dolby_profile_entries)
-    val profileValues = stringArrayResource(R.array.dolby_profile_values)
-    val profileIdx = profileValues.indexOf(state.settings.currentProfile.toString())
-    val profileName = profiles.getOrElse(profileIdx.coerceAtLeast(0)) { "?" }
-
-    DisposableEffect(Unit) {
-        onDispose { statusResolver.close() }
-    }
-
     LazyColumn(
         modifier = modifier.fillMaxSize(),
         contentPadding = PaddingValues(16.dp),
@@ -409,18 +389,6 @@ private fun ModernDolbySettingsContent(
 
         item {
             ActiveAudioDeviceCard(device = state.activeAudioDevice)
-        }
-
-        item {
-            ActiveRuleStatusCard(
-                status = automationStatus,
-                currentProfileName = profileName,
-                onUndoClick = {
-                    historyManager.consumeUndoProfile()?.let { profile ->
-                        viewModel.setProfile(profile)
-                    }
-                }
-            )
         }
 
         item {

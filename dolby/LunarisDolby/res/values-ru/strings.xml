@@ -238,15 +238,6 @@
     <string name="scheduled_profiles_rule_summary">%1$s · %2$d:00 – %3$d:00</string>
     <string name="scheduled_profiles_delete_title">Delete schedule</string>
     <string name="scheduled_profiles_delete_message">Delete schedule \"%1$s\"?</string>
-    <string name="status_panel_title">Active status</string>
-    <string name="status_current_profile">Profile</string>
-    <string name="status_active_source">Source</string>
-    <string name="status_detail">Detail</string>
-    <string name="status_schedule">Schedule</string>
-    <string name="status_app">App</string>
-    <string name="status_bluetooth">Bluetooth rule</string>
-    <string name="status_media">Media type</string>
-    <string name="status_atmos">Atmos content</string>
     <string name="undo_profile_change">Undo profile change</string>
     <string name="undo">Undo</string>
     <string name="undo_snackbar_message">Profile changed: %1$s</string>

@@ -151,10 +151,9 @@ class DolbyRepository(private val context: Context) : AutoCloseable {
             val dialogueAmount = prefs.getInt(DolbyConstants.PREF_DIALOGUE_AMOUNT, 6)
             dolbyEffect.setDapParameter(DsParam.DIALOGUE_ENHANCER_AMOUNT, dialogueAmount, profile)
             
-            // BASS_ENHANCER_ENABLE is owned by AudioTuningController.applyAdvancedBass,
-            // which ORs in the Bass slider state. Writing it here as well made the two
-            // writers fight over the one flag.
-            
+            val bassEnabled = prefs.getBoolean(DolbyConstants.PREF_BASS, false)
+            dolbyEffect.setDapParameter(DsParam.BASS_ENHANCER_ENABLE, bassEnabled, profile)
+
             audioTuning.applyAll(profile)
             
             DolbyConstants.dlog(TAG, "Successfully restored all settings for profile $profile")
@@ -350,12 +349,11 @@ class DolbyRepository(private val context: Context) : AutoCloseable {
 
     fun setBassEnhancerEnabled(profile: Int, enabled: Boolean) {
         if (isReleased) return
-        
+
         try {
+            checkEffect()
+            dolbyEffect.setDapParameter(DsParam.BASS_ENHANCER_ENABLE, enabled, profile)
             getProfilePrefs(profile).edit().putBoolean(DolbyConstants.PREF_BASS, enabled).apply()
-            // The flag is shared with the advanced bass engine, so recompute it there
-            // instead of writing it here and clobbering that engine's enable.
-            audioTuning.reapplyBassEnhancer(profile)
         } catch (e: Exception) {
             DolbyConstants.dlog(TAG, "Error setting bass enhancer: ${e.message}")
         }
@@ -920,13 +918,6 @@ class DolbyRepository(private val context: Context) : AutoCloseable {
     fun setOutputBoost(profile: Int, enabled: Boolean, tenthsDb: Int) =
         audioTuning.setOutputBoost(profile, enabled, tenthsDb)
 
-    fun isVirtualBassEnabled(profile: Int) = audioTuning.isVirtualBassEnabled(profile)
-    fun setVirtualBassEnabled(profile: Int, enabled: Boolean) =
-        audioTuning.setVirtualBassEnabled(profile, enabled)
-    fun isVirtualBassSpeakerEnabled(profile: Int) =
-        audioTuning.isVirtualBassSpeakerEnabled(profile)
-    fun setVirtualBassSpeakerEnabled(profile: Int, enabled: Boolean) =
-        audioTuning.setVirtualBassSpeakerEnabled(profile, enabled)
     fun isVirtualBassBluetoothEnabled(profile: Int) =
         audioTuning.isVirtualBassBluetoothEnabled(profile)
     fun setVirtualBassBluetoothEnabled(profile: Int, enabled: Boolean) =
@@ -942,17 +933,6 @@ class DolbyRepository(private val context: Context) : AutoCloseable {
     fun getDialogueDuckingAmount(profile: Int) = audioTuning.getDialogueDuckingAmount(profile)
     fun setDialogueDucking(profile: Int, enabled: Boolean, amount: Int) =
         audioTuning.setDialogueDucking(profile, enabled, amount)
-    fun isAdvancedBassEnabled(profile: Int) = audioTuning.isAdvancedBassEnabled(profile)
-    fun getAdvancedBassBoost(profile: Int) = audioTuning.getAdvancedBassBoost(profile)
-    fun getAdvancedBassCutoff(profile: Int) = audioTuning.getAdvancedBassCutoff(profile)
-    fun getAdvancedBassWidth(profile: Int) = audioTuning.getAdvancedBassWidth(profile)
-    fun setAdvancedBass(
-        profile: Int,
-        enabled: Boolean,
-        boostPercent: Int,
-        cutoffHz: Int,
-        width: Int = getAdvancedBassWidth(profile)
-    ) = audioTuning.setAdvancedBass(profile, enabled, boostPercent, cutoffHz, width)
     fun getHpVirtMode(profile: Int) = audioTuning.getHpVirtMode(profile)
     fun getHpVirtLrAngle(profile: Int) = audioTuning.getHpVirtLrAngle(profile)
     fun getHpVirtStartBand(profile: Int) = audioTuning.getHpVirtStartBand(profile)

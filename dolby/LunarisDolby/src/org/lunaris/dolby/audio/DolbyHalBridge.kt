@@ -42,43 +42,6 @@ object DolbyHalBridge {
         DolbyConstants.dlog(TAG, "virtual_bass=$flag mode=$vbMode overall=$overall slope=$slope applied=$applied")
     }
 
-    fun applyAdvancedBass(
-        context: Context,
-        enabled: Boolean,
-        boostPercent: Int,
-        cutoffHz: Int,
-        width: Int = DolbyConstants.ADV_BASS_WIDTH_STOCK
-    ) {
-        val flag = if (enabled) 1 else 0
-        val rawBoost = if (enabled) {
-            boostPercent.coerceIn(0, 100) * DolbyConstants.ADV_BASS_BOOST_RAW_MAX / 100
-        } else {
-            DolbyConstants.ADV_BASS_BOOST_RAW_STOCK
-        }
-        val cutoff = if (enabled) {
-            cutoffHz.coerceIn(DolbyConstants.ADV_BASS_CUTOFF_MIN_HZ, DolbyConstants.ADV_BASS_CUTOFF_MAX_HZ)
-        } else {
-            DolbyConstants.ADV_BASS_CUTOFF_STOCK_HZ
-        }
-        val widthVal = if (enabled) {
-            width.coerceIn(DolbyConstants.ADV_BASS_WIDTH_MIN, DolbyConstants.ADV_BASS_WIDTH_MAX)
-        } else {
-            DolbyConstants.ADV_BASS_WIDTH_STOCK
-        }
-        // bass-enhancer-enable is the same stage AudioTuningController toggles as
-        // DsParam.BASS_ENHANCER_ENABLE. Setting it here as well keeps the stage on when only
-        // the tuning values changed, so a boost edit cannot land on a disabled stage.
-        val applied = DolbyDmsBridge.setIntParams(
-            linkedMapOf(
-                DolbyDmsBridge.Param.BASS_ENHANCER_ENABLE to flag,
-                DolbyDmsBridge.Param.BASS_ENHANCER_BOOST to rawBoost,
-                DolbyDmsBridge.Param.BASS_ENHANCER_CUTOFF_FREQUENCY to cutoff,
-                DolbyDmsBridge.Param.BASS_ENHANCER_WIDTH to widthVal
-            )
-        )
-        DolbyConstants.dlog(TAG, "adv_bass enabled=$enabled boost=$rawBoost cutoff=$cutoff width=$widthVal applied=$applied")
-    }
-
     fun applyHeadphoneVirtualizerTuning(
         context: Context,
         mode: Int,

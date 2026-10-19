@@ -301,26 +301,11 @@
     <string name="output_boost_value">%1$.1f dB</string>
     <string name="virtual_bass_title">Sanal bas</string>
     <string name="virtual_bass_summary">Küçük hoparlörlerde daha derin bas için DAX sanal bas işleme</string>
-    <string name="virtual_bass_speaker_title">Telefon hoparlörü sanal bası</string>
-    <string name="virtual_bass_speaker_summary">Telefon hoparlörleri için DAX sanal bas işleme</string>
-    <string name="virtual_bass_bluetooth_title">Bluetooth sanal bası</string>
-    <string name="virtual_bass_bluetooth_summary">Deneyseldir; kullanılabilirlik bağlı cihaza ve ses HAL desteğine bağlıdır</string>
     <string name="graphic_eq_enable_title">Grafik ekolayzer işleme</string>
     <string name="graphic_eq_enable_summary">20 bantlı ekolayzer aşamasının ana anahtarı. Kapatınca tüm bant kazançları anında baypas edilir</string>
-    <string name="dialogue_ducking_title">Diyalog önceliği (ducking)</string>
-    <string name="dialogue_ducking_summary">Konuşma algılandığında müzik ve efektleri kısar, diyalog önde kalır</string>
-    <string name="dialogue_ducking_amount_title">Kısma gücü</string>
-    <string name="adv_bass_title">Gelişmiş bas motoru</string>
-    <string name="adv_bass_summary">DAX bas güçlendirici aşamasının özel ayarı: güçlendirme seviyesi ve geçiş frekansı. Kapatınca fabrika ayarına döner</string>
-    <string name="adv_bass_boost_title">Bas güçlendirme</string>
-    <string name="adv_bass_cutoff_title">Bas geçiş frekansı</string>
-    <string name="adv_bass_width_title">Bas güçlendirici genişliği</string>
     <string name="hp_virt_mode_title">Kulaklık sanallaştırıcı modu</string>
     <string name="hp_virt_angle_title">Kulaklık sanallaştırıcı L/R açısı</string>
     <string name="hp_virt_start_band_title">Kulaklık sanallaştırıcı başlangıç bandı</string>
-    <string name="vb_mode_title">Sanal bas modu</string>
-    <string name="vb_overall_gain_title">Sanal bas genel kazancı</string>
-    <string name="vb_slope_gain_title">Sanal bas eğim kazancı</string>
     <string name="spatial_audio_master">Uzamsal ses işleme</string>
     <string name="calibration_boost_section">Uç nokta kalibrasyon güçlendirmesi</string>
     <string name="calibration_boost_speaker">Hoparlör kalibrasyonu (%1$d)</string>
@@ -340,15 +325,6 @@
     <string name="close">Kapat</string>
 
     <!-- Feature expansion -->
-    <string name="status_panel_title">Aktif durum</string>
-    <string name="status_current_profile">Profil</string>
-    <string name="status_active_source">Kaynak</string>
-    <string name="status_detail">Detay</string>
-    <string name="status_schedule">Zamanlama</string>
-    <string name="status_app">Uygulama</string>
-    <string name="status_bluetooth">Bluetooth kuralı</string>
-    <string name="status_media">Medya türü</string>
-    <string name="status_atmos">Atmos içerik</string>
     <string name="undo_profile_change">Profil değişikliğini geri al</string>
     <string name="undo">Geri al</string>
     <string name="undo_snackbar_message">Profil değişti: %1$s</string>

@@ -301,26 +301,11 @@
     <string name="output_boost_value">%1$.1f dB</string>
     <string name="virtual_bass_title">Virtual bass</string>
     <string name="virtual_bass_summary">DAX virtual bass processing for deeper low-end on small drivers</string>
-    <string name="virtual_bass_speaker_title">Speaker virtual bass</string>
-    <string name="virtual_bass_speaker_summary">DAX virtual bass processing for the phone speakers</string>
-    <string name="virtual_bass_bluetooth_title">Bluetooth virtual bass</string>
-    <string name="virtual_bass_bluetooth_summary">Experimental HAL processing; availability depends on the connected device and audio HAL</string>
     <string name="graphic_eq_enable_title">Graphic equalizer processing</string>
     <string name="graphic_eq_enable_summary">Master switch for the 20-band equalizer stage. Turn off to bypass all band gains instantly</string>
-    <string name="dialogue_ducking_title">Dialogue ducking</string>
-    <string name="dialogue_ducking_summary">Lowers music and effects while speech is detected so dialogue stays on top</string>
-    <string name="dialogue_ducking_amount_title">Ducking strength</string>
-    <string name="adv_bass_title">Advanced bass engine</string>
-    <string name="adv_bass_summary">Custom tuning of the DAX bass-enhancer stage: boost level and crossover frequency. Turning off restores stock tuning</string>
-    <string name="adv_bass_boost_title">Bass boost</string>
-    <string name="adv_bass_cutoff_title">Bass crossover frequency</string>
-    <string name="adv_bass_width_title">Bass enhancer width</string>
     <string name="hp_virt_mode_title">HP virtualizer mode</string>
     <string name="hp_virt_angle_title">HP virtualizer L/R angle</string>
     <string name="hp_virt_start_band_title">HP virtualizer start band</string>
-    <string name="vb_mode_title">Virtual bass mode</string>
-    <string name="vb_overall_gain_title">Virtual bass overall gain</string>
-    <string name="vb_slope_gain_title">Virtual bass slope gain</string>
     <string name="spatial_audio_master">Spatial audio processing</string>
     <string name="calibration_boost_section">Endpoint calibration boost</string>
     <string name="calibration_boost_speaker">Speaker calibration (%1$d)</string>
@@ -340,15 +325,6 @@
     <string name="close">Close</string>
 
     <!-- Feature expansion -->
-    <string name="status_panel_title">Active status</string>
-    <string name="status_current_profile">Profile</string>
-    <string name="status_active_source">Source</string>
-    <string name="status_detail">Detail</string>
-    <string name="status_schedule">Schedule</string>
-    <string name="status_app">App</string>
-    <string name="status_bluetooth">Bluetooth rule</string>
-    <string name="status_media">Media type</string>
-    <string name="status_atmos">Atmos content</string>
     <string name="undo_profile_change">Undo profile change</string>
     <string name="undo">Undo</string>
     <string name="undo_snackbar_message">Profile changed: %1$s</string>

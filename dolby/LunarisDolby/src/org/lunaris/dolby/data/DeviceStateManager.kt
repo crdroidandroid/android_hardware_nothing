@@ -98,23 +98,13 @@ class DeviceStateManager(private val context: Context) {
 
         editor.putBoolean(KEY_OUTPUT_BOOST, repository.isOutputBoostEnabled(profile))
         editor.putInt(KEY_OUTPUT_BOOST_TENTHS, repository.getOutputBoostTenths(profile))
-        when {
-            deviceKey == "builtin_speaker" ->
-                editor.putBoolean(
-                    KEY_VIRTUAL_BASS_SPEAKER,
-                    repository.isVirtualBassSpeakerEnabled(profile)
-                )
-            deviceKey.startsWith("bt_") ->
-                editor.putBoolean(
-                    KEY_VIRTUAL_BASS_BLUETOOTH,
-                    repository.isVirtualBassBluetoothEnabled(profile)
-                )
+        if (deviceKey.startsWith("bt_")) {
+            editor.putBoolean(
+                KEY_VIRTUAL_BASS_BLUETOOTH,
+                repository.isVirtualBassBluetoothEnabled(profile)
+            )
         }
 
-        editor.putBoolean(KEY_ADV_BASS, repository.isAdvancedBassEnabled(profile))
-        editor.putInt(KEY_ADV_BASS_BOOST, repository.getAdvancedBassBoost(profile))
-        editor.putInt(KEY_ADV_BASS_CUTOFF, repository.getAdvancedBassCutoff(profile))
-        editor.putInt(KEY_ADV_BASS_WIDTH, repository.getAdvancedBassWidth(profile))
         editor.putBoolean(KEY_DIALOGUE_DUCKING, repository.isDialogueDuckingEnabled(profile))
         editor.putInt(KEY_DIALOGUE_DUCKING_AMT, repository.getDialogueDuckingAmount(profile))
         editor.putBoolean(KEY_GRAPHIC_EQ, repository.isGraphicEqEnabled(profile))
@@ -213,25 +203,10 @@ class DeviceStateManager(private val context: Context) {
                     prefs.getInt(KEY_OUTPUT_BOOST_TENTHS, 0)
                 )
             }
-            if (prefs.contains(KEY_VIRTUAL_BASS_SPEAKER)) {
-                repository.setVirtualBassSpeakerEnabled(
-                    profile,
-                    prefs.getBoolean(KEY_VIRTUAL_BASS_SPEAKER, false)
-                )
-            }
             if (prefs.contains(KEY_VIRTUAL_BASS_BLUETOOTH)) {
                 repository.setVirtualBassBluetoothEnabled(
                     profile,
                     prefs.getBoolean(KEY_VIRTUAL_BASS_BLUETOOTH, false)
-                )
-            }
-            if (prefs.contains(KEY_ADV_BASS)) {
-                repository.setAdvancedBass(
-                    profile,
-                    prefs.getBoolean(KEY_ADV_BASS, false),
-                    prefs.getInt(KEY_ADV_BASS_BOOST, 40),
-                    prefs.getInt(KEY_ADV_BASS_CUTOFF, DolbyConstants.ADV_BASS_CUTOFF_STOCK_HZ),
-                    prefs.getInt(KEY_ADV_BASS_WIDTH, DolbyConstants.ADV_BASS_WIDTH_STOCK)
                 )
             }
             if (prefs.contains(KEY_DIALOGUE_DUCKING)) {
@@ -410,12 +385,7 @@ class DeviceStateManager(private val context: Context) {
         private const val KEY_STEREO = "stereo"
         private const val KEY_OUTPUT_BOOST = "output_boost"
         private const val KEY_OUTPUT_BOOST_TENTHS = "output_boost_tenths"
-        private const val KEY_VIRTUAL_BASS_SPEAKER = "virtual_bass_speaker"
         private const val KEY_VIRTUAL_BASS_BLUETOOTH = "virtual_bass_bluetooth"
-        private const val KEY_ADV_BASS = "adv_bass"
-        private const val KEY_ADV_BASS_BOOST = "adv_bass_boost"
-        private const val KEY_ADV_BASS_CUTOFF = "adv_bass_cutoff"
-        private const val KEY_ADV_BASS_WIDTH = "adv_bass_width"
         private const val KEY_DIALOGUE_DUCKING = "dialogue_ducking"
         private const val KEY_DIALOGUE_DUCKING_AMT = "dialogue_ducking_amt"
         private const val KEY_GRAPHIC_EQ = "graphic_eq"

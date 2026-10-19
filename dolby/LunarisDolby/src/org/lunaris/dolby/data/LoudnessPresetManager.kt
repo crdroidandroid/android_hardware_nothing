@@ -21,7 +21,6 @@ object LoudnessPresetManager {
     data class LoudnessApplyResult(
         val outputBoostEnabled: Boolean,
         val outputBoostTenths: Int,
-        val virtualBassEnabled: Boolean,
         val bassLevel: Int,
         val bassCurve: Int
     )
@@ -36,28 +35,24 @@ object LoudnessPresetManager {
             LoudnessPreset.FLAT -> LoudnessApplyResult(
                 outputBoostEnabled = false,
                 outputBoostTenths = 0,
-                virtualBassEnabled = false,
                 bassLevel = 0,
                 bassCurve = 0
             )
             LoudnessPreset.PUNCH -> LoudnessApplyResult(
                 outputBoostEnabled = true,
                 outputBoostTenths = (maxBoost * 0.5f).toInt().coerceAtMost(80),
-                virtualBassEnabled = true,
                 bassLevel = 55,
                 bassCurve = 2
             )
             LoudnessPreset.WARM -> LoudnessApplyResult(
                 outputBoostEnabled = true,
                 outputBoostTenths = (maxBoost * 0.35f).toInt().coerceAtMost(50),
-                virtualBassEnabled = true,
                 bassLevel = 45,
                 bassCurve = 0
             )
             LoudnessPreset.MAX -> LoudnessApplyResult(
                 outputBoostEnabled = true,
                 outputBoostTenths = maxBoost,
-                virtualBassEnabled = true,
                 bassLevel = 70,
                 bassCurve = 2
             )
@@ -73,7 +68,6 @@ object LoudnessPresetManager {
         if (!engine.isLoudnessPresetsEnabled()) return
         val config = buildForPreset(preset, engine)
         repository.setOutputBoost(profile, config.outputBoostEnabled, config.outputBoostTenths)
-        repository.setVirtualBassSpeakerEnabled(profile, config.virtualBassEnabled)
         repository.setBassLevel(profile, config.bassLevel)
         repository.setBassCurve(profile, config.bassCurve)
     }
